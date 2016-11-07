@@ -1,9 +1,9 @@
 package DEV;
 
-import ideas.Logueo;
-import static ideas.Logueo.jPasswordField1;
-import static ideas.Logueo.jTextField1;
-import ideas.Principal;
+import FORMS.Logueo;
+import static FORMS.Logueo.jPasswordField1;
+import static FORMS.Logueo.jTextField1;
+import FORMS.Principal;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.NetworkInterface;

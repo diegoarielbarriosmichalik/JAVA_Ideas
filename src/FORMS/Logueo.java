@@ -1,4 +1,4 @@
-package ideas;
+package FORMS;
 
 import DEV.Metodos;
 import java.awt.event.KeyEvent;
