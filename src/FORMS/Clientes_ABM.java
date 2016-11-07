@@ -6,21 +6,20 @@ import java.io.File;
 import javax.swing.ImageIcon;
 
 public class Clientes_ABM extends javax.swing.JFrame {
-
+    
     public Clientes_ABM() {
         initComponents();
-        this.setLocationRelativeTo(null);
-        this.setTitle("Clientes");
-        new File(".").getAbsolutePath();
+        setLocationRelativeTo(null);
+        setTitle("Clientes");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
         jTextField_nombre.requestFocus();
-
+        
         Metodos.id_ciudad = 0;
         Metodos.id_rubro = 0;
 
         //  Metodos.id_cliente = 0;
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -45,9 +44,9 @@ public class Clientes_ABM extends javax.swing.JFrame {
         jTextField_preferencia = new javax.swing.JTextField();
         jTextField_marcas = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        jTable_productos = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        jTable_color = new javax.swing.JTable();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jTextField_rubro = new javax.swing.JTextField();
@@ -86,6 +85,7 @@ public class Clientes_ABM extends javax.swing.JFrame {
             }
         });
 
+        jTextField_ruc.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextField_ruc.setBorder(javax.swing.BorderFactory.createTitledBorder("R.U.C"));
         jTextField_ruc.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -112,6 +112,7 @@ public class Clientes_ABM extends javax.swing.JFrame {
 
         jTextField_encargado.setBorder(javax.swing.BorderFactory.createTitledBorder("Encargado"));
 
+        jTextField_telefono.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextField_telefono.setBorder(javax.swing.BorderFactory.createTitledBorder("Teléfono"));
 
         jTextField_email.setBorder(javax.swing.BorderFactory.createTitledBorder("Email"));
@@ -128,10 +129,10 @@ public class Clientes_ABM extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jTextField_lunes_a_viernes, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jTextField_sabado, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addComponent(jTextField_lunes_a_viernes, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField_sabado, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,23 +149,23 @@ public class Clientes_ABM extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jTextField_encargado, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField_email))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jTextField_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField_ruc, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextField_ruc, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 200, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jTextField_ciudad, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField_direccion)))
+                        .addComponent(jTextField_direccion))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jTextField_encargado, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField_email)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -192,6 +193,7 @@ public class Clientes_ABM extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
+        jTextField_paginas.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextField_paginas.setBorder(javax.swing.BorderFactory.createTitledBorder("Páginas"));
 
         jTextField_sugerencia.setBorder(javax.swing.BorderFactory.createTitledBorder("Sugerencias"));
@@ -200,7 +202,7 @@ public class Clientes_ABM extends javax.swing.JFrame {
 
         jTextField_marcas.setBorder(javax.swing.BorderFactory.createTitledBorder("Marcas"));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_productos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -216,15 +218,15 @@ public class Clientes_ABM extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable3);
-        if (jTable3.getColumnModel().getColumnCount() > 0) {
-            jTable3.getColumnModel().getColumn(0).setResizable(false);
-            jTable3.getColumnModel().getColumn(0).setPreferredWidth(10);
-            jTable3.getColumnModel().getColumn(1).setResizable(false);
-            jTable3.getColumnModel().getColumn(1).setPreferredWidth(300);
+        jScrollPane3.setViewportView(jTable_productos);
+        if (jTable_productos.getColumnModel().getColumnCount() > 0) {
+            jTable_productos.getColumnModel().getColumn(0).setResizable(false);
+            jTable_productos.getColumnModel().getColumn(0).setPreferredWidth(10);
+            jTable_productos.getColumnModel().getColumn(1).setResizable(false);
+            jTable_productos.getColumnModel().getColumn(1).setPreferredWidth(300);
         }
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_color.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -240,17 +242,27 @@ public class Clientes_ABM extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(jTable4);
-        if (jTable4.getColumnModel().getColumnCount() > 0) {
-            jTable4.getColumnModel().getColumn(0).setResizable(false);
-            jTable4.getColumnModel().getColumn(0).setPreferredWidth(2);
-            jTable4.getColumnModel().getColumn(1).setResizable(false);
-            jTable4.getColumnModel().getColumn(1).setPreferredWidth(300);
+        jScrollPane4.setViewportView(jTable_color);
+        if (jTable_color.getColumnModel().getColumnCount() > 0) {
+            jTable_color.getColumnModel().getColumn(0).setResizable(false);
+            jTable_color.getColumnModel().getColumn(0).setPreferredWidth(2);
+            jTable_color.getColumnModel().getColumn(1).setResizable(false);
+            jTable_color.getColumnModel().getColumn(1).setPreferredWidth(300);
         }
 
         jButton6.setText("Agregar Productos");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Agregar Productos");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jTextField_rubro.setText("NO ESPECIFICADO");
         jTextField_rubro.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Nombre"), "Rubro (ENTER para buscar)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
@@ -453,8 +465,16 @@ public class Clientes_ABM extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jTextField_rucFocusLost
 
-    public static void main(String args[]) {
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        new Clientes_agregar_producto().setVisible(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        new Clientes_agregar_colores().setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
+    
+    public static void main(String args[]) {
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -484,9 +504,9 @@ public class Clientes_ABM extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
+    public static javax.swing.JTable jTable_color;
+    public static javax.swing.JTable jTable_productos;
     public static javax.swing.JTextField jTextField_ciudad;
     public static javax.swing.JTextField jTextField_direccion;
     public static javax.swing.JTextField jTextField_email;

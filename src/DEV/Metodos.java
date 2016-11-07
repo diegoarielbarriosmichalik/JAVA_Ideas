@@ -70,6 +70,55 @@ public class Metodos {
         }
     }
 
+    public synchronized static void Cliente_producto_guardar(String producto) {
+        try {
+
+            if (id_cliente > 0) {
+
+                Statement st1 = conexion.createStatement();
+                ResultSet result = st1.executeQuery("SELECT MAX(id_cliente_producto) FROM cliente_producto");
+                if (result.next()) {
+                    id = result.getInt(1) + 1;
+                }
+
+                PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO cliente_producto VALUES(?,?,?)");
+                ST_update.setInt(1, id);
+                ST_update.setString(2, producto);
+                ST_update.setInt(3, id_cliente);
+                ST_update.executeUpdate();
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecciona un cliente para continuar");
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+    public synchronized static void Cliente_colores_guardar(String color) {
+        try {
+
+            if (id_cliente > 0) {
+
+                Statement st1 = conexion.createStatement();
+                ResultSet result = st1.executeQuery("SELECT MAX(id_cliente_colores) FROM cliente_colores");
+                if (result.next()) {
+                    id = result.getInt(1) + 1;
+                }
+
+                PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO cliente_colores VALUES(?,?,?)");
+                ST_update.setInt(1, id);
+                ST_update.setString(2, color);
+                ST_update.setInt(3, id_cliente);
+                ST_update.executeUpdate();
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecciona un cliente para continuar");
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
     public synchronized static void Rubro_guardar(String rubro) {
         try {
             Statement st1 = conexion.createStatement();
@@ -99,8 +148,20 @@ public class Metodos {
 
                 Clientes_ABM.jTextField_nombre.setText(result.getString("nombre").trim());
                 Clientes_ABM.jTextField_ruc.setText(result.getString("ruc").trim());
+                Clientes_ABM.jTextField_direccion.setText(result.getString("direccion").trim());
+                Clientes_ABM.jTextField_telefono.setText(result.getString("telefono").trim());
+                Clientes_ABM.jTextField_email.setText(result.getString("email").trim());
+                Clientes_ABM.jTextField_encargado.setText(result.getString("encargado").trim());
+                Clientes_ABM.jTextField_lunes_a_viernes.setText(result.getString("horario_atencion_lunes_a_viernes").trim());
+                Clientes_ABM.jTextField_sabado.setText(result.getString("horario_de_atencion_sabado").trim());
+                Clientes_ABM.jTextField_marcas.setText(result.getString("marcas").trim());
+                Clientes_ABM.jTextField_paginas.setText(result.getString("paginas").trim());
+                Clientes_ABM.jTextField_preferencia.setText(result.getString("preferencias").trim());
+                Clientes_ABM.jTextField_sugerencia.setText(result.getString("sugerencias").trim());
                 Clientes_ABM.jTextField_ciudad.setText(result.getString("ciudad").trim());
+                id_ciudad = result.getInt("id_ciudad");
                 Clientes_ABM.jTextField_rubro.setText(result.getString("rubro").trim());
+                id_rubro = result.getInt("id_rubro");
 
                 Clientes_ABM.jTextField_nombre.requestFocus();
             }
@@ -128,50 +189,76 @@ public class Metodos {
     ) {
         try {
 
-            boolean ruc_existe = Metodos.Clientes_buscar_por_ruc(jTextField_ruc.getText());
+            int paginas = 0;
+            if (isNumeric(paginas_str) == true) {
+                paginas = Integer.parseInt(paginas_str);
+            }
 
-            if (ruc_existe == false) {
+            if (id_cliente == 0) {
+                boolean ruc_existe = Metodos.Clientes_buscar_por_ruc(jTextField_ruc.getText());
+                if (ruc_existe == false) {
+                    if ((cliente_nombre.length() < 1) || (ruc.length() < 1)) {
+                        JOptionPane.showMessageDialog(null, "Nombre y RUC no puede ser vacio");
+                    } else {
+                        Statement st1 = conexion.createStatement();
+                        ResultSet result = st1.executeQuery("SELECT MAX(id_cliente) FROM cliente");
+                        if (result.next()) {
+                            id = result.getInt(1) + 1;
+                        }
 
-                if ((cliente_nombre.length() < 1) || (ruc.length() < 1)) {
-                    JOptionPane.showMessageDialog(null, "Nombre y RUC no puede ser vacio");
-                } else {
-                    Statement st1 = conexion.createStatement();
-                    ResultSet result = st1.executeQuery("SELECT MAX(id_cliente) FROM cliente");
-                    if (result.next()) {
-                        id = result.getInt(1) + 1;
+                        PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO cliente VALUES(?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?)");
+                        ST_update.setInt(1, id);
+                        ST_update.setString(2, cliente_nombre);
+                        ST_update.setString(3, direccion);
+                        ST_update.setString(4, telefono);
+                        ST_update.setString(5, ruc);
+                        ST_update.setString(6, email);
+                        ST_update.setDate(7, null);
+                        ST_update.setInt(8, 0);
+                        ST_update.setInt(9, 0); //borrado
+                        ST_update.setString(10, "");
+                        ST_update.setString(11, "");
+                        ST_update.setInt(12, id_ciudad);
+                        ST_update.setString(13, encargado);
+                        ST_update.setString(14, horario_lunavier);
+                        ST_update.setString(15, horario_sabado);
+                        ST_update.setInt(16, paginas);
+                        ST_update.setInt(17, id_rubro);
+                        ST_update.setString(18, sugerencia);
+                        ST_update.setString(19, preferencia);
+                        ST_update.setString(20, marca);
+                        ST_update.executeUpdate();
+
+                        JOptionPane.showMessageDialog(null, "Guardado correctamente");
+
                     }
-                    int paginas = 0;
-                    if (isNumeric(paginas_str) == true) {
-                        paginas = Integer.parseInt(paginas_str);
-                    }
+                }
+            } else {
+                boolean ruc_existe = Metodos.Clientes_buscar_por_ruc_y_id(jTextField_ruc.getText());
 
-                    PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO cliente VALUES(?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?)");
-                    ST_update.setInt(1, id);
-                    ST_update.setString(2, cliente_nombre);
-                    ST_update.setString(3, direccion);
-                    ST_update.setString(4, telefono);
-                    ST_update.setString(5, ruc);
-                    ST_update.setString(6, email);
-                    ST_update.setDate(7, null);
-                    ST_update.setInt(8, 0);
-                    ST_update.setInt(9, 0); //borrado
-                    ST_update.setString(10, "");
-                    ST_update.setString(11, "");
-                    ST_update.setInt(12, id_ciudad);
-                    ST_update.setString(13, encargado);
-                    ST_update.setString(14, horario_lunavier);
-                    ST_update.setString(15, horario_sabado);
-                    ST_update.setInt(16, paginas);
-                    ST_update.setInt(17, id_rubro);
-                    ST_update.setString(18, sugerencia);
-                    ST_update.setString(19, preferencia);
-                    ST_update.setString(20, marca);
-                    ST_update.executeUpdate();
-
-                    JOptionPane.showMessageDialog(null, "Guardado correctamente");
+                if (ruc_existe == false) {
+                    PreparedStatement stClienteBorrar3 = conexion.prepareStatement(""
+                            + "UPDATE cliente SET nombre='" + cliente_nombre + "', "
+                            + "direccion = '" + direccion + "', "
+                            + "telefono = '" + telefono + "', "
+                            + "ruc = '" + ruc + "', "
+                            + "email = '" + email + "', "
+                            + "id_ciudad = '" + id_ciudad + "', "
+                            + "encargado = '" + encargado + "', "
+                            + "horario_atencion_lunes_a_viernes = '" + horario_lunavier + "', "
+                            + "horario_de_atencion_sabado = '" + horario_sabado + "', "
+                            + "paginas = '" + paginas + "', "
+                            + "id_rubro = '" + id_rubro + "', "
+                            + "sugerencias = '" + sugerencia + "', "
+                            + "preferencias = '" + preferencia + "', "
+                            + "marcas = '" + marca + "' "
+                            + "WHERE id_cliente  ='" + id_cliente + "' ");
+                    stClienteBorrar3.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Actualizado correctamente");
 
                 }
             }
+
         } catch (SQLException ex) {
             System.err.println(ex);
         }
@@ -200,6 +287,29 @@ public class Metodos {
         return dato;
     }
 
+    public synchronized static boolean Clientes_buscar_por_ruc_y_id(String ruc) {
+
+        boolean dato = false;
+        try {
+
+            if (ruc.length() > 0) {
+                ruc = ruc.trim();
+                Statement st1 = conexion.createStatement();
+                ResultSet result = st1.executeQuery("SELECT * FROM cliente where ruc = '" + ruc + "' and id_cliente != '" + id_cliente + "'");
+                if (result.next()) {
+                    dato = true;
+                    JOptionPane.showMessageDialog(null, "RUC registrado a nombre de: " + result.getString("nombre").trim());
+                }
+            } else {
+                System.err.println("RUC vacio");
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+        return dato;
+    }
+
     public synchronized static void Ciudad_seleccionar() {
         DefaultTableModel tm = (DefaultTableModel) Ciudad.jTable1.getModel();
         id_ciudad = Integer.parseInt(String.valueOf(tm.getValueAt(Ciudad.jTable1.getSelectedRow(), 0)));
@@ -209,8 +319,9 @@ public class Metodos {
     public synchronized static void Clientes_seleccionar() {
         DefaultTableModel tm = (DefaultTableModel) Clientes.jTable1.getModel();
         id_cliente = Integer.parseInt(String.valueOf(tm.getValueAt(Clientes.jTable1.getSelectedRow(), 0)));
-
         Clientes_llevar_datos_a_editar();
+        Cliente_producto_cargar_jtable();
+        Cliente_colores_cargar_jtable();
 
     }
 
@@ -245,6 +356,73 @@ public class Metodos {
                 data.add(rows);
             }
             dtm = (DefaultTableModel) Ciudad.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Cliente_producto_cargar_jtable() {
+        try {
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT id_cliente_producto, cliente_producto "
+                    + "from cliente_producto "
+                    + "where id_cliente_producto > '0' "
+                    + "and id_cliente = '" + id_cliente + "' "
+                    + "order by cliente_producto");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Clientes_ABM.jTable_productos.getModel();
+            for (int j = 0; j < Clientes_ABM.jTable_productos.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[i] = rs.getObject(i + 1).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Clientes_ABM.jTable_productos.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+    public synchronized static void Cliente_colores_cargar_jtable() {
+        try {
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT id_cliente_colores, cliente_colores "
+                    + "from cliente_colores "
+                    + "where id_cliente_colores > '0' "
+                    + "and id_cliente = '" + id_cliente + "' "
+                    + "order by cliente_colores");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Clientes_ABM.jTable_color.getModel();
+            for (int j = 0; j < Clientes_ABM.jTable_color.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[i] = rs.getObject(i + 1).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Clientes_ABM.jTable_color.getModel();
             for (int i = 0; i < data.size(); i++) {
                 dtm.addRow(data.get(i));
             }

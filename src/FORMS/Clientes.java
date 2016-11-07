@@ -1,6 +1,8 @@
 package FORMS;
 
 import DEV.Metodos;
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
@@ -157,7 +159,14 @@ public class Clientes extends javax.swing.JFrame {
             this.setVisible(false);
         }
         if ((evt.getKeyCode() == KeyEvent.VK_DOWN)) {
-            jTable1.requestFocus();
+            try {
+                jTable1.requestFocus();
+                Robot r = new Robot();
+                r.keyPress(KeyEvent.VK_DOWN);
+            } catch (AWTException ex) {
+                System.err.println(ex);
+            }
+
         }
 
 
@@ -169,7 +178,7 @@ public class Clientes extends javax.swing.JFrame {
         }
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
             this.setVisible(false);
-               Metodos.Clientes_seleccionar();
+            Metodos.Clientes_seleccionar();
         }
     }//GEN-LAST:event_jTable1KeyPressed
 
