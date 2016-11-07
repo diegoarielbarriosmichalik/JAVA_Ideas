@@ -1,0 +1,43 @@
+
+INSERT INTO empresa VALUES 
+('0', 'Empresa de prueba','-','-','-','1','-');
+
+INSERT INTO proveedor VALUES 
+('0', 'NO ESPECIFICADO','-','-','-', '-','-','-','1','0');
+
+INSERT INTO ciudad VALUES 
+('0', 'NO ESPECIFICADO');
+
+INSERT INTO rubro VALUES 
+('0', 'NO ESPECIFICAD0');
+
+
+INSERT INTO cliente VALUES 
+('1', 'Cliente de prueba 1','-','-','-','0','-',null,'0','0','','','0','','','','0','0','','','' ),
+('2', 'Cliente de prueba 2','-','-','-','0','-',null,'0','0','','','0','','','','0','0','','','' );
+
+INSERT INTO configuracion VALUES 
+('1', '0','0','0','0', '0','0','0','0','0', '0','0','0','0',null, null,'0','0','0','0', '0','0','0');
+
+INSERT INTO estado VALUES 
+('1', 'ELABORADA'),
+('8', 'CAJA CERRADA'),
+('9', 'PRESUPUESTO'),
+('10', 'FACTURADA'),
+('11', 'ANULADA');
+
+INSERT INTO iva VALUES 
+('1', '10'),
+('2', '5'),
+('3', '0');
+
+INSERT INTO productos_tipo VALUES 
+('0', 'NO ESPECIFICADO', '0');
+
+INSERT INTO productos_ubicacion VALUES 
+('0', 'NO ESPECIFICADO', '0');
+
+INSERT INTO usuario VALUES 
+('0', 'admin','admin', '0', '0','Usuario de prueba');
+
+

@@ -20,11 +20,10 @@ public class Avisos extends javax.swing.JFrame {
      */
     public Avisos() {
         initComponents();
-        this.setLocationRelativeTo(null);
-        this.setTitle("Avisos");
-        new File(".").getAbsolutePath();
+        setLocationRelativeTo(null);
+        setTitle("Avisos");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
-        //  jTextField_nombre.requestFocus();
+        jTable1.requestFocus();
 
         //  Metodos.id_cliente = 0;
     }
@@ -84,6 +83,11 @@ public class Avisos extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTable1KeyPressed(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -170,6 +174,12 @@ public class Avisos extends javax.swing.JFrame {
             this.setVisible(false);
         }
     }//GEN-LAST:event_jButton2KeyPressed
+
+    private void jTable1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyPressed
+      if ((evt.getKeyCode() == KeyEvent.VK_ESCAPE)) {
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_jTable1KeyPressed
 
     /**
      * @param args the command line arguments
