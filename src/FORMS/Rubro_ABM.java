@@ -13,15 +13,15 @@ import javax.swing.ImageIcon;
  *
  * @author user
  */
-public class Ciudad_ABM extends javax.swing.JFrame {
+public class Rubro_ABM extends javax.swing.JFrame {
 
     /**
      * Creates new form Clientes_ABM
      */
-    public Ciudad_ABM() {
+    public Rubro_ABM() {
         initComponents();
         setLocationRelativeTo(null);
-        setTitle("Ciudad");
+        setTitle("Rubro");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
         //     jTextField_nombre.requestFocus();
 
@@ -38,7 +38,7 @@ public class Ciudad_ABM extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jTextField_ciudad = new javax.swing.JTextField();
+        jTextField_rubro = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -51,14 +51,14 @@ public class Ciudad_ABM extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jTextField_ciudad.setToolTipText("");
-        jTextField_ciudad.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ciudad (ENTER para guardar)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 0, 0)));
-        jTextField_ciudad.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextField_rubro.setToolTipText("");
+        jTextField_rubro.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Rubro (ENTER para guardar)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 0, 0)));
+        jTextField_rubro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField_ciudadKeyReleased(evt);
+                jTextField_rubroKeyReleased(evt);
             }
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField_ciudadKeyPressed(evt);
+                jTextField_rubroKeyPressed(evt);
             }
         });
 
@@ -68,14 +68,14 @@ public class Ciudad_ABM extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField_ciudad, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+                .addComponent(jTextField_rubro, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField_ciudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField_rubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -97,20 +97,16 @@ public class Ciudad_ABM extends javax.swing.JFrame {
         // jTextField_nombre.requestFocus();
     }//GEN-LAST:event_formWindowOpened
 
-    private void jTextField_ciudadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_ciudadKeyPressed
+    private void jTextField_rubroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_rubroKeyPressed
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
-            Metodos.Ciudad_guardar(jTextField_ciudad.getText());
+            Metodos.Rubro_guardar(jTextField_rubro.getText());
             this.setVisible(false);
-            Metodos.Ciudad_cargar_jtable(jTextField_ciudad.getText());
-//            jTextField_ciudad.setText("");
-
-//            jTextField_ciudad.setVisible(false);
         }
-    }//GEN-LAST:event_jTextField_ciudadKeyPressed
+    }//GEN-LAST:event_jTextField_rubroKeyPressed
 
-    private void jTextField_ciudadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_ciudadKeyReleased
+    private void jTextField_rubroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_rubroKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_ciudadKeyReleased
+    }//GEN-LAST:event_jTextField_rubroKeyReleased
 
     /**
      * @param args the command line arguments
@@ -129,14 +125,38 @@ public class Ciudad_ABM extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Ciudad_ABM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Rubro_ABM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Ciudad_ABM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Rubro_ABM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Ciudad_ABM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Rubro_ABM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Ciudad_ABM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Rubro_ABM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -149,13 +169,13 @@ public class Ciudad_ABM extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Ciudad_ABM().setVisible(true);
+                new Rubro_ABM().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
-    public static javax.swing.JTextField jTextField_ciudad;
+    public static javax.swing.JTextField jTextField_rubro;
     // End of variables declaration//GEN-END:variables
 }

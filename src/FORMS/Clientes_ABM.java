@@ -1,4 +1,3 @@
-
 package FORMS;
 
 import DEV.Metodos;
@@ -15,13 +14,12 @@ public class Clientes_ABM extends javax.swing.JFrame {
         new File(".").getAbsolutePath();
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
         jTextField_nombre.requestFocus();
-        
+
         Metodos.id_ciudad = 0;
         Metodos.id_rubro = 0;
 
         //  Metodos.id_cliente = 0;
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -35,24 +33,24 @@ public class Clientes_ABM extends javax.swing.JFrame {
         jTextField_ruc = new javax.swing.JTextField();
         jTextField_direccion = new javax.swing.JTextField();
         jTextField_ciudad = new javax.swing.JTextField();
-        jTextField_ci1 = new javax.swing.JTextField();
+        jTextField_encargado = new javax.swing.JTextField();
         jTextField_telefono = new javax.swing.JTextField();
         jTextField_email = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
-        jTextField_ci8 = new javax.swing.JTextField();
-        jTextField_ci9 = new javax.swing.JTextField();
+        jTextField_lunes_a_viernes = new javax.swing.JTextField();
+        jTextField_sabado = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
-        jTextField_ci4 = new javax.swing.JTextField();
-        jTextField_ci5 = new javax.swing.JTextField();
-        jTextField_ci6 = new javax.swing.JTextField();
-        jTextField_ci7 = new javax.swing.JTextField();
+        jTextField_paginas = new javax.swing.JTextField();
+        jTextField_sugerencia = new javax.swing.JTextField();
+        jTextField_preferencia = new javax.swing.JTextField();
+        jTextField_marcas = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jTextField_nombre3 = new javax.swing.JTextField();
+        jTextField_rubro = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable5 = new javax.swing.JTable();
@@ -97,6 +95,7 @@ public class Clientes_ABM extends javax.swing.JFrame {
 
         jTextField_direccion.setBorder(javax.swing.BorderFactory.createTitledBorder("Dirección"));
 
+        jTextField_ciudad.setText("NO ESPECIFICADA");
         jTextField_ciudad.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Nombre"), "Ciudad (ENTER para buscar)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
         jTextField_ciudad.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
@@ -111,7 +110,7 @@ public class Clientes_ABM extends javax.swing.JFrame {
             }
         });
 
-        jTextField_ci1.setBorder(javax.swing.BorderFactory.createTitledBorder("Encargado"));
+        jTextField_encargado.setBorder(javax.swing.BorderFactory.createTitledBorder("Encargado"));
 
         jTextField_telefono.setBorder(javax.swing.BorderFactory.createTitledBorder("Teléfono"));
 
@@ -120,25 +119,25 @@ public class Clientes_ABM extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Horario de atención"));
 
-        jTextField_ci8.setBorder(javax.swing.BorderFactory.createTitledBorder("Lunes a viernes"));
+        jTextField_lunes_a_viernes.setBorder(javax.swing.BorderFactory.createTitledBorder("Lunes a viernes"));
 
-        jTextField_ci9.setBorder(javax.swing.BorderFactory.createTitledBorder("Sábado"));
+        jTextField_sabado.setBorder(javax.swing.BorderFactory.createTitledBorder("Sábado"));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jTextField_ci8, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField_lunes_a_viernes, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField_ci9, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField_sabado, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 6, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jTextField_ci8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jTextField_ci9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jTextField_lunes_a_viernes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField_sabado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -149,7 +148,7 @@ public class Clientes_ABM extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jTextField_ci1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField_encargado, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -181,7 +180,7 @@ public class Clientes_ABM extends javax.swing.JFrame {
                     .addComponent(jTextField_direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField_ci1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_encargado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField_telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -193,13 +192,13 @@ public class Clientes_ABM extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextField_ci4.setBorder(javax.swing.BorderFactory.createTitledBorder("Páginas"));
+        jTextField_paginas.setBorder(javax.swing.BorderFactory.createTitledBorder("Páginas"));
 
-        jTextField_ci5.setBorder(javax.swing.BorderFactory.createTitledBorder("Sugerencias"));
+        jTextField_sugerencia.setBorder(javax.swing.BorderFactory.createTitledBorder("Sugerencias"));
 
-        jTextField_ci6.setBorder(javax.swing.BorderFactory.createTitledBorder("Preferencias"));
+        jTextField_preferencia.setBorder(javax.swing.BorderFactory.createTitledBorder("Preferencias"));
 
-        jTextField_ci7.setBorder(javax.swing.BorderFactory.createTitledBorder("Marcas"));
+        jTextField_marcas.setBorder(javax.swing.BorderFactory.createTitledBorder("Marcas"));
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -253,10 +252,11 @@ public class Clientes_ABM extends javax.swing.JFrame {
 
         jButton7.setText("Agregar Productos");
 
-        jTextField_nombre3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Nombre"), "Rubro (ENTER para buscar)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
-        jTextField_nombre3.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextField_rubro.setText("NO ESPECIFICADO");
+        jTextField_rubro.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Nombre"), "Rubro (ENTER para buscar)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
+        jTextField_rubro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField_nombre3KeyPressed(evt);
+                jTextField_rubroKeyPressed(evt);
             }
         });
 
@@ -267,9 +267,9 @@ public class Clientes_ABM extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField_ci5)
-                    .addComponent(jTextField_ci6)
-                    .addComponent(jTextField_ci7, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextField_sugerencia)
+                    .addComponent(jTextField_preferencia)
+                    .addComponent(jTextField_marcas, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton7)
@@ -281,9 +281,9 @@ public class Clientes_ABM extends javax.swing.JFrame {
                                 .addGap(0, 222, Short.MAX_VALUE))
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextField_ci4, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField_paginas, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField_nombre3)))
+                        .addComponent(jTextField_rubro)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -291,14 +291,14 @@ public class Clientes_ABM extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField_ci4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_nombre3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField_paginas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_rubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField_ci5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField_sugerencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField_ci6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField_preferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField_ci7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField_marcas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -412,8 +412,12 @@ public class Clientes_ABM extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        //  Metodos.Cliente_Guardar();
-
+        Metodos.Cliente_Guardar(
+                jTextField_nombre.getText(), jTextField_direccion.getText(), jTextField_telefono.getText(), jTextField_ruc.getText(), jTextField_email.getText(),
+                Metodos.id_ciudad,
+                jTextField_encargado.getText(), jTextField_lunes_a_viernes.getText(), jTextField_sabado.getText(),
+                jTextField_paginas.getText(), Metodos.id_rubro,
+                jTextField_sugerencia.getText(), jTextField_preferencia.getText(), jTextField_marcas.getText());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -435,18 +439,19 @@ public class Clientes_ABM extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTextField_ciudadKeyPressed
 
-    private void jTextField_nombre3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_nombre3KeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_nombre3KeyPressed
+    private void jTextField_rubroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_rubroKeyPressed
+        if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
+            new Rubro().setVisible(true);
+        }
+    }//GEN-LAST:event_jTextField_rubroKeyPressed
 
     private void jTextField_ciudadCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTextField_ciudadCaretPositionChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_ciudadCaretPositionChanged
 
     private void jTextField_rucFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_rucFocusLost
-        Metodos.Clientes_buscar_por_ruc(jTextField_ruc.getText());
-    }//GEN-LAST:event_jTextField_rucFocusLost
 
+    }//GEN-LAST:event_jTextField_rucFocusLost
 
     public static void main(String args[]) {
 
@@ -482,19 +487,19 @@ public class Clientes_ABM extends javax.swing.JFrame {
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
-    public static javax.swing.JTextField jTextField_ci1;
-    public static javax.swing.JTextField jTextField_ci4;
-    public static javax.swing.JTextField jTextField_ci5;
-    public static javax.swing.JTextField jTextField_ci6;
-    public static javax.swing.JTextField jTextField_ci7;
-    public static javax.swing.JTextField jTextField_ci8;
-    public static javax.swing.JTextField jTextField_ci9;
     public static javax.swing.JTextField jTextField_ciudad;
     public static javax.swing.JTextField jTextField_direccion;
     public static javax.swing.JTextField jTextField_email;
+    public static javax.swing.JTextField jTextField_encargado;
+    public static javax.swing.JTextField jTextField_lunes_a_viernes;
+    public static javax.swing.JTextField jTextField_marcas;
     public static javax.swing.JTextField jTextField_nombre;
-    public static javax.swing.JTextField jTextField_nombre3;
+    public static javax.swing.JTextField jTextField_paginas;
+    public static javax.swing.JTextField jTextField_preferencia;
+    public static javax.swing.JTextField jTextField_rubro;
     public static javax.swing.JTextField jTextField_ruc;
+    public static javax.swing.JTextField jTextField_sabado;
+    public static javax.swing.JTextField jTextField_sugerencia;
     public static javax.swing.JTextField jTextField_telefono;
     // End of variables declaration//GEN-END:variables
 }

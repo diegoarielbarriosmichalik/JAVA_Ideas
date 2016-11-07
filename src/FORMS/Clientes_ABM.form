@@ -120,7 +120,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jTextField_ci1" min="-2" pref="287" max="-2" attributes="0"/>
+                                  <Component id="jTextField_encargado" min="-2" pref="287" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jTextField_telefono" min="-2" pref="119" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -162,7 +162,7 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jTextField_ci1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextField_encargado" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTextField_telefono" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jTextField_email" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -224,6 +224,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextField_ciudad">
                   <Properties>
+                    <Property name="text" type="java.lang.String" value="NO ESPECIFICADA"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="Ciudad (ENTER para buscar)">
@@ -243,7 +244,7 @@
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField_ci1">
+                <Component class="javax.swing.JTextField" name="jTextField_encargado">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -295,9 +296,9 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jTextField_ci8" min="-2" pref="107" max="-2" attributes="0"/>
+                              <Component id="jTextField_lunes_a_viernes" min="-2" pref="107" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jTextField_ci9" min="-2" pref="107" max="-2" attributes="0"/>
+                              <Component id="jTextField_sabado" min="-2" pref="107" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -305,14 +306,14 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="jTextField_ci8" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField_ci9" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextField_lunes_a_viernes" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextField_sabado" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JTextField" name="jTextField_ci8">
+                    <Component class="javax.swing.JTextField" name="jTextField_lunes_a_viernes">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -324,7 +325,7 @@
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                       </AuxValues>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="jTextField_ci9">
+                    <Component class="javax.swing.JTextField" name="jTextField_sabado">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -360,9 +361,9 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jTextField_ci5" max="32767" attributes="0"/>
-                              <Component id="jTextField_ci6" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jTextField_ci7" alignment="1" max="32767" attributes="0"/>
+                              <Component id="jTextField_sugerencia" max="32767" attributes="0"/>
+                              <Component id="jTextField_preferencia" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTextField_marcas" alignment="1" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jButton7" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -378,9 +379,9 @@
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jTextField_ci4" min="-2" pref="111" max="-2" attributes="0"/>
+                                  <Component id="jTextField_paginas" min="-2" pref="111" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jTextField_nombre3" max="32767" attributes="0"/>
+                                  <Component id="jTextField_rubro" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -392,15 +393,15 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jTextField_ci4" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField_nombre3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextField_paginas" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextField_rubro" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField_ci5" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField_sugerencia" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextField_ci6" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField_preferencia" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextField_ci7" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField_marcas" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jScrollPane3" alignment="0" pref="0" max="32767" attributes="0"/>
@@ -417,7 +418,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JTextField" name="jTextField_ci4">
+                <Component class="javax.swing.JTextField" name="jTextField_paginas">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -429,7 +430,7 @@
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField_ci5">
+                <Component class="javax.swing.JTextField" name="jTextField_sugerencia">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -441,7 +442,7 @@
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField_ci6">
+                <Component class="javax.swing.JTextField" name="jTextField_preferencia">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -453,7 +454,7 @@
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField_ci7">
+                <Component class="javax.swing.JTextField" name="jTextField_marcas">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -547,8 +548,9 @@
                     <Property name="text" type="java.lang.String" value="Agregar Productos"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField_nombre3">
+                <Component class="javax.swing.JTextField" name="jTextField_rubro">
                   <Properties>
+                    <Property name="text" type="java.lang.String" value="NO ESPECIFICADO"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder title="Rubro (ENTER para buscar)">
@@ -561,7 +563,7 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_nombre3KeyPressed"/>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_rubroKeyPressed"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
