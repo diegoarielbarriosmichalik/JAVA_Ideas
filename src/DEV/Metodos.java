@@ -41,8 +41,9 @@ public class Metodos {
             nombre = jTextField1.getText();
             char[] arrayC = jPasswordField1.getPassword();
             String pass = new String(arrayC);
-            
+
             new Principal().setVisible(true);
+            entro = true;
 
             PreparedStatement ps = conexion.prepareStatement("select * from usuario where nombre ='" + nombre + "' and contrasenha = '" + pass + "'");
             ResultSet rs = ps.executeQuery();
