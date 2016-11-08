@@ -10,7 +10,9 @@ import FORMS.Facebook_publicaciones_clientes;
 import FORMS.Logueo;
 import static FORMS.Logueo.jPasswordField1;
 import static FORMS.Logueo.jTextField1;
+import FORMS.Obligaciones_ABM;
 import FORMS.Principal;
+import FORMS.Proveedor;
 import FORMS.Rubro;
 import java.io.File;
 import java.net.InetAddress;
@@ -49,6 +51,7 @@ public class Metodos {
     public static int id = 0;
     public static int id_ciudad = 0;
     public static int id_cliente = 0;
+    public static int id_proveedor = 0;
     public static int id_rubro = 0;
     public static PreparedStatement ps;
     public static ResultSet rs;
@@ -66,6 +69,56 @@ public class Metodos {
             PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO ciudad VALUES(?,?)");
             ST_update.setInt(1, id);
             ST_update.setString(2, ciudad);
+            ST_update.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Proveedores_guardar(String proveedor, String ruc, String telefono) {
+        try {
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery("SELECT MAX(id_proveedor) FROM proveedor");
+            if (result.next()) {
+                id = result.getInt(1) + 1;
+            }
+
+            if ((proveedor.length() > 0) && (ruc.length() > 0) && (telefono.length() > 0)) {
+                PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO proveedor VALUES(?,?,?,?,?, ?,?,?,? )");
+                ST_update.setInt(1, id);
+                ST_update.setString(2, proveedor);
+                ST_update.setString(3, telefono);
+                ST_update.setString(4, ruc);
+                ST_update.setString(5, "");
+                ST_update.setString(6, "");
+                ST_update.setString(7, "");
+                ST_update.setString(8, proveedor);
+                ST_update.setInt(9, 0);
+                ST_update.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Guardado correctamente");
+            } else {
+                JOptionPane.showMessageDialog(null, "Complete todos los campos");
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Obligaciones_Guardar(String monto, String mes) {
+        try {
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery("SELECT MAX(id_obligacion) FROM obligacion");
+            if (result.next()) {
+                id = result.getInt(1) + 1;
+            }
+
+            PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO obligacion VALUES(?,?,?,?,?)");
+            ST_update.setInt(1, id);
+            ST_update.setInt(2, id_proveedor);
+            ST_update.setString(3, mes);
+            ST_update.setLong(3, Long.parseLong(monto));
+            ST_update.setString(5, "PENDIENTE");
             ST_update.executeUpdate();
 
         } catch (SQLException ex) {
@@ -386,6 +439,11 @@ public class Metodos {
         Cliente_colores_cargar_jtable();
 
     }
+    public synchronized static void Proveedor_seleccionar() {
+        DefaultTableModel tm = (DefaultTableModel) Proveedor.jTable1.getModel();
+        id_proveedor = Integer.parseInt(String.valueOf(tm.getValueAt(Proveedor.jTable1.getSelectedRow(), 0)));
+        Obligaciones_ABM.jTextField_proveedor.setText(String.valueOf(tm.getValueAt(Proveedor.jTable1.getSelectedRow(), 1)));
+    }
 
     public synchronized static void Facebook_clientes_seleccionar() {
         DefaultTableModel tm = (DefaultTableModel) Facebook_publicaciones_clientes.jTable1.getModel();
@@ -433,6 +491,40 @@ public class Metodos {
         }
     }
 
+    public synchronized static void Proveedor_cargar_jtable(String buscar) {
+        try {
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT id_proveedor, proveedor "
+                    + "from proveedor "
+                    + "where id_proveedor > '0' "
+                    + "and proveedor ilike '%" + buscar + "%' "
+                    + "order by proveedor ");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Proveedor.jTable1.getModel();
+            for (int j = 0; j < Proveedor.jTable1.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[i] = rs.getObject(i + 1).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Proveedor.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
     public synchronized static void Facebook_publicaciones_cargar_jtable(String buscar) {
         try {
 
@@ -454,7 +546,7 @@ public class Metodos {
             if (result.next()) {
 
                 if (result.getString(1) == null) {
-                   
+
                 } else if ((result.getString(1).length() > 0) && (isNumeric(result.getString(1)))) {
                     total = getSepararMiles(result.getString(1));
                     Facebook.jTextField_total.setText(total);
@@ -462,7 +554,7 @@ public class Metodos {
             }
 
             ps = conexion.prepareStatement(""
-                    + "SELECT id_facebook, nombre, fecha, monto, pagado "
+                    + "SELECT id_facebook, nombre, publicacion, fecha, monto, pagado "
                     + "from cliente "
                     + "inner join facebook on facebook.id_cliente = cliente.id_cliente "
                     + "where nombre ilike '%" + buscar + "%' "
@@ -477,9 +569,10 @@ public class Metodos {
                 for (int i = 0; i < rows.length; i++) {
                     rows[0] = rs.getObject(1);
                     rows[1] = rs.getObject(2).toString().trim();
-                    rows[2] = rs.getObject(3).toString();
-                    rows[3] = getSepararMiles(rs.getObject(4).toString());
-                    rows[4] = rs.getObject(5).toString().trim();
+                    rows[2] = rs.getObject(3).toString().trim();
+                    rows[4] = rs.getObject(4).toString().trim();
+                    rows[3] = getSepararMiles(rs.getObject(5).toString());
+                    rows[5] = rs.getObject(6).toString().trim();
                 }
                 data.add(rows);
             }
@@ -586,6 +679,39 @@ public class Metodos {
                 data.add(rows);
             }
             dtm = (DefaultTableModel) Clientes.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+    public synchronized static void Obligaciones_cargar_jtable(String buscar) {
+        try {
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT id_proveedor, nombre, ruc, telefono "
+                    + "from proveedor "
+                    + "where id_proveedor > '0' "
+                    + "and nombre ilike '%" + buscar + "%' "
+                    + "order by nombre");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Proveedor.jTable1.getModel();
+            for (int j = 0; j < Proveedor.jTable1.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[i] = rs.getObject(i + 1).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Proveedor.jTable1.getModel();
             for (int i = 0; i < data.size(); i++) {
                 dtm.addRow(data.get(i));
             }
@@ -710,6 +836,7 @@ public class Metodos {
         String hoy = ft.format(dNow);
         return hoy;
     }
+
     public synchronized static String getHoy_format_dd_mm_yyyy() {
         Date dNow = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
