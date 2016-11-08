@@ -11,9 +11,9 @@ public class Obligaciones_proveedor extends javax.swing.JFrame {
     public Obligaciones_proveedor() {
         initComponents();
         setLocationRelativeTo(null);
-        setTitle("Clientes");
+        setTitle("Proveedores");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
-        Metodos.Obligaciones_cargar_jtable(jTextField_buscar.getText());
+        Metodos.Obligaciones_Proveedor_cargar_jtable(jTextField_buscar.getText());
 //        Metodos.Clientes_cargar_jtable(jTextField_buscar.getText());
 
     }

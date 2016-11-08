@@ -4,12 +4,12 @@ import DEV.Metodos;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
-public class Obligaciones_ABM extends javax.swing.JFrame {
+public class Pagos_ABM extends javax.swing.JFrame {
     
-    public Obligaciones_ABM() {
+    public Pagos_ABM() {
         initComponents();
         setLocationRelativeTo(null);
-        setTitle("Obligaciones");
+        setTitle("Pagos");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
         jTextField_proveedor.requestFocus();
     }
@@ -59,7 +59,7 @@ public class Obligaciones_ABM extends javax.swing.JFrame {
         });
 
         jTextField_proveedor.setToolTipText("");
-        jTextField_proveedor.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Proveedor (ENTER para buscar)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
+        jTextField_proveedor.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cliente (ENTER para buscar)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
         jTextField_proveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_proveedorActionPerformed(evt);
@@ -187,10 +187,10 @@ public class Obligaciones_ABM extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Obligaciones_ABM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pagos_ABM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(() -> {
-            new Obligaciones_ABM().setVisible(true);
+            new Pagos_ABM().setVisible(true);
         });
     }
 

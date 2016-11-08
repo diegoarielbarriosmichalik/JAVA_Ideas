@@ -10,7 +10,9 @@ import FORMS.Facebook_publicaciones_clientes;
 import FORMS.Logueo;
 import static FORMS.Logueo.jPasswordField1;
 import static FORMS.Logueo.jTextField1;
+import FORMS.Obligaciones;
 import FORMS.Obligaciones_ABM;
+import FORMS.Obligaciones_proveedor;
 import FORMS.Principal;
 import FORMS.Proveedor;
 import FORMS.Rubro;
@@ -30,7 +32,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class Metodos {
@@ -117,9 +118,11 @@ public class Metodos {
             ST_update.setInt(1, id);
             ST_update.setInt(2, id_proveedor);
             ST_update.setString(3, mes);
-            ST_update.setLong(3, Long.parseLong(monto));
+            ST_update.setLong(4, Long.parseLong(monto.replace(".", "")));
             ST_update.setString(5, "PENDIENTE");
             ST_update.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Agregado correctamente");
 
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -439,10 +442,11 @@ public class Metodos {
         Cliente_colores_cargar_jtable();
 
     }
+
     public synchronized static void Proveedor_seleccionar() {
-        DefaultTableModel tm = (DefaultTableModel) Proveedor.jTable1.getModel();
-        id_proveedor = Integer.parseInt(String.valueOf(tm.getValueAt(Proveedor.jTable1.getSelectedRow(), 0)));
-        Obligaciones_ABM.jTextField_proveedor.setText(String.valueOf(tm.getValueAt(Proveedor.jTable1.getSelectedRow(), 1)));
+        DefaultTableModel tm = (DefaultTableModel) Obligaciones_proveedor.jTable1.getModel();
+        id_proveedor = Integer.parseInt(String.valueOf(tm.getValueAt(Obligaciones_proveedor.jTable1.getSelectedRow(), 0)));
+        Obligaciones_ABM.jTextField_proveedor.setText(String.valueOf(tm.getValueAt(Obligaciones_proveedor.jTable1.getSelectedRow(), 1)));
     }
 
     public synchronized static void Facebook_clientes_seleccionar() {
@@ -482,6 +486,117 @@ public class Metodos {
                 data.add(rows);
             }
             dtm = (DefaultTableModel) Ciudad.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Obligaciones_cargar_jtable(String buscar) {
+        try {
+
+            String total = "0";
+            Obligaciones.jTextField_total.setText(total);
+
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery(""
+                    + "SELECT SUM(monto) "
+                    + "from obligacion "
+                    + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
+                    + "where mes ilike '%" + buscar + "%' "
+                    + " ");
+            if (result.next()) {
+                if (result.getString(1) == null) {
+                } else if ((result.getString(1).length() > 0) && (isNumeric(result.getString(1)))) {
+                    total = getSepararMiles(result.getString(1));
+                    Obligaciones.jTextField_total.setText(total);
+                }
+            }
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT id_obligacion, nombre, mes, monto, estado "
+                    + "from obligacion "
+                    + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
+                    + "where mes ilike '%" + buscar + "%' "
+                    + "order by id_obligacion ");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Obligaciones.jTable1.getModel();
+            for (int j = 0; j < Obligaciones.jTable1.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[0] = rs.getObject(1);
+                    rows[1] = rs.getObject(2).toString().trim();
+                    rows[2] = rs.getObject(3).toString().trim();
+                    rows[3] = getSepararMiles(rs.getObject(4).toString().trim());
+                    rows[4] = rs.getObject(5).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Obligaciones.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+    public synchronized static void Obligaciones_cargar_jtable_pendientes() {
+        try {
+
+            String total = "0";
+            Obligaciones.jTextField_total.setText(total);
+
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery(""
+                    + "SELECT SUM(monto) "
+                    + "from obligacion "
+                    + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
+                    + "where estado ilike '%PENDIENTE%' "
+                    + " ");
+            if (result.next()) {
+                if (result.getString(1) == null) {
+                } else if ((result.getString(1).length() > 0) && (isNumeric(result.getString(1)))) {
+                    total = getSepararMiles(result.getString(1));
+                    Obligaciones.jTextField_total.setText(total);
+                }
+            }
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT id_obligacion, nombre, mes, monto, estado "
+                    + "from obligacion "
+                    + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
+                   + "where estado ilike '%PENDIENTE%' "
+                    + "order by id_obligacion ");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Obligaciones.jTable1.getModel();
+            for (int j = 0; j < Obligaciones.jTable1.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[0] = rs.getObject(1);
+                    rows[1] = rs.getObject(2).toString().trim();
+                    rows[2] = rs.getObject(3).toString().trim();
+                    rows[3] = getSepararMiles(rs.getObject(4).toString().trim());
+                    rows[4] = rs.getObject(5).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Obligaciones.jTable1.getModel();
             for (int i = 0; i < data.size(); i++) {
                 dtm.addRow(data.get(i));
             }
@@ -687,7 +802,8 @@ public class Metodos {
             System.err.println(ex);
         }
     }
-    public synchronized static void Obligaciones_cargar_jtable(String buscar) {
+
+    public synchronized static void Obligaciones_Proveedor_cargar_jtable(String buscar) {
         try {
 
             ps = conexion.prepareStatement(""
@@ -698,8 +814,8 @@ public class Metodos {
                     + "order by nombre");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
-            dtm = (DefaultTableModel) Proveedor.jTable1.getModel();
-            for (int j = 0; j < Proveedor.jTable1.getRowCount(); j++) {
+            dtm = (DefaultTableModel) Obligaciones_proveedor.jTable1.getModel();
+            for (int j = 0; j < Obligaciones_proveedor.jTable1.getRowCount(); j++) {
                 dtm.removeRow(j);
                 j -= 1;
             }
@@ -711,7 +827,7 @@ public class Metodos {
                 }
                 data.add(rows);
             }
-            dtm = (DefaultTableModel) Proveedor.jTable1.getModel();
+            dtm = (DefaultTableModel) Obligaciones_proveedor.jTable1.getModel();
             for (int i = 0; i < data.size(); i++) {
                 dtm.addRow(data.get(i));
             }

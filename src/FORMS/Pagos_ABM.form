@@ -137,7 +137,7 @@
             <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Proveedor (ENTER para buscar)">
+                <TitledBorder title="Cliente (ENTER para buscar)">
                   <Color PropertyName="color" blue="ff" green="66" red="66" type="rgb"/>
                 </TitledBorder>
               </Border>
