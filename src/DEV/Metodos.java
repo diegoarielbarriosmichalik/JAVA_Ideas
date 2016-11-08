@@ -4,6 +4,9 @@ import FORMS.Ciudad;
 import FORMS.Clientes;
 import FORMS.Clientes_ABM;
 import static FORMS.Clientes_ABM.jTextField_ruc;
+import FORMS.Facebook;
+import FORMS.Facebook_publicaciones;
+import FORMS.Facebook_publicaciones_clientes;
 import FORMS.Logueo;
 import static FORMS.Logueo.jPasswordField1;
 import static FORMS.Logueo.jTextField1;
@@ -40,7 +43,7 @@ public class Metodos {
     }
 
     public static String nombre = null;
-    public static String titulo = null;
+    public static String titulo = "IDEAS Mkt ";
     public static String ubicacion_proyecto = null;
     public static int id_usuario = 0;
     public static int id = 0;
@@ -64,6 +67,43 @@ public class Metodos {
             ST_update.setInt(1, id);
             ST_update.setString(2, ciudad);
             ST_update.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static java.sql.Date util_Date_to_sql_date(Date fecha) {
+        java.sql.Date fecha_sql_date = null;
+        if (fecha != null) {
+            java.util.Date utilDate = fecha;
+            fecha_sql_date = new java.sql.Date(utilDate.getTime());
+        }
+        return fecha_sql_date;
+    }
+
+    public synchronized static void Facebook_publicaciones_Guardar(String publicacion, Date fecha, String monto) {
+        try {
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery("SELECT MAX(id_facebook) FROM facebook");
+            if (result.next()) {
+                id = result.getInt(1) + 1;
+            }
+            monto = monto.replace(".", "");
+            if ((publicacion.length() > 0) && (fecha != null) && (isNumeric(monto))) {
+                PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO facebook VALUES(?,?,?,?,?,?,?)");
+                ST_update.setInt(1, id);
+                ST_update.setInt(2, id_cliente);
+                ST_update.setString(3, publicacion);
+                ST_update.setDate(4, util_Date_to_sql_date(fecha));
+                ST_update.setLong(5, Long.parseLong(monto));
+                ST_update.setString(6, "PENDIENTE");
+                ST_update.setInt(7, 0);
+                ST_update.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Guardado correctamente");
+            } else {
+                JOptionPane.showMessageDialog(null, "Complete todos los campos");
+            }
 
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -94,6 +134,7 @@ public class Metodos {
             System.err.println(ex);
         }
     }
+
     public synchronized static void Cliente_colores_guardar(String color) {
         try {
 
@@ -310,6 +351,27 @@ public class Metodos {
         return dato;
     }
 
+    public synchronized static String getSepararMiles(String txtprec) {
+        String valor = txtprec;
+
+        int largo = valor.length();
+        if (largo > 8) {
+            valor = valor.substring(largo - 9, largo - 6) + "." + valor.substring(largo - 6, largo - 3) + "." + valor.substring(largo - 3, largo);
+        } else if (largo > 7) {
+            valor = valor.substring(largo - 8, largo - 6) + "." + valor.substring(largo - 6, largo - 3) + "." + valor.substring(largo - 3, largo);
+        } else if (largo > 6) {
+            valor = valor.substring(largo - 7, largo - 6) + "." + valor.substring(largo - 6, largo - 3) + "." + valor.substring(largo - 3, largo);
+        } else if (largo > 5) {
+            valor = valor.substring(largo - 6, largo - 3) + "." + valor.substring(largo - 3, largo);
+        } else if (largo > 4) {
+            valor = valor.substring(largo - 5, largo - 3) + "." + valor.substring(largo - 3, largo);
+        } else if (largo > 3) {
+            valor = valor.substring(largo - 4, largo - 3) + "." + valor.substring(largo - 3, largo);
+        }
+        txtprec = valor;
+        return valor;
+    }
+
     public synchronized static void Ciudad_seleccionar() {
         DefaultTableModel tm = (DefaultTableModel) Ciudad.jTable1.getModel();
         id_ciudad = Integer.parseInt(String.valueOf(tm.getValueAt(Ciudad.jTable1.getSelectedRow(), 0)));
@@ -323,6 +385,12 @@ public class Metodos {
         Cliente_producto_cargar_jtable();
         Cliente_colores_cargar_jtable();
 
+    }
+
+    public synchronized static void Facebook_clientes_seleccionar() {
+        DefaultTableModel tm = (DefaultTableModel) Facebook_publicaciones_clientes.jTable1.getModel();
+        id_cliente = Integer.parseInt(String.valueOf(tm.getValueAt(Facebook_publicaciones_clientes.jTable1.getSelectedRow(), 0)));
+        Facebook_publicaciones.jTextField_cliente.setText(String.valueOf(tm.getValueAt(Facebook_publicaciones_clientes.jTable1.getSelectedRow(), 1)));
     }
 
     public synchronized static void Rubro_seleccionar() {
@@ -365,6 +433,66 @@ public class Metodos {
         }
     }
 
+    public synchronized static void Facebook_publicaciones_cargar_jtable(String buscar) {
+        try {
+
+            dtm = (DefaultTableModel) Facebook.jTable1.getModel();
+            for (int j = 0; j < Facebook.jTable1.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+
+            String total = "0";
+            Facebook.jTextField_total.setText(total);
+
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery("SELECT SUM(monto)"
+                    + "from cliente "
+                    + "inner join facebook on facebook.id_cliente = cliente.id_cliente "
+                    + "where nombre ilike '%" + buscar + "%' "
+                    + "and cliente.borrado != '1' and facebook.borrado != '1'");
+            if (result.next()) {
+
+                if (result.getString(1) == null) {
+                   
+                } else if ((result.getString(1).length() > 0) && (isNumeric(result.getString(1)))) {
+                    total = getSepararMiles(result.getString(1));
+                    Facebook.jTextField_total.setText(total);
+                }
+            }
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT id_facebook, nombre, fecha, monto, pagado "
+                    + "from cliente "
+                    + "inner join facebook on facebook.id_cliente = cliente.id_cliente "
+                    + "where nombre ilike '%" + buscar + "%' "
+                    + "and cliente.borrado != '1' and facebook.borrado != '1' "
+                    + "order by nombre");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[0] = rs.getObject(1);
+                    rows[1] = rs.getObject(2).toString().trim();
+                    rows[2] = rs.getObject(3).toString();
+                    rows[3] = getSepararMiles(rs.getObject(4).toString());
+                    rows[4] = rs.getObject(5).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Facebook.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
     public synchronized static void Cliente_producto_cargar_jtable() {
         try {
 
@@ -398,6 +526,7 @@ public class Metodos {
             System.err.println(ex);
         }
     }
+
     public synchronized static void Cliente_colores_cargar_jtable() {
         try {
 
@@ -457,6 +586,40 @@ public class Metodos {
                 data.add(rows);
             }
             dtm = (DefaultTableModel) Clientes.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Facebook_clientes_cargar_jtable(String buscar) {
+        try {
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT id_cliente, nombre, ruc, telefono "
+                    + "from cliente "
+                    + "where id_cliente > '0' "
+                    + "and nombre ilike '%" + buscar + "%' "
+                    + "order by nombre");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Facebook_publicaciones_clientes.jTable1.getModel();
+            for (int j = 0; j < Facebook_publicaciones_clientes.jTable1.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[i] = rs.getObject(i + 1).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Facebook_publicaciones_clientes.jTable1.getModel();
             for (int i = 0; i < data.size(); i++) {
                 dtm.addRow(data.get(i));
             }
@@ -541,9 +704,15 @@ public class Metodos {
         return hoy;
     }
 
-    public synchronized static String getHoy_format1() {
+    public synchronized static String getHoy_format_yyyy_mm_dd() {
         Date dNow = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+        String hoy = ft.format(dNow);
+        return hoy;
+    }
+    public synchronized static String getHoy_format_dd_mm_yyyy() {
+        Date dNow = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
         String hoy = ft.format(dNow);
         return hoy;
     }
