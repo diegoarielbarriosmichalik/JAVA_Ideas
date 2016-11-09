@@ -13,12 +13,12 @@ import javax.swing.ImageIcon;
  *
  * @author Dell
  */
-public class Clientes_agregar_colores extends javax.swing.JFrame {
+public class Clientes_agregar_trabajos extends javax.swing.JFrame {
 
     /**
      * Creates new form Clientes_agregar_producto
      */
-    public Clientes_agregar_colores() {
+    public Clientes_agregar_trabajos() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Colores");
@@ -35,22 +35,34 @@ public class Clientes_agregar_colores extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jTextField_color = new javax.swing.JTextField();
+        jTextField_trabajo = new javax.swing.JTextField();
+        jTextField_monto = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 204)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jTextField_color.setBorder(javax.swing.BorderFactory.createTitledBorder("Colores (ENTER para guardar)"));
-        jTextField_color.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextField_trabajo.setBorder(javax.swing.BorderFactory.createTitledBorder("Descripción del trabajo "));
+        jTextField_trabajo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField_colorKeyPressed(evt);
+                jTextField_trabajoKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField_colorKeyReleased(evt);
+                jTextField_trabajoKeyReleased(evt);
+            }
+        });
+
+        jTextField_monto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_monto.setBorder(javax.swing.BorderFactory.createTitledBorder("Monto (ENTER para guardar)"));
+        jTextField_monto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField_montoKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_montoKeyReleased(evt);
             }
         });
 
@@ -60,15 +72,21 @@ public class Clientes_agregar_colores extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField_color, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField_trabajo, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jTextField_monto, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField_color, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTextField_trabajo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTextField_monto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -85,21 +103,35 @@ public class Clientes_agregar_colores extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField_colorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_colorKeyPressed
+    private void jTextField_trabajoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_trabajoKeyPressed
+//        if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
+//            Metodos.Cliente_colores_guardar(jTextField_trabajo.getText());
+//            Metodos.Cliente_colores_cargar_jtable();
+//            this.setVisible(false);
+//        }
+        if ((evt.getKeyCode() == KeyEvent.VK_ESCAPE)) {
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_jTextField_trabajoKeyPressed
+
+    private void jTextField_trabajoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_trabajoKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_trabajoKeyReleased
+
+    private void jTextField_montoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_montoKeyPressed
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
-            Metodos.Cliente_colores_guardar(jTextField_color.getText());
-            Metodos.Cliente_colores_cargar_jtable();
+            Metodos.Cliente_trabajos_guardar(jTextField_trabajo.getText(), jTextField_monto.getText());
+            Metodos.Cliente_trabajos_cargar_jtable();
             this.setVisible(false);
         }
         if ((evt.getKeyCode() == KeyEvent.VK_ESCAPE)) {
             this.setVisible(false);
         }
+    }//GEN-LAST:event_jTextField_montoKeyPressed
 
-    }//GEN-LAST:event_jTextField_colorKeyPressed
-
-    private void jTextField_colorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_colorKeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_colorKeyReleased
+    private void jTextField_montoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_montoKeyReleased
+        jTextField_monto.setText(Metodos.getSepararMiles(jTextField_monto.getText().replace(".", "")));
+    }//GEN-LAST:event_jTextField_montoKeyReleased
 
     /**
      * @param args the command line arguments
@@ -118,27 +150,30 @@ public class Clientes_agregar_colores extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Clientes_agregar_colores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Clientes_agregar_trabajos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Clientes_agregar_colores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Clientes_agregar_trabajos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Clientes_agregar_colores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Clientes_agregar_trabajos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Clientes_agregar_colores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Clientes_agregar_trabajos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Clientes_agregar_colores().setVisible(true);
+                new Clientes_agregar_trabajos().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
-    public static javax.swing.JTextField jTextField_color;
+    public static javax.swing.JTextField jTextField_monto;
+    public static javax.swing.JTextField jTextField_trabajo;
     // End of variables declaration//GEN-END:variables
 }

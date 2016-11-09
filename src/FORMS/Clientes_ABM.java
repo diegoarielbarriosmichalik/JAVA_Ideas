@@ -50,6 +50,13 @@ public class Clientes_ABM extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jTextField_rubro = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTable_trabajo_extra = new javax.swing.JTable();
+        jButton8 = new javax.swing.JButton();
+        jTextField_marandu = new javax.swing.JTextField();
+        jTextField_ideas = new javax.swing.JTextField();
+        jTextField_mensual = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable5 = new javax.swing.JTable();
@@ -72,6 +79,12 @@ public class Clientes_ABM extends javax.swing.JFrame {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
             }
         });
 
@@ -250,7 +263,7 @@ public class Clientes_ABM extends javax.swing.JFrame {
             jTable_color.getColumnModel().getColumn(1).setPreferredWidth(300);
         }
 
-        jButton6.setText("Agregar Productos");
+        jButton6.setText("Agregar Colores");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
@@ -290,7 +303,7 @@ public class Clientes_ABM extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jButton6)
-                                .addGap(0, 222, Short.MAX_VALUE))
+                                .addGap(0, 234, Short.MAX_VALUE))
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jTextField_paginas, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -323,6 +336,128 @@ public class Clientes_ABM extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Otros Datos", jPanel3);
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTable_trabajo_extra.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Trabajos Extras", "Importe"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(jTable_trabajo_extra);
+        if (jTable_trabajo_extra.getColumnModel().getColumnCount() > 0) {
+            jTable_trabajo_extra.getColumnModel().getColumn(0).setResizable(false);
+            jTable_trabajo_extra.getColumnModel().getColumn(0).setPreferredWidth(10);
+            jTable_trabajo_extra.getColumnModel().getColumn(1).setResizable(false);
+            jTable_trabajo_extra.getColumnModel().getColumn(1).setPreferredWidth(450);
+            jTable_trabajo_extra.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        jButton8.setText("Agregar trabajos extras");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jTextField_marandu.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_marandu.setText("0");
+        jTextField_marandu.setBorder(javax.swing.BorderFactory.createTitledBorder("Marandu"));
+        jTextField_marandu.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField_maranduFocusGained(evt);
+            }
+        });
+        jTextField_marandu.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_maranduKeyReleased(evt);
+            }
+        });
+
+        jTextField_ideas.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_ideas.setText("0");
+        jTextField_ideas.setBorder(javax.swing.BorderFactory.createTitledBorder("Ideas Mkt"));
+        jTextField_ideas.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField_ideasFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField_ideasFocusLost(evt);
+            }
+        });
+        jTextField_ideas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_ideasKeyReleased(evt);
+            }
+        });
+
+        jTextField_mensual.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTextField_mensual.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_mensual.setText("0");
+        jTextField_mensual.setBorder(javax.swing.BorderFactory.createTitledBorder("Mensual"));
+        jTextField_mensual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_mensualActionPerformed(evt);
+            }
+        });
+        jTextField_mensual.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField_mensualFocusGained(evt);
+            }
+        });
+        jTextField_mensual.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_mensualKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton8)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jTextField_marandu, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField_ideas, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField_mensual, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField_mensual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField_marandu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_ideas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton8)
+                .addGap(36, 36, 36))
+        );
+
+        jTabbedPane1.addTab("Montos", jPanel6);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -402,7 +537,7 @@ public class Clientes_ABM extends javax.swing.JFrame {
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -429,7 +564,8 @@ public class Clientes_ABM extends javax.swing.JFrame {
                 Metodos.id_ciudad,
                 jTextField_encargado.getText(), jTextField_lunes_a_viernes.getText(), jTextField_sabado.getText(),
                 jTextField_paginas.getText(), Metodos.id_rubro,
-                jTextField_sugerencia.getText(), jTextField_preferencia.getText(), jTextField_marcas.getText());
+                jTextField_sugerencia.getText(), jTextField_preferencia.getText(), jTextField_marcas.getText(),
+                jTextField_mensual.getText(), jTextField_marandu.getText(), jTextField_ideas.getText());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -472,6 +608,46 @@ public class Clientes_ABM extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         new Clientes_agregar_colores().setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        new Clientes_agregar_trabajos().setVisible(true);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jTextField_mensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_mensualActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_mensualActionPerformed
+
+    private void jTextField_mensualKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_mensualKeyReleased
+        jTextField_mensual.setText(Metodos.getSepararMiles(jTextField_mensual.getText().replace(".", "")));
+    }//GEN-LAST:event_jTextField_mensualKeyReleased
+
+    private void jTextField_maranduKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_maranduKeyReleased
+        jTextField_marandu.setText(Metodos.getSepararMiles(jTextField_marandu.getText().replace(".", "")));
+    }//GEN-LAST:event_jTextField_maranduKeyReleased
+
+    private void jTextField_ideasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_ideasKeyReleased
+        jTextField_ideas.setText(Metodos.getSepararMiles(jTextField_ideas.getText().replace(".", "")));
+    }//GEN-LAST:event_jTextField_ideasKeyReleased
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void jTextField_maranduFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_maranduFocusGained
+        jTextField_marandu.selectAll();
+    }//GEN-LAST:event_jTextField_maranduFocusGained
+
+    private void jTextField_ideasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_ideasFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_ideasFocusLost
+
+    private void jTextField_ideasFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_ideasFocusGained
+        jTextField_ideas.selectAll();
+    }//GEN-LAST:event_jTextField_ideasFocusGained
+
+    private void jTextField_mensualFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_mensualFocusGained
+        jTextField_mensual.selectAll();
+    }//GEN-LAST:event_jTextField_mensualFocusGained
     
     public static void main(String args[]) {
         
@@ -495,24 +671,31 @@ public class Clientes_ABM extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable5;
     public static javax.swing.JTable jTable_color;
     public static javax.swing.JTable jTable_productos;
+    public static javax.swing.JTable jTable_trabajo_extra;
     public static javax.swing.JTextField jTextField_ciudad;
     public static javax.swing.JTextField jTextField_direccion;
     public static javax.swing.JTextField jTextField_email;
     public static javax.swing.JTextField jTextField_encargado;
+    public static javax.swing.JTextField jTextField_ideas;
     public static javax.swing.JTextField jTextField_lunes_a_viernes;
+    public static javax.swing.JTextField jTextField_marandu;
     public static javax.swing.JTextField jTextField_marcas;
+    public static javax.swing.JTextField jTextField_mensual;
     public static javax.swing.JTextField jTextField_nombre;
     public static javax.swing.JTextField jTextField_paginas;
     public static javax.swing.JTextField jTextField_preferencia;

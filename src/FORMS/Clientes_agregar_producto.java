@@ -41,15 +41,15 @@ public class Clientes_agregar_producto extends javax.swing.JFrame {
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 204)));
 
         jTextField_producto.setBorder(javax.swing.BorderFactory.createTitledBorder("Producto (ENTER para guardar)"));
         jTextField_producto.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField_productoKeyReleased(evt);
-            }
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextField_productoKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_productoKeyReleased(evt);
             }
         });
 
@@ -88,6 +88,9 @@ public class Clientes_agregar_producto extends javax.swing.JFrame {
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
             Metodos.Cliente_producto_guardar(jTextField_producto.getText());
             Metodos.Cliente_producto_cargar_jtable();
+            this.setVisible(false);
+        }
+        if ((evt.getKeyCode() == KeyEvent.VK_ESCAPE)) {
             this.setVisible(false);
         }
 

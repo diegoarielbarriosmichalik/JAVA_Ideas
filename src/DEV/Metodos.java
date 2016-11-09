@@ -215,6 +215,33 @@ public class Metodos {
             System.err.println(ex);
         }
     }
+    public synchronized static void Cliente_trabajos_guardar(String trabajo, String monto) {
+        try {
+
+            if (id_cliente > 0) {
+
+                Statement st1 = conexion.createStatement();
+                ResultSet result = st1.executeQuery("SELECT MAX(id_cliente_trabajo_extra) FROM cliente_trabajo_extra");
+                if (result.next()) {
+                    id = result.getInt(1) + 1;
+                }
+
+                PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO cliente_trabajo_extra VALUES(?,?,?,?,?,?)");
+                ST_update.setInt(1, id);
+                ST_update.setString(2, trabajo);
+                ST_update.setLong(3, Long.valueOf(monto.replace(".", "")));
+                ST_update.setString(4, "");
+                ST_update.setInt(5, 0);
+                ST_update.setInt(6, id_cliente);
+                ST_update.executeUpdate();
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecciona un cliente para continuar");
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
 
     public synchronized static void Rubro_guardar(String rubro) {
         try {
@@ -256,13 +283,15 @@ public class Metodos {
                 Clientes_ABM.jTextField_preferencia.setText(result.getString("preferencias").trim());
                 Clientes_ABM.jTextField_sugerencia.setText(result.getString("sugerencias").trim());
                 Clientes_ABM.jTextField_ciudad.setText(result.getString("ciudad").trim());
+                Clientes_ABM.jTextField_mensual.setText(getSepararMiles(result.getString("mensual")));
+                Clientes_ABM.jTextField_ideas.setText(getSepararMiles(result.getString("ideas")));
+                Clientes_ABM.jTextField_marandu.setText(getSepararMiles(result.getString("marandu")));
                 id_ciudad = result.getInt("id_ciudad");
                 Clientes_ABM.jTextField_rubro.setText(result.getString("rubro").trim());
                 id_rubro = result.getInt("id_rubro");
-
                 Clientes_ABM.jTextField_nombre.requestFocus();
-            }
 
+            }
         } catch (SQLException ex) {
             System.err.println(ex);
         }
@@ -282,7 +311,7 @@ public class Metodos {
             int id_ciudad,
             String encargado, String horario_lunavier, String horario_sabado,
             String paginas_str, int id_rubro,
-            String sugerencia, String preferencia, String marca
+            String sugerencia, String preferencia, String marca, String mensual, String marandu, String ideas
     ) {
         try {
 
@@ -303,7 +332,7 @@ public class Metodos {
                             id = result.getInt(1) + 1;
                         }
 
-                        PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO cliente VALUES(?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?)");
+                        PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO cliente VALUES(?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,? )");
                         ST_update.setInt(1, id);
                         ST_update.setString(2, cliente_nombre);
                         ST_update.setString(3, direccion);
@@ -324,6 +353,9 @@ public class Metodos {
                         ST_update.setString(18, sugerencia);
                         ST_update.setString(19, preferencia);
                         ST_update.setString(20, marca);
+                        ST_update.setLong(21, Long.parseLong(mensual.replace(".", "")));
+                        ST_update.setLong(22, Long.parseLong(marandu.replace(".", "")));
+                        ST_update.setLong(23, Long.parseLong(ideas.replace(".", "")));
                         ST_update.executeUpdate();
 
                         JOptionPane.showMessageDialog(null, "Guardado correctamente");
@@ -348,10 +380,13 @@ public class Metodos {
                             + "id_rubro = '" + id_rubro + "', "
                             + "sugerencias = '" + sugerencia + "', "
                             + "preferencias = '" + preferencia + "', "
+                            + "mensual = '" + Long.parseLong(mensual.replace(".", "")) + "', "
+                            + "ideas = '" + Long.parseLong(ideas.replace(".", "")) + "', "
+                            + "marandu = '" + Long.parseLong(marandu.replace(".", "")) + "', "
                             + "marcas = '" + marca + "' "
                             + "WHERE id_cliente  ='" + id_cliente + "' ");
                     stClienteBorrar3.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "Actualizado correctamente");
+                    JOptionPane.showMessageDialog(null, "Guardado correctamente");
 
                 }
             }
@@ -440,6 +475,7 @@ public class Metodos {
         Clientes_llevar_datos_a_editar();
         Cliente_producto_cargar_jtable();
         Cliente_colores_cargar_jtable();
+        Cliente_trabajos_cargar_jtable();
 
     }
 
@@ -550,6 +586,7 @@ public class Metodos {
             System.err.println(ex);
         }
     }
+
     public synchronized static void Obligaciones_cargar_jtable_pendientes() {
         try {
 
@@ -575,7 +612,7 @@ public class Metodos {
                     + "SELECT id_obligacion, nombre, mes, monto, estado "
                     + "from obligacion "
                     + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
-                   + "where estado ilike '%PENDIENTE%' "
+                    + "where estado ilike '%PENDIENTE%' "
                     + "order by id_obligacion ");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
@@ -760,6 +797,40 @@ public class Metodos {
                 data.add(rows);
             }
             dtm = (DefaultTableModel) Clientes_ABM.jTable_color.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+    public synchronized static void Cliente_trabajos_cargar_jtable() {
+        try {
+
+            dtm = (DefaultTableModel) Clientes_ABM.jTable_trabajo_extra.getModel();
+            for (int j = 0; j < Clientes_ABM.jTable_trabajo_extra.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ps = conexion.prepareStatement(""
+                    + "SELECT id_cliente_trabajo_extra, trabajo, monto "
+                    + "from cliente_trabajo_extra "
+                    + "where id_cliente = '" + id_cliente + "' "
+                    + "order by id_cliente_trabajo_extra DESC");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[0] = rs.getObject(1);
+                    rows[1] = rs.getObject(2).toString().trim();
+                    rows[2] = getSepararMiles(rs.getObject(3).toString());
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Clientes_ABM.jTable_trabajo_extra.getModel();
             for (int i = 0; i < data.size(); i++) {
                 dtm.addRow(data.get(i));
             }
