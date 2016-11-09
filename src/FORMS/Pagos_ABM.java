@@ -2,18 +2,23 @@ package FORMS;
 
 import DEV.Metodos;
 import java.awt.event.KeyEvent;
+import java.util.Date;
 import javax.swing.ImageIcon;
 
 public class Pagos_ABM extends javax.swing.JFrame {
-    
+
     public Pagos_ABM() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Pagos");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
-        jTextField_proveedor.requestFocus();
+        jTextField_cliente.requestFocus();
+        
+        Date hoy = new Date();
+        
+        jDateChooser_fecha.setDate(hoy);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -21,10 +26,11 @@ public class Pagos_ABM extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jTextField_monto = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
-        jTextField_proveedor = new javax.swing.JTextField();
+        jTextField_cliente = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jDateChooser_fecha = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -40,6 +46,11 @@ public class Pagos_ABM extends javax.swing.JFrame {
         jTextField_monto.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextField_monto.setToolTipText("");
         jTextField_monto.setBorder(javax.swing.BorderFactory.createTitledBorder("Monto"));
+        jTextField_monto.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField_montoFocusGained(evt);
+            }
+        });
         jTextField_monto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextField_montoKeyPressed(evt);
@@ -58,19 +69,19 @@ public class Pagos_ABM extends javax.swing.JFrame {
             }
         });
 
-        jTextField_proveedor.setToolTipText("");
-        jTextField_proveedor.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cliente (ENTER para buscar)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
-        jTextField_proveedor.addActionListener(new java.awt.event.ActionListener() {
+        jTextField_cliente.setToolTipText("");
+        jTextField_cliente.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cliente (ENTER para buscar)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
+        jTextField_cliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_proveedorActionPerformed(evt);
+                jTextField_clienteActionPerformed(evt);
             }
         });
-        jTextField_proveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextField_cliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField_proveedorKeyPressed(evt);
+                jTextField_clienteKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField_proveedorKeyReleased(evt);
+                jTextField_clienteKeyReleased(evt);
             }
         });
 
@@ -87,6 +98,15 @@ public class Pagos_ABM extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre" }));
 
+        jDateChooser_fecha.setBackground(new java.awt.Color(255, 255, 255));
+        jDateChooser_fecha.setBorder(javax.swing.BorderFactory.createTitledBorder("Fecha"));
+        jDateChooser_fecha.setDateFormatString("dd/MMM/yyyy");
+        jDateChooser_fecha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jDateChooser_fechaKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -94,21 +114,22 @@ public class Pagos_ABM extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField_proveedor)
+                    .addComponent(jTextField_cliente)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jDateChooser_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_monto, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 348, Short.MAX_VALUE)
+                        .addGap(0, 10, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField_monto, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(220, 220, 220))
+                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -117,16 +138,18 @@ public class Pagos_ABM extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextField_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDateChooser_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField_monto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -148,7 +171,7 @@ public class Pagos_ABM extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jTextField_montoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_montoKeyPressed
-        
+
     }//GEN-LAST:event_jTextField_montoKeyPressed
 
     private void jTextField_montoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_montoKeyReleased
@@ -159,26 +182,34 @@ public class Pagos_ABM extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jTextField_proveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_proveedorKeyPressed
+    private void jTextField_clienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_clienteKeyPressed
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
-            new Obligaciones_proveedor().setVisible(true);
+            new Pagos_clientes().setVisible(true);
         }
-    }//GEN-LAST:event_jTextField_proveedorKeyPressed
+    }//GEN-LAST:event_jTextField_clienteKeyPressed
 
-    private void jTextField_proveedorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_proveedorKeyReleased
+    private void jTextField_clienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_clienteKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_proveedorKeyReleased
+    }//GEN-LAST:event_jTextField_clienteKeyReleased
 
-    private void jTextField_proveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_proveedorActionPerformed
+    private void jTextField_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_clienteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_proveedorActionPerformed
+    }//GEN-LAST:event_jTextField_clienteActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Metodos.Obligaciones_Guardar(jTextField_monto.getText(), jComboBox1.getSelectedItem().toString());
+        Metodos.Pagos_Guardar(jTextField_monto.getText(), jComboBox1.getSelectedItem().toString(), jDateChooser_fecha.getDate());
     }//GEN-LAST:event_jButton3ActionPerformed
-    
+
+    private void jTextField_montoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_montoFocusGained
+        jTextField_monto.selectAll();
+    }//GEN-LAST:event_jTextField_montoFocusGained
+
+    private void jDateChooser_fechaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jDateChooser_fechaKeyPressed
+
+    }//GEN-LAST:event_jDateChooser_fechaKeyPressed
+
     public static void main(String args[]) {
-        
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -198,9 +229,10 @@ public class Pagos_ABM extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
+    public static com.toedter.calendar.JDateChooser jDateChooser_fecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    public static javax.swing.JTextField jTextField_cliente;
     public static javax.swing.JTextField jTextField_monto;
-    public static javax.swing.JTextField jTextField_proveedor;
     // End of variables declaration//GEN-END:variables
 }

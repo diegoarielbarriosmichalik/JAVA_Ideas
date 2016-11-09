@@ -166,9 +166,8 @@ public class Facebook_publicaciones extends javax.swing.JFrame {
 
     private void jTextField_montoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_montoKeyPressed
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
-            Metodos.Ciudad_guardar(jTextField_monto.getText());
-            this.setVisible(false);
-            Metodos.Ciudad_cargar_jtable(jTextField_monto.getText());
+            Metodos.Facebook_publicaciones_Guardar(
+                    jTextField_publicacion.getText(), jDateChooser2.getDate(), jTextField_monto.getText());
         }
     }//GEN-LAST:event_jTextField_montoKeyPressed
 
@@ -181,7 +180,8 @@ public class Facebook_publicaciones extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Metodos.Facebook_publicaciones_Guardar(jTextField_publicacion.getText(), jDateChooser2.getDate(), jTextField_monto.getText());
+        Metodos.Facebook_publicaciones_Guardar(
+                jTextField_publicacion.getText(), jDateChooser2.getDate(), jTextField_monto.getText());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField_publicacionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_publicacionKeyReleased

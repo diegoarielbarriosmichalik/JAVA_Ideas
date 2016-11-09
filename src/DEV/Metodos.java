@@ -1,5 +1,6 @@
 package DEV;
 
+import FORMS.Avisos;
 import FORMS.Ciudad;
 import FORMS.Clientes;
 import FORMS.Clientes_ABM;
@@ -13,6 +14,8 @@ import static FORMS.Logueo.jTextField1;
 import FORMS.Obligaciones;
 import FORMS.Obligaciones_ABM;
 import FORMS.Obligaciones_proveedor;
+import FORMS.Pagos_ABM;
+import FORMS.Pagos_clientes;
 import FORMS.Principal;
 import FORMS.Proveedor;
 import FORMS.Rubro;
@@ -129,6 +132,31 @@ public class Metodos {
         }
     }
 
+    public synchronized static void Pagos_Guardar(String monto, String mes, Date fecha) {
+        try {
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery("SELECT MAX(id_pago) FROM pago");
+            if (result.next()) {
+                id = result.getInt(1) + 1;
+            }
+
+            PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO pago VALUES(?,?,?,?,?,?,?)");
+            ST_update.setInt(1, id);
+            ST_update.setInt(2, id_cliente);
+            ST_update.setLong(3, Long.valueOf(monto.replace(".", "")));
+            ST_update.setString(4, mes);
+            ST_update.setString(5, "PENDIENTE");
+            ST_update.setDate(6, util_Date_to_sql_date(fecha));
+            ST_update.setInt(7, 0);
+            ST_update.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Agregado correctamente");
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
     public synchronized static java.sql.Date util_Date_to_sql_date(Date fecha) {
         java.sql.Date fecha_sql_date = null;
         if (fecha != null) {
@@ -215,6 +243,7 @@ public class Metodos {
             System.err.println(ex);
         }
     }
+
     public synchronized static void Cliente_trabajos_guardar(String trabajo, String monto) {
         try {
 
@@ -286,6 +315,7 @@ public class Metodos {
                 Clientes_ABM.jTextField_mensual.setText(getSepararMiles(result.getString("mensual")));
                 Clientes_ABM.jTextField_ideas.setText(getSepararMiles(result.getString("ideas")));
                 Clientes_ABM.jTextField_marandu.setText(getSepararMiles(result.getString("marandu")));
+                Clientes_ABM.jDateChooser_vencimiento.setDate((result.getDate("vencimiento")));
                 id_ciudad = result.getInt("id_ciudad");
                 Clientes_ABM.jTextField_rubro.setText(result.getString("rubro").trim());
                 id_rubro = result.getInt("id_rubro");
@@ -311,7 +341,7 @@ public class Metodos {
             int id_ciudad,
             String encargado, String horario_lunavier, String horario_sabado,
             String paginas_str, int id_rubro,
-            String sugerencia, String preferencia, String marca, String mensual, String marandu, String ideas
+            String sugerencia, String preferencia, String marca, String mensual, String marandu, String ideas, Date vencimiento
     ) {
         try {
 
@@ -332,31 +362,64 @@ public class Metodos {
                             id = result.getInt(1) + 1;
                         }
 
-                        PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO cliente VALUES(?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,? )");
-                        ST_update.setInt(1, id);
-                        ST_update.setString(2, cliente_nombre);
-                        ST_update.setString(3, direccion);
-                        ST_update.setString(4, telefono);
-                        ST_update.setString(5, ruc);
-                        ST_update.setString(6, email);
-                        ST_update.setDate(7, null);
-                        ST_update.setInt(8, 0);
-                        ST_update.setInt(9, 0); //borrado
-                        ST_update.setString(10, "");
-                        ST_update.setString(11, "");
-                        ST_update.setInt(12, id_ciudad);
-                        ST_update.setString(13, encargado);
-                        ST_update.setString(14, horario_lunavier);
-                        ST_update.setString(15, horario_sabado);
-                        ST_update.setInt(16, paginas);
-                        ST_update.setInt(17, id_rubro);
-                        ST_update.setString(18, sugerencia);
-                        ST_update.setString(19, preferencia);
-                        ST_update.setString(20, marca);
-                        ST_update.setLong(21, Long.parseLong(mensual.replace(".", "")));
-                        ST_update.setLong(22, Long.parseLong(marandu.replace(".", "")));
-                        ST_update.setLong(23, Long.parseLong(ideas.replace(".", "")));
-                        ST_update.executeUpdate();
+                        if (vencimiento == null) {
+
+                            PreparedStatement ST_update = conexion.prepareStatement(""
+                                    + "INSERT INTO cliente VALUES(?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,? )");
+                            ST_update.setInt(1, id);
+                            ST_update.setString(2, cliente_nombre);
+                            ST_update.setString(3, direccion);
+                            ST_update.setString(4, telefono);
+                            ST_update.setString(5, ruc);
+                            ST_update.setString(6, email);
+                            ST_update.setDate(7, null);
+                            ST_update.setInt(8, 0);
+                            ST_update.setInt(9, 0); //borrado
+                            ST_update.setString(10, "");
+                            ST_update.setString(11, "");
+                            ST_update.setInt(12, id_ciudad);
+                            ST_update.setString(13, encargado);
+                            ST_update.setString(14, horario_lunavier);
+                            ST_update.setString(15, horario_sabado);
+                            ST_update.setInt(16, paginas);
+                            ST_update.setInt(17, id_rubro);
+                            ST_update.setString(18, sugerencia);
+                            ST_update.setString(19, preferencia);
+                            ST_update.setString(20, marca);
+                            ST_update.setLong(21, Long.parseLong(mensual.replace(".", "")));
+                            ST_update.setLong(22, Long.parseLong(marandu.replace(".", "")));
+                            ST_update.setLong(23, Long.parseLong(ideas.replace(".", "")));
+                            ST_update.executeUpdate();
+                        } else {
+
+                            PreparedStatement ST_update = conexion.prepareStatement(""
+                                    + "INSERT INTO cliente VALUES(?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,? )");
+                            ST_update.setInt(1, id);
+                            ST_update.setString(2, cliente_nombre);
+                            ST_update.setString(3, direccion);
+                            ST_update.setString(4, telefono);
+                            ST_update.setString(5, ruc);
+                            ST_update.setString(6, email);
+                            ST_update.setDate(7, null);
+                            ST_update.setInt(8, 0);
+                            ST_update.setInt(9, 0); //borrado
+                            ST_update.setString(10, "");
+                            ST_update.setString(11, "");
+                            ST_update.setInt(12, id_ciudad);
+                            ST_update.setString(13, encargado);
+                            ST_update.setString(14, horario_lunavier);
+                            ST_update.setString(15, horario_sabado);
+                            ST_update.setInt(16, paginas);
+                            ST_update.setInt(17, id_rubro);
+                            ST_update.setString(18, sugerencia);
+                            ST_update.setString(19, preferencia);
+                            ST_update.setString(20, marca);
+                            ST_update.setLong(21, Long.parseLong(mensual.replace(".", "")));
+                            ST_update.setLong(22, Long.parseLong(marandu.replace(".", "")));
+                            ST_update.setLong(23, Long.parseLong(ideas.replace(".", "")));
+                            ST_update.setDate(24, util_Date_to_sql_date(vencimiento));
+                            ST_update.executeUpdate();
+                        }
 
                         JOptionPane.showMessageDialog(null, "Guardado correctamente");
 
@@ -366,28 +429,56 @@ public class Metodos {
                 boolean ruc_existe = Metodos.Clientes_buscar_por_ruc_y_id(jTextField_ruc.getText());
 
                 if (ruc_existe == false) {
-                    PreparedStatement stClienteBorrar3 = conexion.prepareStatement(""
-                            + "UPDATE cliente SET nombre='" + cliente_nombre + "', "
-                            + "direccion = '" + direccion + "', "
-                            + "telefono = '" + telefono + "', "
-                            + "ruc = '" + ruc + "', "
-                            + "email = '" + email + "', "
-                            + "id_ciudad = '" + id_ciudad + "', "
-                            + "encargado = '" + encargado + "', "
-                            + "horario_atencion_lunes_a_viernes = '" + horario_lunavier + "', "
-                            + "horario_de_atencion_sabado = '" + horario_sabado + "', "
-                            + "paginas = '" + paginas + "', "
-                            + "id_rubro = '" + id_rubro + "', "
-                            + "sugerencias = '" + sugerencia + "', "
-                            + "preferencias = '" + preferencia + "', "
-                            + "mensual = '" + Long.parseLong(mensual.replace(".", "")) + "', "
-                            + "ideas = '" + Long.parseLong(ideas.replace(".", "")) + "', "
-                            + "marandu = '" + Long.parseLong(marandu.replace(".", "")) + "', "
-                            + "marcas = '" + marca + "' "
-                            + "WHERE id_cliente  ='" + id_cliente + "' ");
-                    stClienteBorrar3.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "Guardado correctamente");
 
+                    if (vencimiento == null) {
+
+                        PreparedStatement stClienteBorrar3 = conexion.prepareStatement(""
+                                + "UPDATE cliente SET nombre='" + cliente_nombre + "', "
+                                + "direccion = '" + direccion + "', "
+                                + "telefono = '" + telefono + "', "
+                                + "ruc = '" + ruc + "', "
+                                + "email = '" + email + "', "
+                                + "id_ciudad = '" + id_ciudad + "', "
+                                + "encargado = '" + encargado + "', "
+                                + "horario_atencion_lunes_a_viernes = '" + horario_lunavier + "', "
+                                + "horario_de_atencion_sabado = '" + horario_sabado + "', "
+                                + "paginas = '" + paginas + "', "
+                                + "id_rubro = '" + id_rubro + "', "
+                                + "sugerencias = '" + sugerencia + "', "
+                                + "preferencias = '" + preferencia + "', "
+                                + "mensual = '" + Long.parseLong(mensual.replace(".", "")) + "', "
+                                + "ideas = '" + Long.parseLong(ideas.replace(".", "")) + "', "
+                                + "marandu = '" + Long.parseLong(marandu.replace(".", "")) + "', "
+                                + "marcas = '" + marca + "' "
+                                + "WHERE id_cliente  ='" + id_cliente + "' ");
+                        stClienteBorrar3.executeUpdate();
+                        JOptionPane.showMessageDialog(null, "Guardado correctamente");
+                    } else {
+
+                        PreparedStatement stClienteBorrar3 = conexion.prepareStatement(""
+                                + "UPDATE cliente SET nombre='" + cliente_nombre + "', "
+                                + "direccion = '" + direccion + "', "
+                                + "telefono = '" + telefono + "', "
+                                + "ruc = '" + ruc + "', "
+                                + "email = '" + email + "', "
+                                + "id_ciudad = '" + id_ciudad + "', "
+                                + "encargado = '" + encargado + "', "
+                                + "horario_atencion_lunes_a_viernes = '" + horario_lunavier + "', "
+                                + "horario_de_atencion_sabado = '" + horario_sabado + "', "
+                                + "paginas = '" + paginas + "', "
+                                + "id_rubro = '" + id_rubro + "', "
+                                + "sugerencias = '" + sugerencia + "', "
+                                + "preferencias = '" + preferencia + "', "
+                                + "mensual = '" + Long.parseLong(mensual.replace(".", "")) + "', "
+                                + "ideas = '" + Long.parseLong(ideas.replace(".", "")) + "', "
+                                + "marandu = '" + Long.parseLong(marandu.replace(".", "")) + "', "
+                                + "vencimiento = '" + util_Date_to_sql_date(vencimiento) + "', "
+                                + "marcas = '" + marca + "' "
+                                + "WHERE id_cliente  ='" + id_cliente + "' ");
+                        stClienteBorrar3.executeUpdate();
+                        JOptionPane.showMessageDialog(null, "Guardado correctamente");
+
+                    }
                 }
             }
 
@@ -479,6 +570,13 @@ public class Metodos {
 
     }
 
+    public synchronized static void Pagos_Clientes_seleccionar() {
+        DefaultTableModel tm = (DefaultTableModel) Pagos_clientes.jTable1.getModel();
+        id_cliente = Integer.parseInt(String.valueOf(tm.getValueAt(Pagos_clientes.jTable1.getSelectedRow(), 0)));
+        Pagos_ABM.jTextField_cliente.setText(String.valueOf(tm.getValueAt(Pagos_clientes.jTable1.getSelectedRow(), 1)));
+        Pagos_ABM.jTextField_monto.setText(getSepararMiles(String.valueOf(tm.getValueAt(Pagos_clientes.jTable1.getSelectedRow(), 4))));
+    }
+
     public synchronized static void Proveedor_seleccionar() {
         DefaultTableModel tm = (DefaultTableModel) Obligaciones_proveedor.jTable1.getModel();
         id_proveedor = Integer.parseInt(String.valueOf(tm.getValueAt(Obligaciones_proveedor.jTable1.getSelectedRow(), 0)));
@@ -522,6 +620,74 @@ public class Metodos {
                 data.add(rows);
             }
             dtm = (DefaultTableModel) Ciudad.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Pagos_cargar_jtable() {
+        try {
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT cliente.nombre, fecha, mes, monto "
+                    + "from pago "
+                    + "inner join cliente on cliente.id_cliente = pago.id_cliente "
+                    + "where estado ilike  '%PENDIENTE%' order by mes ");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Avisos.jTable1.getModel();
+            for (int j = 0; j < Avisos.jTable1.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[0] = rs.getObject(1).toString().trim();
+                    rows[1] = rs.getObject(2).toString();
+                    rows[2] = rs.getObject(3).toString().trim();
+                    rows[3] = getSepararMiles(rs.getObject(4).toString());
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Avisos.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+    public synchronized static void Vencimiento_cargar_jtable(String fecha) {
+        try {
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT nombre, vencimiento "
+                    + "from cliente "
+                    + "where vencimiento <= '"+fecha+"'");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Avisos.jTable_vencimiento.getModel();
+            for (int j = 0; j < Avisos.jTable_vencimiento.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[0] = rs.getObject(1).toString().trim();
+                    rows[1] = rs.getObject(2).toString();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Avisos.jTable_vencimiento.getModel();
             for (int i = 0; i < data.size(); i++) {
                 dtm.addRow(data.get(i));
             }
@@ -805,6 +971,7 @@ public class Metodos {
             System.err.println(ex);
         }
     }
+
     public synchronized static void Cliente_trabajos_cargar_jtable() {
         try {
 
@@ -865,6 +1032,40 @@ public class Metodos {
                 data.add(rows);
             }
             dtm = (DefaultTableModel) Clientes.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Pagos_Clientes_cargar_jtable(String buscar) {
+        try {
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT id_cliente, nombre, ruc, telefono, mensual "
+                    + "from cliente "
+                    + "where id_cliente > '0' "
+                    + "and nombre ilike '%" + buscar + "%' "
+                    + "order by nombre");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Pagos_clientes.jTable1.getModel();
+            for (int j = 0; j < Pagos_clientes.jTable1.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[i] = rs.getObject(i + 1).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Pagos_clientes.jTable1.getModel();
             for (int i = 0; i < data.size(); i++) {
                 dtm.addRow(data.get(i));
             }
@@ -1017,8 +1218,7 @@ public class Metodos {
         return hoy;
     }
 
-    public synchronized static String getHoy_format_yyyy_mm_dd() {
-        Date dNow = new Date();
+    public synchronized static String getHoy_format_yyyy_mm_dd(Date dNow) {
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
         String hoy = ft.format(dNow);
         return hoy;
