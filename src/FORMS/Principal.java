@@ -65,7 +65,6 @@ public class Principal extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
-        Totales = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jMenu5 = new javax.swing.JMenu();
         jSeparator10 = new javax.swing.JPopupMenu.Separator();
@@ -231,7 +230,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu10.setText("Facebook");
         jMenu10.add(jSeparator4);
 
-        jMenuItem2.setText("Publicaciones");
+        jMenuItem2.setText("Agregar Publicación");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -240,21 +239,13 @@ public class Principal extends javax.swing.JFrame {
         jMenu10.add(jMenuItem2);
 
         jMenuItem6.setMnemonic('p');
-        jMenuItem6.setText("Detalle por cliente");
+        jMenuItem6.setText("Ver Publicaciones");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
             }
         });
         jMenu10.add(jMenuItem6);
-
-        Totales.setText("Totales");
-        Totales.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TotalesActionPerformed(evt);
-            }
-        });
-        jMenu10.add(Totales);
         jMenu10.add(jSeparator5);
 
         jMenuBar1.add(jMenu10);
@@ -277,7 +268,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu5.add(jSeparator10);
 
-        jMenuItem7.setText("Agregar Pagos");
+        jMenuItem7.setText("Agregar Pago");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
@@ -286,7 +277,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu5.add(jMenuItem7);
 
         jMenuItem10.setMnemonic('r');
-        jMenuItem10.setText("Pagos");
+        jMenuItem10.setText("Ver Pagos");
         jMenuItem10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuItem10MouseClicked(evt);
@@ -298,12 +289,12 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenuItem10.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
+            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
+            }
             public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
                 jMenuItem10MenuKeyPressed(evt);
             }
             public void menuKeyReleased(javax.swing.event.MenuKeyEvent evt) {
-            }
-            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
             }
         });
         jMenu5.add(jMenuItem10);
@@ -338,7 +329,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu_ventas.add(jMenuItem3);
 
         jMenuItem_ventas.setMnemonic('v');
-        jMenuItem_ventas.setText("Obligaciones");
+        jMenuItem_ventas.setText("Ver Obligaciones");
         jMenuItem_ventas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem_ventasActionPerformed(evt);
@@ -361,12 +352,12 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu_informes.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
+            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
+            }
             public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
                 jMenu_informesMenuKeyPressed(evt);
             }
             public void menuKeyReleased(javax.swing.event.MenuKeyEvent evt) {
-            }
-            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
             }
         });
 
@@ -541,10 +532,6 @@ public class Principal extends javax.swing.JFrame {
 //        new Imagen_de_fondo().setVisible(true);
     }//GEN-LAST:event_jLabel1MouseClicked
 
-    private void TotalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalesActionPerformed
-        new Facebook_totales().setVisible(true);
-    }//GEN-LAST:event_TotalesActionPerformed
-
     private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
 //        new Clientes_estado_de_cuenta().setVisible(true);
     }//GEN-LAST:event_jMenuItem29ActionPerformed
@@ -602,7 +589,6 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem Totales;
     public static javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;

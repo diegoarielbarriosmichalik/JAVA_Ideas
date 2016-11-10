@@ -141,7 +141,7 @@ public class Obligaciones_proveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1KeyPressed
 
     private void jTextField_buscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_buscarKeyReleased
-        Metodos.Clientes_cargar_jtable(jTextField_buscar.getText());
+   //     Metodos.Clientes_cargar_jtable(jTextField_buscar.getText());
     }//GEN-LAST:event_jTextField_buscarKeyReleased
 
     public static void main(String args[]) {

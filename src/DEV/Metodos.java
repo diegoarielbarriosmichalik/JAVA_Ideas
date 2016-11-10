@@ -1,6 +1,7 @@
 package DEV;
 
 import FORMS.Avisos;
+import FORMS.Balance;
 import FORMS.Ciudad;
 import FORMS.Clientes;
 import FORMS.Clientes_ABM;
@@ -14,6 +15,7 @@ import static FORMS.Logueo.jTextField1;
 import FORMS.Obligaciones;
 import FORMS.Obligaciones_ABM;
 import FORMS.Obligaciones_proveedor;
+import FORMS.Pagos;
 import FORMS.Pagos_ABM;
 import FORMS.Pagos_clientes;
 import FORMS.Principal;
@@ -61,6 +63,8 @@ public class Metodos {
     public static ResultSet rs;
     public static ResultSetMetaData rsm;
     public static DefaultTableModel dtm;
+    public static long total_pagos = 0;
+    public static long total_obligaciones = 0;
 
     public synchronized static void Ciudad_guardar(String ciudad) {
         try {
@@ -664,13 +668,14 @@ public class Metodos {
             System.err.println(ex);
         }
     }
+
     public synchronized static void Vencimiento_cargar_jtable(String fecha) {
         try {
 
             ps = conexion.prepareStatement(""
                     + "SELECT nombre, vencimiento "
                     + "from cliente "
-                    + "where vencimiento <= '"+fecha+"'");
+                    + "where vencimiento <= '" + fecha + "'");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
             dtm = (DefaultTableModel) Avisos.jTable_vencimiento.getModel();
@@ -744,6 +749,60 @@ public class Metodos {
                 data.add(rows);
             }
             dtm = (DefaultTableModel) Obligaciones.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Balance_Obligaciones_cargar_jtable(String buscar) {
+        try {
+
+            String total = "0";
+            Balance.jTextField_total_obligaciones.setText(total);
+
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery(""
+                    + "SELECT SUM(monto) "
+                    + "from obligacion "
+                    + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
+                    + "where mes ilike '%" + buscar + "%' "
+                    + " ");
+            if (result.next()) {
+                if (result.getString(1) == null) {
+                } else if ((result.getString(1).length() > 0) && (isNumeric(result.getString(1)))) {
+                    total_obligaciones = result.getLong(1);
+                    total = getSepararMiles(result.getString(1));
+                    Balance.jTextField_total_obligaciones.setText(total);
+                }
+            }
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT nombre, monto "
+                    + "from obligacion "
+                    + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
+                    + "where mes ilike '%" + buscar + "%' "
+                    + "order by id_obligacion ");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Balance.jTable_obligaciones.getModel();
+            for (int j = 0; j < Balance.jTable_obligaciones.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[0] = rs.getObject(1).toString().trim();
+                    rows[1] = getSepararMiles(rs.getObject(2).toString().trim());
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Balance.jTable_obligaciones.getModel();
             for (int i = 0; i < data.size(); i++) {
                 dtm.addRow(data.get(i));
             }
@@ -899,6 +958,123 @@ public class Metodos {
                 dtm.addRow(data.get(i));
             }
 
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Pagos_cargar_jtable(String buscar) {
+        try {
+
+            dtm = (DefaultTableModel) Pagos.jTable1.getModel();
+            for (int j = 0; j < Pagos.jTable1.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+
+            String total = "0";
+            Pagos.jTextField_total.setText(total);
+
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery("SELECT SUM(monto)"
+                    + "from cliente "
+                    + "inner join pago on pago.id_cliente = cliente.id_cliente "
+                    + "where nombre ilike '%" + buscar + "%' "
+                    + "and cliente.borrado != '1' and pago.borrado != '1'");
+            if (result.next()) {
+
+                if (result.getString(1) == null) {
+
+                } else if ((result.getString(1).length() > 0) && (isNumeric(result.getString(1)))) {
+                    total = getSepararMiles(result.getString(1));
+                    Pagos.jTextField_total.setText(total);
+                }
+            }
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT id_pago, nombre, mes, monto, estado "
+                    + "from cliente "
+                    + "inner join pago on pago.id_cliente = cliente.id_cliente "
+                    + "where nombre ilike '%" + buscar + "%' "
+                    + "and cliente.borrado != '1' and pago.borrado != '1' "
+                    + "order by nombre");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[0] = rs.getObject(1);
+                    rows[1] = rs.getObject(2).toString().trim();
+                    rows[2] = rs.getObject(3).toString().trim();
+                    rows[3] = getSepararMiles(rs.getObject(4).toString());
+                    rows[4] = rs.getObject(5).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Pagos.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Balance_Pagos_cargar_jtable(String buscar) {
+        try {
+            dtm = (DefaultTableModel) Balance.jTable_pagos.getModel();
+            for (int j = 0; j < Balance.jTable_pagos.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+
+            String total = "0";
+            Balance.jTextField_pagos.setText(total);
+
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery("SELECT SUM(monto)"
+                    + "from cliente "
+                    + "inner join pago on pago.id_cliente = cliente.id_cliente "
+                    + "where mes ilike '%" + buscar + "%' "
+                    + "and estado ilike '%PENDIENTE%'"
+                    + "and cliente.borrado != '1' and pago.borrado != '1'");
+            if (result.next()) {
+                if (result.getString(1) == null) {
+                } else if ((result.getString(1).length() > 0) && (isNumeric(result.getString(1)))) {
+                    total_pagos = result.getLong(1);
+                    total = getSepararMiles(result.getString(1));
+                    Balance.jTextField_pagos.setText(total);
+                }
+            }
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT nombre, monto "
+                    + "from cliente "
+                    + "inner join pago on pago.id_cliente = cliente.id_cliente "
+                    + "where mes ilike '%" + buscar + "%' "
+                    + "and estado ilike '%PENDIENTE%'"
+                    + "and cliente.borrado != '1' and pago.borrado != '1' "
+                    + "order by nombre");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[0] = rs.getObject(1).toString().trim();
+                    rows[1] = getSepararMiles(rs.getObject(2).toString());
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Balance.jTable_pagos.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+            Balance.jTextField_total.setText(getSepararMiles(String.valueOf(total_pagos - total_obligaciones)));
         } catch (SQLException ex) {
             System.err.println(ex);
         }
