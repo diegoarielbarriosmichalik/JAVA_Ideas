@@ -6,6 +6,7 @@ import FORMS.Ciudad;
 import FORMS.Clientes;
 import FORMS.Clientes_ABM;
 import static FORMS.Clientes_ABM.jTextField_ruc;
+import FORMS.Clientes_estado_de_cuenta;
 import FORMS.Configuracion;
 import FORMS.Facebook;
 import FORMS.Facebook_publicaciones;
@@ -21,6 +22,8 @@ import FORMS.Pagos_ABM;
 import FORMS.Pagos_clientes;
 import FORMS.Principal;
 import FORMS.Proveedor;
+import FORMS.Recibo_de_dinero;
+import FORMS.Recibo_de_dinero_clientes;
 import FORMS.Rubro;
 import java.io.File;
 import java.net.InetAddress;
@@ -39,8 +42,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class Metodos {
 
@@ -71,6 +81,9 @@ public class Metodos {
     public static long total_pagos = 0;
     public static long total_obligaciones = 0;
 
+    public static int id_recibo = 0;
+    public static int max = 0;
+
     public synchronized static void Ciudad_guardar(String ciudad) {
         try {
             Statement st1 = conexion.createStatement();
@@ -84,6 +97,426 @@ public class Metodos {
             ST_update.setString(2, ciudad);
             ST_update.executeUpdate();
 
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+    
+     public static void Recibo_de_dinero_borrar() {
+        try {
+            PreparedStatement stUpdateAuxiliar2 = conexion.prepareStatement(""
+                    + "delete from recibos WHERE id_recibo ='" + id_recibo + "'");
+            stUpdateAuxiliar2.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public static void Recibo_imprimir() {
+        try {
+            String ubicacion_proyecto = new File("").getAbsolutePath();
+            String path = ubicacion_proyecto + "\\reportes\\recibo.jasper";
+            JasperReport jr = (JasperReport) JRLoader.loadObjectFromFile(path);
+            JasperPrint jp = JasperFillManager.fillReport(jr, null, conexion);
+            JasperViewer jv = new JasperViewer(jp, false);
+            jv.setVisible(true);
+        } catch (JRException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Recibo_de_dinero_seleccionar_para_editar() {
+        DefaultTableModel tm = (DefaultTableModel) Clientes_estado_de_cuenta.jTable_recibos.getModel();
+        id_recibo = Integer.parseInt(String.valueOf(tm.getValueAt(Clientes_estado_de_cuenta.jTable_recibos.getSelectedRow(), 0)));
+        Buscar_recibo();
+    }
+
+    
+    public static void Buscar_recibo() {
+        try {
+            String sql = "select  * "
+                    + "from recibos "
+                    + "inner join cliente on cliente.id_cliente = recibos.id_cliente "
+                    + "where id_recibo ='" + id_recibo + "' ";
+            Statement ST_Productos = conexion.createStatement();
+            ResultSet RS_Productos = ST_Productos.executeQuery(sql);
+            while (RS_Productos.next()) {
+                id_cliente = RS_Productos.getInt("id_cliente");
+                Recibo_de_dinero.jTextField_Cliente.setText(RS_Productos.getString("nombre").trim());
+                Recibo_de_dinero.jTextField_concepto.setText(RS_Productos.getString("concepto").trim());
+                Recibo_de_dinero.jTextField_dinero.setText(RS_Productos.getString("dinero_entregado"));
+                Recibo_de_dinero.jDateChooser2.setDate(RS_Productos.getDate("fecha"));
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+    
+    public static void Generar_recibos_poner_cero() {
+        try {
+            PreparedStatement st2 = conexion.prepareStatement(""
+                    + "UPDATE cuenta "
+                    + "SET generar_recibo ='0', "
+                    + "generar_recibo_str = ' ' "
+                    + "WHERE generar_recibo = '1'");
+            st2.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Clientes_estado_de_cuenta_buscar_cliente_cargar_lista() {
+        try {
+            dtm = (DefaultTableModel) Clientes_estado_de_cuenta.jTable_recibos.getModel();
+            for (int j = 0; j < Clientes_estado_de_cuenta.jTable_recibos.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            dtm = (DefaultTableModel) Clientes_estado_de_cuenta.jTable_facturas.getModel();
+            for (int j = 0; j < Clientes_estado_de_cuenta.jTable_facturas.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ps = conexion.prepareStatement(""
+                    + "select id_recibo, id_recibo, fecha, cliente.nombre, concepto, dinero_entregado "
+                    + "from cliente "
+                    + "inner join recibos on recibos.id_cliente = cliente.id_cliente "
+                    + "where cliente.nombre ilike '%" + Clientes_estado_de_cuenta.jTextField_buscar.getText() + "%' "
+                    + "and cliente.borrado_int != '1' "
+                    + "order by id_recibo DESC ");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    if (rs.getObject(i + 1) != null) {
+                        if (rs.getObject(i + 1).toString().length() > 1) {
+                            rows[i] = rs.getObject(i + 1).toString().trim();
+                        } else {
+                            rows[i] = rs.getObject(i + 1);
+                        }
+                    }
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Clientes_estado_de_cuenta.jTable_recibos.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+            ps = conexion.prepareStatement(""
+                    + "select cuenta.id_cuenta, factura,  cuenta.fecha_date, cliente.nombre, productos.nombre, cuenta_detalle.total "
+                    + "from cliente "
+                    + "inner join cuenta on cuenta.id_cliente = cliente.id_cliente "
+                    + "inner join cuenta_detalle on cuenta_detalle.id_cuenta = cuenta.id_cuenta "
+                    + "inner join productos on productos.id_producto = cuenta_detalle.id_producto "
+                    + "where cliente.nombre ilike '%" + Clientes_estado_de_cuenta.jTextField_buscar.getText() + "%' "
+                    + "and tipo = '2' "
+                    + "and id_estado != '11' "
+                    + "and cuenta.id_estado != '9' "
+                    + "and cliente.borrado_int != '1' "
+                    + "order by id_cuenta DESC ");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    if (rs.getObject(i + 1) != null) {
+                        if (rs.getObject(i + 1).toString().length() > 1) {
+                            rows[i] = rs.getObject(i + 1).toString().trim();
+                        } else {
+                            rows[i] = rs.getObject(i + 1);
+                        }
+                    }
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Clientes_estado_de_cuenta.jTable_facturas.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+            long recibos = 0;
+            Clientes_estado_de_cuenta.jTextField_total.setText("0");
+
+            Statement ST_Productos8 = conexion.createStatement();
+            ResultSet RS_Productos8 = ST_Productos8.executeQuery(""
+                    + "select SUM(dinero_entregado) "
+                    + "from cliente "
+                    + "inner join recibos on recibos.id_cliente = cliente.id_cliente "
+                    + "where cliente.nombre ilike '%" + Clientes_estado_de_cuenta.jTextField_buscar.getText() + "%' "
+                    + "and cliente.borrado_int != '1' ");
+            if (RS_Productos8.next()) {
+                recibos = RS_Productos8.getLong(1);
+            }
+
+            Statement ST_Productos7 = conexion.createStatement();
+            ResultSet RS_Productos7 = ST_Productos7.executeQuery(""
+                    + "select SUM(cuenta_detalle.total) "
+                    + "from cliente "
+                    + "inner join cuenta on cuenta.id_cliente = cliente.id_cliente "
+                    + "inner join cuenta_detalle on cuenta_detalle.id_cuenta = cuenta.id_cuenta "
+                    + "inner join productos on productos.id_producto = cuenta_detalle.id_producto "
+                    + "where cliente.nombre ilike '%" + Clientes_estado_de_cuenta.jTextField_buscar.getText() + "%' "
+                    + "and tipo = '2' "
+                    + "and id_estado != '11' "
+                    + "and cuenta.id_estado != '9' "
+                    + "and cliente.borrado_int != '1' ");
+            if (RS_Productos7.next()) {
+                if (RS_Productos7.getLong(1) > 0) {
+                    long total = RS_Productos7.getLong(1) - recibos;
+                    String str_puntitos = getSepararMiles(String.valueOf(total));
+                    Clientes_estado_de_cuenta.jTextField_total.setText(str_puntitos);
+                }
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error: " + ex);
+        }
+    }
+
+    public synchronized static void Recibo_de_dinero_buscar_cliente_agregar_desde_lista() {
+        DefaultTableModel tm = (DefaultTableModel) Recibo_de_dinero_clientes.jTable_clientes.getModel();
+        id_cliente = Integer.parseInt(String.valueOf(tm.getValueAt(Recibo_de_dinero_clientes.jTable_clientes.getSelectedRow(), 0)));
+        Recibo_de_dinero.jTextField_Cliente.setText(String.valueOf(tm.getValueAt(Recibo_de_dinero_clientes.jTable_clientes.getSelectedRow(), 1)));
+    }
+
+    public synchronized static String Clientes_buscar_por_id(int id_cliente) {
+
+        String nombre = null;
+        try {
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery("select * from cliente where id_cliente = '" + id_cliente + "'");
+            while (rs.next()) {
+                nombre = rs.getString("nombre").trim();
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+
+        return nombre;
+    }
+
+    public synchronized static String Dinero_a_letras(long numeroINT) throws ClassNotFoundException, SQLException {
+
+        Numero_a_Letra NumLetra = new Numero_a_Letra();
+        String cantidad_string = Long.toString(numeroINT);
+        String aRemplazar = NumLetra.Convertir(cantidad_string, true);
+        String remplazado = aRemplazar.replace("0", "");
+        return remplazado;
+
+    }
+
+    public static class Numero_a_Letra {
+
+        private final String[] UNIDADES = {"", "un ", "dos ", "tres ", "cuatro ", "cinco ", "seis ", "siete ", "ocho ", "nueve "};
+        private final String[] DECENAS = {"diez ", "once ", "doce ", "trece ", "catorce ", "quince ", "dieciseis ",
+            "diecisiete ", "dieciocho ", "diecinueve", "veinte ", "treinta ", "cuarenta ",
+            "cincuenta ", "sesenta ", "setenta ", "ochenta ", "noventa "};
+        private final String[] CENTENAS = {"", "ciento ", "doscientos ", "trecientos ", "cuatrocientos ", "quinientos ", "seiscientos ",
+            "setecientos ", "ochocientos ", "novecientos "};
+
+        public Numero_a_Letra() {
+        }
+
+        public String Convertir(String numero, boolean mayusculas) {
+            String literal = "";
+            String parte_decimal;
+            //si el numero utiliza (.) en lugar de (,) -> se reemplaza
+            numero = numero.replace(".", ",");
+            //si el numero no tiene parte decimal, se le agrega ,00
+            if (numero.indexOf(",") == -1) {
+                numero = numero + ",0";
+            }
+            //se valida formato de entrada -> 0,00 y 999 999 999,00
+            if (Pattern.matches("\\d{1,9},\\d{1,2}", numero)) {
+                //se divide el numero 0000000,00 -> entero y decimal
+                String Num[] = numero.split(",");
+                //de da formato al numero decimal
+                parte_decimal = Num[1] + "";
+                //se convierte el numero a literal
+                if (Integer.parseInt(Num[0]) == 0) {//si el valor es cero
+                    literal = "cero ";
+                } else if (Integer.parseInt(Num[0]) > 999999) {//si es millon
+                    literal = getMillones(Num[0]);
+                } else if (Integer.parseInt(Num[0]) > 999) {//si es miles
+                    literal = getMiles(Num[0]);
+                } else if (Integer.parseInt(Num[0]) > 99) {//si es centena
+                    literal = getCentenas(Num[0]);
+                } else if (Integer.parseInt(Num[0]) > 9) {//si es decena
+                    literal = getDecenas(Num[0]);
+                } else {//sino unidades -> 9
+                    literal = getUnidades(Num[0]);
+                }
+                //devuelve el resultado en mayusculas o minusculas
+                if (mayusculas) {
+                    return (literal + parte_decimal).toUpperCase();
+                } else {
+                    return (literal + parte_decimal);
+                }
+            } else {//error, no se puede convertir
+                return literal = null;
+            }
+        }
+
+        /* funciones para convertir los numeros a literales */
+        private String getUnidades(String numero) {// 1 - 9
+            //si tuviera algun 0 antes se lo quita -> 09 = 9 o 009=9
+            String num = numero.substring(numero.length() - 1);
+            return UNIDADES[Integer.parseInt(num)];
+        }
+
+        private String getDecenas(String num) {// 99                        
+            int n = Integer.parseInt(num);
+            if (n < 10) {//para casos como -> 01 - 09
+                return getUnidades(num);
+            } else if (n > 19) {//para 20...99
+                String u = getUnidades(num);
+                if (u.equals("")) { //para 20,30,40,50,60,70,80,90
+                    return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8];
+                } else {
+                    return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8] + "y " + u;
+                }
+            } else {//numeros entre 11 y 19
+                return DECENAS[n - 10];
+            }
+        }
+
+        private String getCentenas(String num) {// 999 o 099
+            if (Integer.parseInt(num) > 99) {//es centena
+                if (Integer.parseInt(num) == 100) {//caso especial
+                    return " cien ";
+                } else {
+                    return CENTENAS[Integer.parseInt(num.substring(0, 1))] + getDecenas(num.substring(1));
+                }
+            } else {//por Ej. 099 
+                //se quita el 0 antes de convertir a decenas
+                return getDecenas(Integer.parseInt(num) + "");
+            }
+        }
+
+        private String getMiles(String numero) {// 999 999
+            //obtiene las centenas
+            String c = numero.substring(numero.length() - 3);
+            //obtiene los miles
+            String m = numero.substring(0, numero.length() - 3);
+            String n = "";
+            //se comprueba que miles tenga valor entero
+            if (Integer.parseInt(m) > 0) {
+                n = getCentenas(m);
+                return n + "mil " + getCentenas(c);
+            } else {
+                return "" + getCentenas(c);
+            }
+
+        }
+
+        private String getMillones(String numero) { //000 000 000        
+            //se obtiene los miles
+            String miles = numero.substring(numero.length() - 6);
+            //se obtiene los millones
+            String millon = numero.substring(0, numero.length() - 6);
+            String n = "";
+
+            int mill = Integer.parseInt(millon);
+
+            if (millon.length() > 1) {
+                n = getCentenas(millon) + "millones ";
+            } else {
+                if (mill == 1) {
+                    n = getCentenas(millon) + "millon ";
+                }
+                if (mill > 1) {
+                    n = getCentenas(millon) + "millones ";
+                }
+            }
+
+            return n + getMiles(miles);
+        }
+    }
+
+    public static void Recibos_Max() {
+
+        try {
+            Statement st4 = conexion.createStatement();
+            ResultSet rs2 = st4.executeQuery("SELECT MAX(id_recibo) FROM recibos");
+            if (rs2.next()) {
+                max = rs2.getInt(1) + 1;
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public static void Recibos_guardar() {
+        try {
+            String nombre = Clientes_buscar_por_id(id_cliente);
+
+            Date fecha_date = Recibo_de_dinero.jDateChooser2.getDate();
+
+            String dinero = Recibo_de_dinero.jTextField_dinero.getText().replace(".", "");
+            String dinero_en_letras = Dinero_a_letras(Integer.parseInt(dinero));
+
+            PreparedStatement stClienteBorrar = conexion.prepareStatement("UPDATE recibos SET activa='0' WHERE activa  ='1'");
+            stClienteBorrar.executeUpdate();
+
+            if (id_recibo == 0) {
+                Recibos_Max();
+
+                PreparedStatement st2 = conexion.prepareStatement("INSERT INTO recibos VALUES(?,?,?,?,?,?,?,?)");
+                st2.setInt(1, max);
+                st2.setInt(2, id_cliente);
+                st2.setString(3, Recibo_de_dinero.jTextField_concepto.getText());
+                st2.setInt(4, Integer.parseInt(dinero));
+                st2.setDate(5, util_Date_to_sql_date(fecha_date));
+                st2.setString(6, dinero_en_letras);
+                st2.setInt(7, 0);
+                st2.setInt(8, 1);
+                st2.executeUpdate();
+
+            } else {
+                PreparedStatement ST2 = conexion.prepareStatement(""
+                        + "UPDATE recibos "
+                        + "SET id_cliente='" + id_cliente + "', "
+                        + "concepto='" + Recibo_de_dinero.jTextField_concepto.getText() + "', "
+                        + "dinero_entregado='" + dinero + "', "
+                        + "dinero_letras='" + dinero_en_letras + "', "
+                        + "fecha ='" + util_Date_to_sql_date(fecha_date) + "', "
+                        + "activa ='1' "
+                        + "WHERE id_recibo  ='" + id_recibo + "'");
+                ST2.executeUpdate();
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.err.println(ex);
+        }
+
+    }
+
+    public static void Recibo_de_dinero_clientes_cargar_jtable() {
+        try {
+            dtm = (DefaultTableModel) Recibo_de_dinero_clientes.jTable_clientes.getModel();
+            for (int j = 0; j < Recibo_de_dinero_clientes.jTable_clientes.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            PreparedStatement ps2 = conexion.prepareStatement(""
+                    + "select id_cliente, nombre "
+                    + "from cliente "
+                    + "where nombre ilike '%" + Recibo_de_dinero_clientes.jTextField_buscar.getText() + "%'");
+            ResultSet rs2 = ps2.executeQuery();
+            rsm = rs2.getMetaData();
+            ArrayList<Object[]> data2 = new ArrayList<>();
+            while (rs2.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[i] = rs2.getObject(i + 1).toString().trim();
+                }
+                data2.add(rows);
+            }
+            dtm = (DefaultTableModel) Recibo_de_dinero_clientes.jTable_clientes.getModel();
+            for (int i = 0; i < data2.size(); i++) {
+                dtm.addRow(data2.get(i));
+            }
         } catch (SQLException ex) {
             System.err.println(ex);
         }
@@ -783,7 +1216,7 @@ public class Metodos {
                     + "SELECT id_obligacion, nombre, mes, monto, estado "
                     + "from obligacion "
                     + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
-                    + "where mes ilike '%" + buscar + "%' and periodo = '"+periodo+"' "
+                    + "where mes ilike '%" + buscar + "%' and periodo = '" + periodo + "' "
                     + "order by id_obligacion ");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
@@ -825,7 +1258,7 @@ public class Metodos {
                     + "SELECT SUM(monto) "
                     + "from obligacion "
                     + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
-                    + "where mes ilike '%" + buscar + "%' and periodo = '"+periodo+"' "
+                    + "where mes ilike '%" + buscar + "%' and periodo = '" + periodo + "' "
                     + " ");
             if (result.next()) {
                 if (result.getString(1) == null) {
@@ -840,7 +1273,7 @@ public class Metodos {
                     + "SELECT nombre, monto "
                     + "from obligacion "
                     + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
-                    + "where mes ilike '%" + buscar + "%' and periodo = '"+periodo+"' "
+                    + "where mes ilike '%" + buscar + "%' and periodo = '" + periodo + "' "
                     + "order by id_obligacion ");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
@@ -879,7 +1312,7 @@ public class Metodos {
                     + "SELECT SUM(monto) "
                     + "from obligacion "
                     + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
-                    + "where estado ilike '%PENDIENTE%' and periodo = '"+periodo+"' "
+                    + "where estado ilike '%PENDIENTE%' and periodo = '" + periodo + "' "
                     + " ");
             if (result.next()) {
                 if (result.getString(1) == null) {
@@ -893,7 +1326,7 @@ public class Metodos {
                     + "SELECT id_obligacion, nombre, mes, monto, estado "
                     + "from obligacion "
                     + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
-                    + "where estado ilike '%PENDIENTE%' and periodo = '"+periodo+"' "
+                    + "where estado ilike '%PENDIENTE%' and periodo = '" + periodo + "' "
                     + "order by id_obligacion ");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
@@ -1038,7 +1471,7 @@ public class Metodos {
                     + "where nombre ilike '%" + buscar + "%' "
                     + "and cliente.borrado != '1' "
                     + "and pago.borrado != '1' "
-                    + "and periodo = '"+periodo+"'");
+                    + "and periodo = '" + periodo + "'");
             if (result.next()) {
 
                 if (result.getString(1) == null) {
@@ -1054,7 +1487,7 @@ public class Metodos {
                     + "from cliente "
                     + "inner join pago on pago.id_cliente = cliente.id_cliente "
                     + "where nombre ilike '%" + buscar + "%' "
-                    + "and cliente.borrado != '1' and pago.borrado != '1' and periodo = '"+periodo+"' "
+                    + "and cliente.borrado != '1' and pago.borrado != '1' and periodo = '" + periodo + "' "
                     + "order by nombre");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
@@ -1098,7 +1531,7 @@ public class Metodos {
                     + "inner join pago on pago.id_cliente = cliente.id_cliente "
                     + "where mes ilike '%" + buscar + "%' "
                     + "and estado ilike '%PENDIENTE%'"
-                    + "and cliente.borrado != '1' and pago.borrado != '1' and periodo = '"+periodo+"'");
+                    + "and cliente.borrado != '1' and pago.borrado != '1' and periodo = '" + periodo + "'");
             if (result.next()) {
                 if (result.getString(1) == null) {
                 } else if ((result.getString(1).length() > 0) && (isNumeric(result.getString(1)))) {
@@ -1114,7 +1547,7 @@ public class Metodos {
                     + "inner join pago on pago.id_cliente = cliente.id_cliente "
                     + "where mes ilike '%" + buscar + "%' "
                     + "and estado ilike '%PENDIENTE%'"
-                    + "and cliente.borrado != '1' and pago.borrado != '1' and periodo = '"+periodo+"' "
+                    + "and cliente.borrado != '1' and pago.borrado != '1' and periodo = '" + periodo + "' "
                     + "order by nombre");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
