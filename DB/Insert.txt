@@ -17,7 +17,7 @@ INSERT INTO cliente VALUES
 ('2', 'Cliente de prueba 2','-','-','2','-',null,'0','0','','','0','','','','0','0','','','','0','0','0' );
 
 INSERT INTO configuracion VALUES 
-('1', '0','0','0','0', '0','0','0','0','0', '0','0','0',null, null,'0','0','0','0', '0','0','0');
+('1', '0','2016','-','-','-','-');
 
 INSERT INTO estado VALUES 
 ('1', 'ELABORADA'),

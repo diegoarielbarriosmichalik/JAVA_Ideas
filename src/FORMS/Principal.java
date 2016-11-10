@@ -49,17 +49,13 @@ public class Principal extends javax.swing.JFrame {
         jMenu8 = new javax.swing.JMenu();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jSeparator12 = new javax.swing.JPopupMenu.Separator();
         jMenuItem21 = new javax.swing.JMenuItem();
-        jMenuItem22 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
         jSeparator9 = new javax.swing.JPopupMenu.Separator();
         jMenu11 = new javax.swing.JMenu();
         jSeparator7 = new javax.swing.JPopupMenu.Separator();
         jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem29 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem20 = new javax.swing.JMenuItem();
         jSeparator8 = new javax.swing.JPopupMenu.Separator();
         jMenu10 = new javax.swing.JMenu();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
@@ -152,22 +148,15 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu8.add(jMenuItem4);
+        jMenu8.add(jSeparator12);
 
-        jMenuItem21.setText("Configuraciones Generales");
+        jMenuItem21.setText("Configuración");
         jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem21ActionPerformed(evt);
             }
         });
         jMenu8.add(jMenuItem21);
-
-        jMenuItem22.setText("Configuraciones de Impresion");
-        jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem22ActionPerformed(evt);
-            }
-        });
-        jMenu8.add(jMenuItem22);
 
         jMenuItem11.setText("Usuarios del sistema");
         jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
@@ -176,14 +165,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu8.add(jMenuItem11);
-
-        jMenuItem9.setText("Control de Usuarios");
-        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem9ActionPerformed(evt);
-            }
-        });
-        jMenu8.add(jMenuItem9);
         jMenu8.add(jSeparator9);
 
         jMenuBar1.add(jMenu8);
@@ -199,30 +180,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu11.add(jMenuItem8);
-
-        jMenuItem29.setText("Estado de cuenta");
-        jMenuItem29.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem29ActionPerformed(evt);
-            }
-        });
-        jMenu11.add(jMenuItem29);
-
-        jMenuItem5.setText("Historial de ventas");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
-            }
-        });
-        jMenu11.add(jMenuItem5);
-
-        jMenuItem20.setText("Cuentas a cobrar");
-        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem20ActionPerformed(evt);
-            }
-        });
-        jMenu11.add(jMenuItem20);
         jMenu11.add(jSeparator8);
 
         jMenuBar1.add(jMenu11);
@@ -486,59 +443,22 @@ public class Principal extends javax.swing.JFrame {
         //   new Facturacion().setVisible(true);
     }//GEN-LAST:event_jMenuItem_ventasActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        // new Cliente_historial().setVisible(true);
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
-
     private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
         new Balance().setVisible(true);
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
     private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed
-//        if (Metodos.privilegio == 1) {
-//            new Configuraciones().setVisible(true);
-//        } else {
-//            JOptionPane.showMessageDialog(null, "No puedes acceder a este menu. Consulta con el administrador");
-//        }
+        this.setVisible(false);
+        new Configuracion().setVisible(true);
     }//GEN-LAST:event_jMenuItem21ActionPerformed
 
-    private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
-//        if (Metodos.privilegio == 1) {
-//            new Configuracion_impresion().setVisible(true);
-//        } else {
-//            JOptionPane.showMessageDialog(null, "No puedes acceder a este menu. Consulta con el administrador");
-//        }
-    }//GEN-LAST:event_jMenuItem22ActionPerformed
-
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-//        if (Metodos.privilegio == 1) {
-//            new Usuarios().setVisible(true);
-//        } else {
-//            JOptionPane.showMessageDialog(null, "No puedes acceder a este menu. Consulta con el administrador");
-//        }
+
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-
-//        if (Metodos.privilegio == 1) {
-//            new Usuarios_control().setVisible(true);
-//        } else {
-//            JOptionPane.showMessageDialog(null, "No puedes acceder a este menu. Consulta con el administrador");
-//        }
-
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
-
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-//        new Imagen_de_fondo().setVisible(true);
+
     }//GEN-LAST:event_jLabel1MouseClicked
-
-    private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
-//        new Clientes_estado_de_cuenta().setVisible(true);
-    }//GEN-LAST:event_jMenuItem29ActionPerformed
-
-    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
-//        new Cuentas_por_cobrar().setVisible(true);
-    }//GEN-LAST:event_jMenuItem20ActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         new Avisos().setVisible(true);
@@ -579,8 +499,7 @@ public class Principal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Principal.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            System.err.println(ex);
         }
         
         java.awt.EventQueue.invokeLater(() -> {
@@ -605,18 +524,13 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem21;
-    private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem26;
-    private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuItem jMenuItem_ventas;
     private javax.swing.JMenu jMenu_informes;
     private javax.swing.JMenu jMenu_ventas;
@@ -625,6 +539,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
+    private javax.swing.JPopupMenu.Separator jSeparator12;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;

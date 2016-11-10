@@ -6,6 +6,7 @@ import FORMS.Ciudad;
 import FORMS.Clientes;
 import FORMS.Clientes_ABM;
 import static FORMS.Clientes_ABM.jTextField_ruc;
+import FORMS.Configuracion;
 import FORMS.Facebook;
 import FORMS.Facebook_publicaciones;
 import FORMS.Facebook_publicaciones_clientes;
@@ -36,6 +37,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -51,7 +54,8 @@ public class Metodos {
     }
 
     public static String nombre = null;
-    public static String titulo = "IDEAS Mkt ";
+    public static String empresa = null;
+    public static String titulo = "";
     public static String ubicacion_proyecto = null;
     public static int id_usuario = 0;
     public static int id = 0;
@@ -59,6 +63,7 @@ public class Metodos {
     public static int id_cliente = 0;
     public static int id_proveedor = 0;
     public static int id_rubro = 0;
+    public static int periodo = 0;
     public static PreparedStatement ps;
     public static ResultSet rs;
     public static ResultSetMetaData rsm;
@@ -81,6 +86,54 @@ public class Metodos {
 
         } catch (SQLException ex) {
             System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Configuracion_traer_datos() {
+        try {
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery("SELECT * FROM configuracion");
+            if (result.next()) {
+                Configuracion.jTextField_nombre.setText(result.getString("empresa").trim());
+                Configuracion.jTextField_periodo.setText(result.getString("periodo"));
+                Configuracion.jTextField_direccion.setText(result.getString("direccion"));
+                Configuracion.jTextField_telefono.setText(result.getString("telefono"));
+                Configuracion.jTextField_mensaje.setText(result.getString("mensaje"));
+                Configuracion.jTextField_ruc.setText(result.getString("ruc"));
+                Configuracion.jTextField_factura.setText(result.getString("factura"));
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
+
+    public static void Configuracion_guardar(String nombre, String direccion, String ruc, String telefono, String mensaje,
+            String factura, String periodo_str) {
+        try {
+            if (nombre.length() > 0) {
+                if (isNumeric(periodo_str)) {
+                    PreparedStatement stClienteBorrar3 = conexion.prepareStatement(""
+                            + "UPDATE configuracion "
+                            + "SET empresa='" + nombre + "', "
+                            + "direccion = '" + direccion + "', "
+                            + "telefono = '" + telefono + "', "
+                            + "factura = '" + factura + "', "
+                            + "mensaje = '" + mensaje + "', "
+                            + "ruc = '" + ruc + "', "
+                            + "periodo = '" + periodo_str + "' "
+                    );
+                    periodo = Integer.parseInt(periodo_str);
+                    titulo = nombre + " - Periodo: " + periodo_str;
+                    stClienteBorrar3.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Guardado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error: Periodo");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Error: Nombre");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -121,12 +174,13 @@ public class Metodos {
                 id = result.getInt(1) + 1;
             }
 
-            PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO obligacion VALUES(?,?,?,?,?)");
+            PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO obligacion VALUES(?,?,?,?,?,?)");
             ST_update.setInt(1, id);
             ST_update.setInt(2, id_proveedor);
             ST_update.setString(3, mes);
             ST_update.setLong(4, Long.parseLong(monto.replace(".", "")));
             ST_update.setString(5, "PENDIENTE");
+            ST_update.setInt(6, periodo);
             ST_update.executeUpdate();
 
             JOptionPane.showMessageDialog(null, "Agregado correctamente");
@@ -144,14 +198,15 @@ public class Metodos {
                 id = result.getInt(1) + 1;
             }
 
-            PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO pago VALUES(?,?,?,?,?,?,?)");
+            PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO pago VALUES(?,?,?,?,?,?,?,?)");
             ST_update.setInt(1, id);
             ST_update.setInt(2, id_cliente);
             ST_update.setLong(3, Long.valueOf(monto.replace(".", "")));
             ST_update.setString(4, mes);
             ST_update.setString(5, "PENDIENTE");
             ST_update.setDate(6, util_Date_to_sql_date(fecha));
-            ST_update.setInt(7, 0);
+            ST_update.setInt(7, periodo);
+            ST_update.setInt(8, 0);
             ST_update.executeUpdate();
 
             JOptionPane.showMessageDialog(null, "Agregado correctamente");
@@ -640,7 +695,8 @@ public class Metodos {
                     + "SELECT cliente.nombre, fecha, mes, monto "
                     + "from pago "
                     + "inner join cliente on cliente.id_cliente = pago.id_cliente "
-                    + "where estado ilike  '%PENDIENTE%' order by mes ");
+                    + "where estado ilike  '%PENDIENTE%' "
+                    + " order by mes ");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
             dtm = (DefaultTableModel) Avisos.jTable1.getModel();
@@ -713,7 +769,7 @@ public class Metodos {
                     + "SELECT SUM(monto) "
                     + "from obligacion "
                     + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
-                    + "where mes ilike '%" + buscar + "%' "
+                    + "where mes ilike '%" + buscar + "%' and periodo = '" + periodo + "' "
                     + " ");
             if (result.next()) {
                 if (result.getString(1) == null) {
@@ -727,7 +783,7 @@ public class Metodos {
                     + "SELECT id_obligacion, nombre, mes, monto, estado "
                     + "from obligacion "
                     + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
-                    + "where mes ilike '%" + buscar + "%' "
+                    + "where mes ilike '%" + buscar + "%' and periodo = '"+periodo+"' "
                     + "order by id_obligacion ");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
@@ -769,7 +825,7 @@ public class Metodos {
                     + "SELECT SUM(monto) "
                     + "from obligacion "
                     + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
-                    + "where mes ilike '%" + buscar + "%' "
+                    + "where mes ilike '%" + buscar + "%' and periodo = '"+periodo+"' "
                     + " ");
             if (result.next()) {
                 if (result.getString(1) == null) {
@@ -784,7 +840,7 @@ public class Metodos {
                     + "SELECT nombre, monto "
                     + "from obligacion "
                     + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
-                    + "where mes ilike '%" + buscar + "%' "
+                    + "where mes ilike '%" + buscar + "%' and periodo = '"+periodo+"' "
                     + "order by id_obligacion ");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
@@ -823,7 +879,7 @@ public class Metodos {
                     + "SELECT SUM(monto) "
                     + "from obligacion "
                     + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
-                    + "where estado ilike '%PENDIENTE%' "
+                    + "where estado ilike '%PENDIENTE%' and periodo = '"+periodo+"' "
                     + " ");
             if (result.next()) {
                 if (result.getString(1) == null) {
@@ -837,7 +893,7 @@ public class Metodos {
                     + "SELECT id_obligacion, nombre, mes, monto, estado "
                     + "from obligacion "
                     + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
-                    + "where estado ilike '%PENDIENTE%' "
+                    + "where estado ilike '%PENDIENTE%' and periodo = '"+periodo+"' "
                     + "order by id_obligacion ");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
@@ -980,7 +1036,9 @@ public class Metodos {
                     + "from cliente "
                     + "inner join pago on pago.id_cliente = cliente.id_cliente "
                     + "where nombre ilike '%" + buscar + "%' "
-                    + "and cliente.borrado != '1' and pago.borrado != '1'");
+                    + "and cliente.borrado != '1' "
+                    + "and pago.borrado != '1' "
+                    + "and periodo = '"+periodo+"'");
             if (result.next()) {
 
                 if (result.getString(1) == null) {
@@ -996,7 +1054,7 @@ public class Metodos {
                     + "from cliente "
                     + "inner join pago on pago.id_cliente = cliente.id_cliente "
                     + "where nombre ilike '%" + buscar + "%' "
-                    + "and cliente.borrado != '1' and pago.borrado != '1' "
+                    + "and cliente.borrado != '1' and pago.borrado != '1' and periodo = '"+periodo+"' "
                     + "order by nombre");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
@@ -1040,7 +1098,7 @@ public class Metodos {
                     + "inner join pago on pago.id_cliente = cliente.id_cliente "
                     + "where mes ilike '%" + buscar + "%' "
                     + "and estado ilike '%PENDIENTE%'"
-                    + "and cliente.borrado != '1' and pago.borrado != '1'");
+                    + "and cliente.borrado != '1' and pago.borrado != '1' and periodo = '"+periodo+"'");
             if (result.next()) {
                 if (result.getString(1) == null) {
                 } else if ((result.getString(1).length() > 0) && (isNumeric(result.getString(1)))) {
@@ -1056,7 +1114,7 @@ public class Metodos {
                     + "inner join pago on pago.id_cliente = cliente.id_cliente "
                     + "where mes ilike '%" + buscar + "%' "
                     + "and estado ilike '%PENDIENTE%'"
-                    + "and cliente.borrado != '1' and pago.borrado != '1' "
+                    + "and cliente.borrado != '1' and pago.borrado != '1' and periodo = '"+periodo+"' "
                     + "order by nombre");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
@@ -1361,6 +1419,13 @@ public class Metodos {
             char[] arrayC = jPasswordField1.getPassword();
             String pass = new String(arrayC);
 
+            PreparedStatement ps2 = conexion.prepareStatement("select * from configuracion");
+            ResultSet rs2 = ps2.executeQuery();
+            if (rs2.next()) {
+                empresa = rs2.getString("empresa").trim();
+                periodo = rs2.getInt("periodo");
+            }
+            titulo = empresa + " - Periodo: " + String.valueOf(periodo);
             new Principal().setVisible(true);
             entro = true;
 
