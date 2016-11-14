@@ -25,6 +25,7 @@ import FORMS.Proveedor;
 import FORMS.Recibo_de_dinero;
 import FORMS.Recibo_de_dinero_clientes;
 import FORMS.Rubro;
+import FORMS.Usuarios_ABM;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -51,6 +52,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import sun.security.util.Password;
 
 public class Metodos {
 
@@ -101,8 +103,60 @@ public class Metodos {
             System.err.println(ex);
         }
     }
-    
-     public static void Recibo_de_dinero_borrar() {
+
+    public synchronized static void Usuario_guardar(String nombre_usuario, String usuario, String pass) {
+
+        try {
+            id = 0;
+            int id_user = 0;
+            Statement st = conexion.createStatement();
+            ResultSet result = st.executeQuery("SELECT MAX(id_usuario) FROM usuario");
+            if (result.next()) {
+                id_user = result.getInt(1) + 1;
+            }
+            int privilegio = 0;
+            if (Usuarios_ABM.jCheckBox_admin.isSelected() == true) {
+                privilegio = 1;
+            }
+
+            PreparedStatement stUpdateProducto = conexion.prepareStatement("INSERT INTO usuario VALUES(?,?,?,?,?)");
+            stUpdateProducto.setInt(1, id_user);
+            stUpdateProducto.setString(2, usuario);
+            stUpdateProducto.setString(3, pass);
+            stUpdateProducto.setInt(4, privilegio);
+            stUpdateProducto.setString(5, nombre_usuario);
+            stUpdateProducto.executeUpdate();
+
+            ResultSet rs_2 = st.executeQuery("SELECT MAX(id_control) FROM control_de_acceso");
+            if (rs_2.next()) {
+                id = rs_2.getInt(1) + 1;
+            }
+
+            PreparedStatement st2 = conexion.prepareStatement("INSERT INTO control_de_acceso VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            st2.setInt(1, id);
+            st2.setInt(2, id_user);
+            st2.setInt(3, 0);
+            st2.setInt(4, 0);
+            st2.setInt(5, 0);
+            st2.setInt(6, 0);
+            st2.setInt(7, 0);
+            st2.setInt(8, 0);
+            st2.setInt(9, 0);
+            st2.setString(10, " ");
+            st2.setString(11, " ");
+            st2.setInt(12, 1);
+            st2.setInt(13, 0);
+            st2.setInt(14, 0);
+            st2.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Agregado correctamente");
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+
+    }
+
+    public static void Recibo_de_dinero_borrar() {
         try {
             PreparedStatement stUpdateAuxiliar2 = conexion.prepareStatement(""
                     + "delete from recibos WHERE id_recibo ='" + id_recibo + "'");
@@ -131,7 +185,6 @@ public class Metodos {
         Buscar_recibo();
     }
 
-    
     public static void Buscar_recibo() {
         try {
             String sql = "select  * "
@@ -151,7 +204,7 @@ public class Metodos {
             System.err.println(ex);
         }
     }
-    
+
     public static void Generar_recibos_poner_cero() {
         try {
             PreparedStatement st2 = conexion.prepareStatement(""
@@ -1851,33 +1904,29 @@ public class Metodos {
             nombre = jTextField1.getText();
             char[] arrayC = jPasswordField1.getPassword();
             String pass = new String(arrayC);
-
-            PreparedStatement ps2 = conexion.prepareStatement("select * from configuracion");
-            ResultSet rs2 = ps2.executeQuery();
-            if (rs2.next()) {
-                empresa = rs2.getString("empresa").trim();
-                periodo = rs2.getInt("periodo");
-            }
-            titulo = empresa + " - Periodo: " + String.valueOf(periodo);
-            new Principal().setVisible(true);
-            entro = true;
-
             PreparedStatement ps = conexion.prepareStatement("select * from usuario where nombre ='" + nombre + "' and contrasenha = '" + pass + "'");
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
+
+                PreparedStatement ps2 = conexion.prepareStatement("select * from configuracion");
+                ResultSet rs2 = ps2.executeQuery();
+                if (rs2.next()) {
+                    empresa = rs2.getString("empresa").trim();
+                    periodo = rs2.getInt("periodo");
+                }
+                ubicacion_proyecto = new File("").getAbsolutePath();
                 nombre = rs.getString("nombre_real").trim();
                 id_usuario = rs.getInt("id_usuario");
-
-                ubicacion_proyecto = new File("").getAbsolutePath();
-                //                new Principal().setVisible(true);
-
+                titulo = empresa + " - " + nombre + " - Periodo activo: " + String.valueOf(periodo);
                 entro = true;
-                String hoy = DEV.Metodos.getHoy_format3();
+
+                new Principal().setVisible(true);
 
             }
             if (entro == false) {
                 //new Logueo().setVisible(true);
                 JOptionPane.showMessageDialog(null, "Error de usuario y/o contraseña.");
+                Logueo.jTextField1.requestFocus();
             }
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -1933,9 +1982,9 @@ public class Metodos {
             if ((sb.toString().equals(mac_adress)) || (sb.toString().equals(mac_adress2))) {
                 Class.forName("org.postgresql.Driver");
                 conexion = DriverManager.getConnection("jdbc:postgresql://" + host + ":5432/" + db, user, pass);
-                Logueo.jLabel2.setVisible(false);
-                Logueo.jTextField1.setEditable(true);
-                Logueo.jPasswordField1.setEditable(true);
+         //       Logueo.jLabel2.setVisible(false);
+              //  Logueo.jTextField1.setEditable(true);
+            //    Logueo.jPasswordField1.setEditable(true);
             } else {
                 JOptionPane.showMessageDialog(null, "PC no registrada (" + sb.toString() + ")");
                 System.exit(-1);
