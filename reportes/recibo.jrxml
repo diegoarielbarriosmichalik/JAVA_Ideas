@@ -21,16 +21,25 @@ where activa = 1]]>
 	<field name="nombre" class="java.lang.String"/>
 	<field name="direccion" class="java.lang.String"/>
 	<field name="telefono" class="java.lang.String"/>
-	<field name="obs" class="java.lang.String"/>
 	<field name="ruc" class="java.lang.String"/>
-	<field name="id_comercio" class="java.lang.Integer"/>
 	<field name="email" class="java.lang.String"/>
-	<field name="ver_historial" class="java.lang.Integer"/>
 	<field name="cumpleanos" class="java.sql.Date"/>
 	<field name="ci" class="java.math.BigDecimal"/>
-	<field name="borrado_int" class="java.lang.Integer"/>
 	<field name="empresa" class="java.lang.String"/>
 	<field name="ruc_empresa" class="java.lang.String"/>
+	<field name="id_ciudad" class="java.lang.Integer"/>
+	<field name="encargado" class="java.lang.String"/>
+	<field name="horario_atencion_lunes_a_viernes" class="java.lang.String"/>
+	<field name="horario_de_atencion_sabado" class="java.lang.String"/>
+	<field name="paginas" class="java.lang.Integer"/>
+	<field name="id_rubro" class="java.lang.Integer"/>
+	<field name="sugerencias" class="java.lang.String"/>
+	<field name="preferencias" class="java.lang.String"/>
+	<field name="marcas" class="java.lang.String"/>
+	<field name="mensual" class="java.math.BigDecimal"/>
+	<field name="ideas" class="java.math.BigDecimal"/>
+	<field name="marandu" class="java.math.BigDecimal"/>
+	<field name="vencimiento" class="java.sql.Date"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

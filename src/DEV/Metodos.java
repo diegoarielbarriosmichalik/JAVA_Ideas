@@ -25,6 +25,7 @@ import FORMS.Proveedor;
 import FORMS.Recibo_de_dinero;
 import FORMS.Recibo_de_dinero_clientes;
 import FORMS.Cliente_Rubro;
+import FORMS.Recibo;
 import FORMS.Usuarios_ABM;
 import java.io.File;
 import java.net.InetAddress;
@@ -183,7 +184,6 @@ public class Metodos {
 
     public static void Recibo_imprimir() {
         try {
-            String ubicacion_proyecto = new File("").getAbsolutePath();
             String path = ubicacion_proyecto + "\\reportes\\recibo.jasper";
             JasperReport jr = (JasperReport) JRLoader.loadObjectFromFile(path);
             JasperPrint jp = JasperFillManager.fillReport(jr, null, conexion);
@@ -338,6 +338,66 @@ public class Metodos {
                     Clientes_estado_de_cuenta.jTextField_total.setText(str_puntitos);
                 }
             }
+        } catch (SQLException ex) {
+            System.err.println("Error: " + ex);
+        }
+    }
+
+    public synchronized static void Recibo_cargar_lista() {
+        try {
+            dtm = (DefaultTableModel) Recibo.jTable_recibos.getModel();
+            for (int j = 0; j < Recibo.jTable_recibos.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+
+            ps = conexion.prepareStatement(""
+                    + "select id_recibo, id_recibo, fecha, cliente.nombre, concepto, dinero_entregado "
+                    + "from cliente "
+                    + "inner join recibos on recibos.id_cliente = cliente.id_cliente "
+                    + "where cliente.nombre ilike '%" + Recibo.jTextField_buscar.getText() + "%' "
+                    + "and cliente.borrado != '1' "
+                    + "order by id_recibo DESC ");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    if (rs.getObject(i + 1) != null) {
+                        if (rs.getObject(i + 1).toString().length() > 1) {
+                            rows[0] = rs.getObject(1).toString().trim();
+                            rows[1] = rs.getObject(2).toString().trim();
+                            rows[2] = rs.getObject(3).toString().trim();
+                            rows[3] = rs.getObject(4).toString().trim();
+                            rows[4] = rs.getObject(5).toString().trim();
+                            rows[5] = getSepararMiles(rs.getObject(6).toString());
+                        }
+                    }
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Recibo.jTable_recibos.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+            long recibos = 0;
+            Recibo.jTextField_total.setText("0");
+
+            Statement ST_Productos8 = conexion.createStatement();
+            ResultSet RS_Productos8 = ST_Productos8.executeQuery(""
+                    + "select SUM(dinero_entregado) "
+                    + "from cliente "
+                    + "inner join recibos on recibos.id_cliente = cliente.id_cliente "
+                    + "where cliente.nombre ilike '%" + Recibo.jTextField_buscar.getText() + "%' "
+                    + "and cliente.borrado != '1' ");
+            if (RS_Productos8.next()) {
+                recibos = RS_Productos8.getLong(1);
+            }
+
+            Recibo.jTextField_total.setText(getSepararMiles(String.valueOf(recibos)));
+
         } catch (SQLException ex) {
             System.err.println("Error: " + ex);
         }
@@ -1923,19 +1983,19 @@ public class Metodos {
 //            ResultSet rs = ps.executeQuery();
 //            if (rs.next()) {
 
-                PreparedStatement ps2 = conexion.prepareStatement("select * from configuracion");
-                ResultSet rs2 = ps2.executeQuery();
-                if (rs2.next()) {
-                    empresa = rs2.getString("empresa").trim();
-                    periodo = rs2.getInt("periodo");
-                }
-                ubicacion_proyecto = new File("").getAbsolutePath();
+            PreparedStatement ps2 = conexion.prepareStatement("select * from configuracion");
+            ResultSet rs2 = ps2.executeQuery();
+            if (rs2.next()) {
+                empresa = rs2.getString("empresa").trim();
+                periodo = rs2.getInt("periodo");
+            }
+            ubicacion_proyecto = new File("").getAbsolutePath();
 //                nombre = rs.getString("nombre_real").trim();
 //                id_usuario = rs.getInt("id_usuario");
-                titulo = empresa + " - " + nombre + " - Periodo activo: " + String.valueOf(periodo);
-                entro = true;
+            titulo = empresa + " - " + nombre + " - Periodo activo: " + String.valueOf(periodo);
+            entro = true;
 
-                new Principal().setVisible(true);
+            new Principal().setVisible(true);
 
 //            }
             if (entro == false) {

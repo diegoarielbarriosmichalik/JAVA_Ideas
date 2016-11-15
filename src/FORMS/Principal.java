@@ -524,7 +524,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
-        new Recibo_de_dinero().setVisible(true);
+        new Recibo().setVisible(true);
     }//GEN-LAST:event_jMenu6MouseClicked
     
     public static void main(String args[]) {

@@ -142,7 +142,7 @@ public class Recibo_de_dinero extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Metodos.Recibos_guardar();
         Metodos.Recibo_imprimir();
-        Metodos.Clientes_estado_de_cuenta_buscar_cliente_cargar_lista();
+    //    Metodos.Clientes_estado_de_cuenta_buscar_cliente_cargar_lista();
         this.setVisible(false);
 
     }//GEN-LAST:event_jButton1ActionPerformed
