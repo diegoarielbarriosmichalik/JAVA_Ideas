@@ -11,7 +11,7 @@ public class Rubro extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("Rubro");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
-        Metodos.Rubro_cargar_jtable(jTextField_buscar.getText());
+     //   Metodos.Rubro_cargar_jtable(jTextField_buscar.getText());
 //        jTextField_ciudad.setVisible(false);
     }
 
@@ -28,7 +28,7 @@ public class Rubro extends javax.swing.JFrame {
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 255)));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -133,7 +133,7 @@ public class Rubro extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1KeyPressed
 
     private void jTextField_buscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_buscarKeyReleased
-        Metodos.Rubro_cargar_jtable(jTextField_buscar.getText());
+     //   Metodos.Rubro_cargar_jtable(jTextField_buscar.getText());
     }//GEN-LAST:event_jTextField_buscarKeyReleased
 
     public static void main(String args[]) {

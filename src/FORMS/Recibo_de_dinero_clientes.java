@@ -10,7 +10,7 @@ public class Recibo_de_dinero_clientes extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Clientes");
-        setIconImage(new ImageIcon(getClass().getResource("/IMAGES/4k_icon.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
     }
 
     @SuppressWarnings("unchecked")
@@ -22,9 +22,11 @@ public class Recibo_de_dinero_clientes extends javax.swing.JFrame {
         jTable_clientes = new javax.swing.JTable();
         jTextField_buscar = new javax.swing.JTextField();
 
+        setUndecorated(true);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 255)));
 
         jTable_clientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -85,7 +87,7 @@ public class Recibo_de_dinero_clientes extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTextField_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -121,14 +123,18 @@ public class Recibo_de_dinero_clientes extends javax.swing.JFrame {
             Metodos.Recibo_de_dinero_buscar_cliente_agregar_desde_lista();
             this.setVisible(false);
         }
-
+        if ((evt.getKeyCode() == KeyEvent.VK_ESCAPE)) {
+            this.setVisible(false);
+        }
     }//GEN-LAST:event_jTable_clientesKeyPressed
 
     private void jTextField_buscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_buscarKeyPressed
         if ((evt.getKeyCode() == KeyEvent.VK_DOWN)) {
             jTable_clientes.requestFocus();
         }
-
+        if ((evt.getKeyCode() == KeyEvent.VK_ESCAPE)) {
+            this.setVisible(false);
+        }
     }//GEN-LAST:event_jTextField_buscarKeyPressed
 
     public static void main(String args[]) {

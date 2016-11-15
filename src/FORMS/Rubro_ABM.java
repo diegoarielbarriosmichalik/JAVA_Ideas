@@ -52,7 +52,7 @@ public class Rubro_ABM extends javax.swing.JFrame {
         });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 255)));
 
         jTextField_rubro.setToolTipText("");
         jTextField_rubro.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Rubro (ENTER para buscar)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 0, 0)));
@@ -141,9 +141,11 @@ public class Rubro_ABM extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jTextField_rubroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_rubroKeyPressed
-        if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
-
+        if ((evt.getKeyCode() == KeyEvent.VK_ESCAPE)) {
             this.setVisible(false);
+        }
+        if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
+            new Rubro().setVisible(true);
         }
     }//GEN-LAST:event_jTextField_rubroKeyPressed
 
