@@ -2,7 +2,7 @@ package DEV;
 
 import FORMS.Avisos;
 import FORMS.Balance;
-import FORMS.Ciudad;
+import FORMS.Clientes_Ciudad;
 import FORMS.Clientes;
 import FORMS.Clientes_ABM;
 import static FORMS.Clientes_ABM.jTextField_ruc;
@@ -24,7 +24,7 @@ import FORMS.Principal;
 import FORMS.Proveedor;
 import FORMS.Recibo_de_dinero;
 import FORMS.Recibo_de_dinero_clientes;
-import FORMS.Rubro;
+import FORMS.Cliente_Rubro;
 import FORMS.Usuarios_ABM;
 import java.io.File;
 import java.net.InetAddress;
@@ -88,16 +88,31 @@ public class Metodos {
 
     public synchronized static void Ciudad_guardar(String ciudad) {
         try {
-            Statement st1 = conexion.createStatement();
-            ResultSet result = st1.executeQuery("SELECT MAX(id_ciudad) FROM ciudad");
-            if (result.next()) {
-                id = result.getInt(1) + 1;
-            }
 
-            PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO ciudad VALUES(?,?)");
-            ST_update.setInt(1, id);
-            ST_update.setString(2, ciudad);
-            ST_update.executeUpdate();
+            if (ciudad.isEmpty() || ciudad.length() < 1) {
+                JOptionPane.showMessageDialog(null, "Complete los campos");
+            } else if (id_ciudad == 0) {
+
+                Statement st1 = conexion.createStatement();
+                ResultSet result = st1.executeQuery("SELECT MAX(id_ciudad) FROM ciudad");
+                if (result.next()) {
+                    id_ciudad = result.getInt(1) + 1;
+                }
+
+                PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO ciudad VALUES(?,?)");
+                ST_update.setInt(1, id_ciudad);
+                ST_update.setString(2, ciudad);
+                ST_update.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "Guardado correctamente");
+            } else {
+                PreparedStatement st2 = conexion.prepareStatement(""
+                        + "UPDATE ciudad "
+                        + "SET ciudad ='" + ciudad + "' "
+                        + "WHERE id_ciudad = '" + id_ciudad + "'");
+                st2.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Guardado correctamente");
+            }
 
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -1100,9 +1115,9 @@ public class Metodos {
     }
 
     public synchronized static void Ciudad_seleccionar() {
-        DefaultTableModel tm = (DefaultTableModel) Ciudad.jTable1.getModel();
-        id_ciudad = Integer.parseInt(String.valueOf(tm.getValueAt(Ciudad.jTable1.getSelectedRow(), 0)));
-        Clientes_ABM.jTextField_ciudad.setText(String.valueOf(tm.getValueAt(Ciudad.jTable1.getSelectedRow(), 1)));
+        DefaultTableModel tm = (DefaultTableModel) Clientes_Ciudad.jTable1.getModel();
+        id_ciudad = Integer.parseInt(String.valueOf(tm.getValueAt(Clientes_Ciudad.jTable1.getSelectedRow(), 0)));
+        Clientes_ABM.jTextField_ciudad.setText(String.valueOf(tm.getValueAt(Clientes_Ciudad.jTable1.getSelectedRow(), 1)));
     }
 
     public synchronized static void Clientes_seleccionar() {
@@ -1135,9 +1150,9 @@ public class Metodos {
     }
 
     public synchronized static void Rubro_seleccionar() {
-        DefaultTableModel tm = (DefaultTableModel) Rubro.jTable1.getModel();
-        id_rubro = Integer.parseInt(String.valueOf(tm.getValueAt(Rubro.jTable1.getSelectedRow(), 0)));
-        Clientes_ABM.jTextField_rubro.setText(String.valueOf(tm.getValueAt(Rubro.jTable1.getSelectedRow(), 1)));
+        DefaultTableModel tm = (DefaultTableModel) Cliente_Rubro.jTable1.getModel();
+        id_rubro = Integer.parseInt(String.valueOf(tm.getValueAt(Cliente_Rubro.jTable1.getSelectedRow(), 0)));
+        Clientes_ABM.jTextField_rubro.setText(String.valueOf(tm.getValueAt(Cliente_Rubro.jTable1.getSelectedRow(), 1)));
     }
 
     public synchronized static void Ciudad_cargar_jtable(String buscar) {
@@ -1151,8 +1166,8 @@ public class Metodos {
                     + "order by ciudad");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
-            dtm = (DefaultTableModel) Ciudad.jTable1.getModel();
-            for (int j = 0; j < Ciudad.jTable1.getRowCount(); j++) {
+            dtm = (DefaultTableModel) Clientes_Ciudad.jTable1.getModel();
+            for (int j = 0; j < Clientes_Ciudad.jTable1.getRowCount(); j++) {
                 dtm.removeRow(j);
                 j -= 1;
             }
@@ -1164,7 +1179,7 @@ public class Metodos {
                 }
                 data.add(rows);
             }
-            dtm = (DefaultTableModel) Ciudad.jTable1.getModel();
+            dtm = (DefaultTableModel) Clientes_Ciudad.jTable1.getModel();
             for (int i = 0; i < data.size(); i++) {
                 dtm.addRow(data.get(i));
             }
@@ -1874,8 +1889,8 @@ public class Metodos {
                     + "order by rubro");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
-            dtm = (DefaultTableModel) Rubro.jTable1.getModel();
-            for (int j = 0; j < Rubro.jTable1.getRowCount(); j++) {
+            dtm = (DefaultTableModel) Cliente_Rubro.jTable1.getModel();
+            for (int j = 0; j < Cliente_Rubro.jTable1.getRowCount(); j++) {
                 dtm.removeRow(j);
                 j -= 1;
             }
@@ -1887,7 +1902,7 @@ public class Metodos {
                 }
                 data.add(rows);
             }
-            dtm = (DefaultTableModel) Rubro.jTable1.getModel();
+            dtm = (DefaultTableModel) Cliente_Rubro.jTable1.getModel();
             for (int i = 0; i < data.size(); i++) {
                 dtm.addRow(data.get(i));
             }
@@ -1904,9 +1919,9 @@ public class Metodos {
             nombre = jTextField1.getText();
             char[] arrayC = jPasswordField1.getPassword();
             String pass = new String(arrayC);
-            PreparedStatement ps = conexion.prepareStatement("select * from usuario where nombre ='" + nombre + "' and contrasenha = '" + pass + "'");
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+//            PreparedStatement ps = conexion.prepareStatement("select * from usuario where nombre ='" + nombre + "' and contrasenha = '" + pass + "'");
+//            ResultSet rs = ps.executeQuery();
+//            if (rs.next()) {
 
                 PreparedStatement ps2 = conexion.prepareStatement("select * from configuracion");
                 ResultSet rs2 = ps2.executeQuery();
@@ -1915,14 +1930,14 @@ public class Metodos {
                     periodo = rs2.getInt("periodo");
                 }
                 ubicacion_proyecto = new File("").getAbsolutePath();
-                nombre = rs.getString("nombre_real").trim();
-                id_usuario = rs.getInt("id_usuario");
+//                nombre = rs.getString("nombre_real").trim();
+//                id_usuario = rs.getInt("id_usuario");
                 titulo = empresa + " - " + nombre + " - Periodo activo: " + String.valueOf(periodo);
                 entro = true;
 
                 new Principal().setVisible(true);
 
-            }
+//            }
             if (entro == false) {
                 //new Logueo().setVisible(true);
                 JOptionPane.showMessageDialog(null, "Error de usuario y/o contraseña.");
@@ -1982,9 +1997,9 @@ public class Metodos {
             if ((sb.toString().equals(mac_adress)) || (sb.toString().equals(mac_adress2))) {
                 Class.forName("org.postgresql.Driver");
                 conexion = DriverManager.getConnection("jdbc:postgresql://" + host + ":5432/" + db, user, pass);
-         //       Logueo.jLabel2.setVisible(false);
-              //  Logueo.jTextField1.setEditable(true);
-            //    Logueo.jPasswordField1.setEditable(true);
+                //       Logueo.jLabel2.setVisible(false);
+                //  Logueo.jTextField1.setEditable(true);
+                //    Logueo.jPasswordField1.setEditable(true);
             } else {
                 JOptionPane.showMessageDialog(null, "PC no registrada (" + sb.toString() + ")");
                 System.exit(-1);

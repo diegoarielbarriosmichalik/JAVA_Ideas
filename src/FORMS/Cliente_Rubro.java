@@ -1,21 +1,17 @@
 package FORMS;
 
 import DEV.Metodos;
-import java.awt.AWTException;
-import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
-public class Ciudad extends javax.swing.JFrame {
+public class Cliente_Rubro extends javax.swing.JFrame {
 
-    public Ciudad() {
+    public Cliente_Rubro() {
         initComponents();
         setLocationRelativeTo(null);
-        setTitle("Ciudades");
+        setTitle("Rubro");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
-        Metodos.Ciudad_cargar_jtable(jTextField_buscar.getText());
+        Metodos.Rubro_cargar_jtable(jTextField_buscar.getText());
 //        jTextField_ciudad.setVisible(false);
     }
 
@@ -32,14 +28,14 @@ public class Ciudad extends javax.swing.JFrame {
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 255)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Ciudad"
+                "ID", "Rubro"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -63,7 +59,7 @@ public class Ciudad extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(1).setPreferredWidth(300);
         }
 
-        jTextField_buscar.setToolTipText("");
+        jTextField_buscar.setToolTipText("F3 para Agregar Nuevo");
         jTextField_buscar.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar"));
         jTextField_buscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -116,13 +112,10 @@ public class Ciudad extends javax.swing.JFrame {
             this.setVisible(false);
         }
         if ((evt.getKeyCode() == KeyEvent.VK_DOWN)) {
-            try {
-                jTable1.requestFocus();
-                Robot r = new Robot();
-                r.keyPress(KeyEvent.VK_DOWN);
-            } catch (AWTException ex) {
-                Logger.getLogger(Ciudad.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            jTable1.requestFocus();
+        }
+        if ((evt.getKeyCode() == KeyEvent.VK_F3)) {
+            new Rubro_ABM().setVisible(true);
         }
 
 
@@ -134,13 +127,13 @@ public class Ciudad extends javax.swing.JFrame {
         }
 
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
-            //Metodos.Ciudad_();
+            Metodos.Rubro_seleccionar();
             this.setVisible(false);
         }
     }//GEN-LAST:event_jTable1KeyPressed
 
     private void jTextField_buscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_buscarKeyReleased
-        // Metodos.Ciudad_cargar_jtable(jTextField_buscar.getText());
+        Metodos.Rubro_cargar_jtable(jTextField_buscar.getText());
     }//GEN-LAST:event_jTextField_buscarKeyReleased
 
     public static void main(String args[]) {
@@ -153,11 +146,11 @@ public class Ciudad extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Ciudad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cliente_Rubro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         java.awt.EventQueue.invokeLater(() -> {
-            new Ciudad().setVisible(true);
+            new Cliente_Rubro().setVisible(true);
         });
     }
 

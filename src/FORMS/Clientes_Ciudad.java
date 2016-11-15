@@ -8,9 +8,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
-public class Ciudad extends javax.swing.JFrame {
+public class Clientes_Ciudad extends javax.swing.JFrame {
 
-    public Ciudad() {
+    public Clientes_Ciudad() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Ciudades");
@@ -63,7 +63,7 @@ public class Ciudad extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(1).setPreferredWidth(300);
         }
 
-        jTextField_buscar.setToolTipText("");
+        jTextField_buscar.setToolTipText("F3 para Agregar Ciudad");
         jTextField_buscar.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar"));
         jTextField_buscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -121,8 +121,11 @@ public class Ciudad extends javax.swing.JFrame {
                 Robot r = new Robot();
                 r.keyPress(KeyEvent.VK_DOWN);
             } catch (AWTException ex) {
-                Logger.getLogger(Ciudad.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Clientes_Ciudad.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        if ((evt.getKeyCode() == KeyEvent.VK_F3)) {
+            new Ciudad_ABM().setVisible(true);
         }
 
 
@@ -134,13 +137,13 @@ public class Ciudad extends javax.swing.JFrame {
         }
 
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
-            //Metodos.Ciudad_();
+            Metodos.Ciudad_seleccionar();
             this.setVisible(false);
         }
     }//GEN-LAST:event_jTable1KeyPressed
 
     private void jTextField_buscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_buscarKeyReleased
-        // Metodos.Ciudad_cargar_jtable(jTextField_buscar.getText());
+        Metodos.Ciudad_cargar_jtable(jTextField_buscar.getText());
     }//GEN-LAST:event_jTextField_buscarKeyReleased
 
     public static void main(String args[]) {
@@ -153,11 +156,11 @@ public class Ciudad extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Ciudad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Clientes_Ciudad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         java.awt.EventQueue.invokeLater(() -> {
-            new Ciudad().setVisible(true);
+            new Clientes_Ciudad().setVisible(true);
         });
     }
 

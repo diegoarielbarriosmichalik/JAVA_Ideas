@@ -609,13 +609,13 @@ public class Clientes_ABM extends javax.swing.JFrame {
 
     private void jTextField_ciudadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_ciudadKeyPressed
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
-            new Ciudad().setVisible(true);
+            new Clientes_Ciudad().setVisible(true);
         }
     }//GEN-LAST:event_jTextField_ciudadKeyPressed
 
     private void jTextField_rubroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_rubroKeyPressed
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
-            new Rubro().setVisible(true);
+            new Cliente_Rubro().setVisible(true);
         }
     }//GEN-LAST:event_jTextField_rubroKeyPressed
 

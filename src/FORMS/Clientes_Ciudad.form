@@ -121,7 +121,7 @@
         </Container>
         <Component class="javax.swing.JTextField" name="jTextField_buscar">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="toolTipText" type="java.lang.String" value="F3 para Agregar Ciudad"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                 <TitledBorder title="Buscar"/>
