@@ -4,12 +4,12 @@ import DEV.Metodos;
 import java.util.Date;
 import javax.swing.ImageIcon;
 
-public class Listado_de_publicaciones extends javax.swing.JFrame {
+public class Listado_de_recibos extends javax.swing.JFrame {
 
-    public Listado_de_publicaciones() {
+    public Listado_de_recibos() {
         initComponents();
         setLocationRelativeTo(null);
-        setTitle("Listado de Publicaciones");
+        setTitle("Listado de Recibos");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
         
         Date hoy = new Date();
@@ -97,14 +97,14 @@ public class Listado_de_publicaciones extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       Metodos.Listado_de_publicaciones(jDateChooser_desde.getDate(), jDateChooser_hasta.getDate());
+       Metodos.Listado_de_recibos(jDateChooser_desde.getDate(), jDateChooser_hasta.getDate());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -129,7 +129,7 @@ public class Listado_de_publicaciones extends javax.swing.JFrame {
         }
        
         java.awt.EventQueue.invokeLater(() -> {
-            new Listado_de_publicaciones().setVisible(true);
+            new Listado_de_recibos().setVisible(true);
         });
     }
 

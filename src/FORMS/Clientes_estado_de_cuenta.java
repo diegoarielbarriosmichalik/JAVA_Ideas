@@ -205,7 +205,7 @@ public class Clientes_estado_de_cuenta extends javax.swing.JFrame {
 
     private void jTable_recibosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_recibosMouseClicked
         new Recibo_de_dinero().setVisible(true);
-        Recibo_de_dinero.jButton_borrado.setVisible(true);
+     //   Recibo_de_dinero.jButton_borrado.setVisible(true);
         Metodos.Recibo_de_dinero_seleccionar_para_editar();
     }//GEN-LAST:event_jTable_recibosMouseClicked
 

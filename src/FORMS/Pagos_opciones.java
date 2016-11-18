@@ -12,6 +12,7 @@ public class Pagos_opciones extends javax.swing.JFrame {
         setTitle("Opciones");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
 
+        jButton_salir.requestFocus();
     }
 
     @SuppressWarnings("unchecked")
@@ -20,7 +21,7 @@ public class Pagos_opciones extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButton_salir = new javax.swing.JButton();
         jButton_borrar = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
@@ -44,12 +45,12 @@ public class Pagos_opciones extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit1.png"))); // NOI18N
-        jButton2.setMnemonic('x');
-        jButton2.setToolTipText("Alt + X");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButton_salir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit1.png"))); // NOI18N
+        jButton_salir.setMnemonic('x');
+        jButton_salir.setToolTipText("Alt + X");
+        jButton_salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButton_salirActionPerformed(evt);
             }
         });
 
@@ -83,7 +84,7 @@ public class Pagos_opciones extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -92,7 +93,7 @@ public class Pagos_opciones extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_salir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_borrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(18, Short.MAX_VALUE))
@@ -124,9 +125,9 @@ public class Pagos_opciones extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_salirActionPerformed
         this.setVisible(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButton_salirActionPerformed
 
     private void jButton_borrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_borrarActionPerformed
         if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar esta obligación?", "AVISO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -161,10 +162,10 @@ public class Pagos_opciones extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     public static javax.swing.JButton jButton_borrar;
+    private javax.swing.JButton jButton_salir;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

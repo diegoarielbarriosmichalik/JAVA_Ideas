@@ -111,6 +111,7 @@ public class Recibo_de_dinero_clientes extends javax.swing.JFrame {
 
         Metodos.Recibo_de_dinero_buscar_cliente_agregar_desde_lista();
         this.setVisible(false);
+        Recibo_de_dinero.jTextField_concepto.requestFocus();
     }//GEN-LAST:event_jTable_clientesMouseClicked
 
 
@@ -122,6 +123,7 @@ public class Recibo_de_dinero_clientes extends javax.swing.JFrame {
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
             Metodos.Recibo_de_dinero_buscar_cliente_agregar_desde_lista();
             this.setVisible(false);
+            Recibo_de_dinero.jTextField_concepto.requestFocus();
         }
         if ((evt.getKeyCode() == KeyEvent.VK_ESCAPE)) {
             this.setVisible(false);

@@ -51,6 +51,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -479,6 +481,37 @@ public class Metodos {
             String path = ubicacion_proyecto + "\\reportes\\recibo.jasper";
             JasperReport jr = (JasperReport) JRLoader.loadObjectFromFile(path);
             JasperPrint jp = JasperFillManager.fillReport(jr, null, conexion);
+            JasperViewer jv = new JasperViewer(jp, false);
+            jv.setVisible(true);
+        } catch (JRException ex) {
+            System.err.println(ex);
+        }
+    }
+    
+    public static void Listado_de_publicaciones(Date desde, Date hasta) {
+        try {
+            String path = ubicacion_proyecto + "\\reportes\\listado_de_publicaciones.jasper";
+            JasperReport jr = (JasperReport) JRLoader.loadObjectFromFile(path);
+            Map parametros = new HashMap();
+            parametros.put("fecha1", desde);
+            parametros.put("fecha2", hasta);
+            
+            JasperPrint jp = JasperFillManager.fillReport(jr, parametros, conexion);
+            JasperViewer jv = new JasperViewer(jp, false);
+            jv.setVisible(true);
+        } catch (JRException ex) {
+            System.err.println(ex);
+        }
+    }
+    public static void Listado_de_recibos(Date desde, Date hasta) {
+        try {
+            String path = ubicacion_proyecto + "\\reportes\\listado_de_recibos.jasper";
+            JasperReport jr = (JasperReport) JRLoader.loadObjectFromFile(path);
+            Map parametros = new HashMap();
+            parametros.put("fecha1", desde);
+            parametros.put("fecha2", hasta);
+            
+            JasperPrint jp = JasperFillManager.fillReport(jr, parametros, conexion);
             JasperViewer jv = new JasperViewer(jp, false);
             jv.setVisible(true);
         } catch (JRException ex) {
@@ -919,6 +952,7 @@ public class Metodos {
                         + "activa ='1' "
                         + "WHERE id_recibo  ='" + id_recibo + "'");
                 ST2.executeUpdate();
+                
             }
         } catch (SQLException | ClassNotFoundException ex) {
             System.err.println(ex);
