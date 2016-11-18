@@ -152,6 +152,27 @@ public class Metodos {
         }
     }
 
+    public synchronized static void Publicacion_editar() {
+        try {
+
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery(""
+                    + "SELECT * FROM facebook "
+                    + "inner join cliente on cliente.id_cliente = facebook.id_cliente "
+                    + "where id_facebook = '" + id_publicacion + "'");
+            if (result.next()) {
+                Facebook_publicaciones.jTextField_monto.setText(getSepararMiles(result.getString("monto")));
+                Facebook_publicaciones.jTextField_cliente.setText(result.getString("nombre").trim());
+                id_cliente = result.getInt("id_cliente");
+                Facebook_publicaciones.jDateChooser2.setDate(result.getDate("fecha"));
+                Facebook_publicaciones.jTextField_publicacion.setText(result.getString("publicacion").trim());
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
     public synchronized static void Ciudad_borrar() {
         try {
             error = false;
@@ -178,6 +199,7 @@ public class Metodos {
 
         }
     }
+
     public synchronized static void Cliente_borrar() {
         try {
             error = false;
@@ -241,6 +263,32 @@ public class Metodos {
         }
     }
 
+    public synchronized static void Publicacion_borrar() {
+        try {
+            PreparedStatement Update2 = conexion.prepareStatement(""
+                    + "Delete from facebook "
+                    + "WHERE id_facebook ='" + id_publicacion + "'");
+            Update2.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Borrado correctamente");
+        } catch (SQLException ex) {
+            System.err.println(ex);
+
+        }
+    }
+
+    public synchronized static void Recibo_borrar() {
+        try {
+            PreparedStatement Update2 = conexion.prepareStatement(""
+                    + "Delete from recibos "
+                    + "WHERE id_recibo ='" + id_recibo + "'");
+            Update2.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Borrado correctamente");
+        } catch (SQLException ex) {
+            System.err.println(ex);
+
+        }
+    }
+
     public synchronized static void Obligaciones_update() {
         try {
 
@@ -260,6 +308,34 @@ public class Metodos {
                             + "UPDATE obligacion "
                             + "set estado = 'PENDIENTE' "
                             + "WHERE id_obligacion ='" + id_obligacion + "'");
+                    Update2.executeUpdate();
+                }
+            }
+            JOptionPane.showMessageDialog(null, "Guardado correctamente");
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Publicacion_update() {
+        try {
+
+            Statement ST = conexion.createStatement();
+            ResultSet resultRC = ST.executeQuery(""
+                    + "SELECT * FROM facebook "
+                    + "where id_facebook = '" + id_publicacion + "'");
+            if (resultRC.next()) {
+                if ("PENDIENTE".equals(resultRC.getString("pagado"))) {
+                    PreparedStatement Update2 = conexion.prepareStatement(""
+                            + "UPDATE facebook "
+                            + "set pagado = 'PAGADO' "
+                            + "WHERE id_facebook ='" + id_publicacion + "'");
+                    Update2.executeUpdate();
+                } else {
+                    PreparedStatement Update2 = conexion.prepareStatement(""
+                            + "UPDATE facebook "
+                            + "set pagado = 'PENDIENTE' "
+                            + "WHERE id_facebook ='" + id_publicacion + "'");
                     Update2.executeUpdate();
                 }
             }
@@ -295,6 +371,7 @@ public class Metodos {
 
         }
     }
+
     public synchronized static void Proveedor_borrar() {
         try {
             error = false;
@@ -384,6 +461,19 @@ public class Metodos {
         }
     }
 
+    public static void Recibo_marcar_activo() {
+        try {
+
+            PreparedStatement stClienteBorrar = conexion.prepareStatement("UPDATE recibos SET activa='0' WHERE activa  ='1'");
+            stClienteBorrar.executeUpdate();
+            PreparedStatement stClienteBorrar2 = conexion.prepareStatement("UPDATE recibos SET activa='1' WHERE id_recibo  ='" + id_recibo + "'");
+            stClienteBorrar2.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Metodos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public static void Recibo_imprimir() {
         try {
             String path = ubicacion_proyecto + "\\reportes\\recibo.jasper";
@@ -405,6 +495,16 @@ public class Metodos {
     public synchronized static void Obligacion_seleccionar() {
         DefaultTableModel tm = (DefaultTableModel) Obligaciones.jTable1.getModel();
         id_obligacion = Integer.parseInt(String.valueOf(tm.getValueAt(Obligaciones.jTable1.getSelectedRow(), 0)));
+    }
+
+    public synchronized static void Recibo_seleccionar() {
+        DefaultTableModel tm = (DefaultTableModel) Recibo.jTable_recibos.getModel();
+        id_recibo = Integer.parseInt(String.valueOf(tm.getValueAt(Recibo.jTable_recibos.getSelectedRow(), 0)));
+    }
+
+    public synchronized static void Publicacion_seleccionar() {
+        DefaultTableModel tm = (DefaultTableModel) Facebook.jTable1.getModel();
+        id_publicacion = Integer.parseInt(String.valueOf(tm.getValueAt(Facebook.jTable1.getSelectedRow(), 0)));
     }
 
     public static void Buscar_recibo() {
@@ -826,6 +926,43 @@ public class Metodos {
 
     }
 
+    public static void Facebook_Recibos_guardar() {
+        try {
+
+            Statement ST = conexion.createStatement();
+            ResultSet resultRC = ST.executeQuery(""
+                    + "SELECT * FROM facebook "
+                    + "where id_facebook = '" + id_publicacion + "'");
+            if (resultRC.next()) {
+
+                String nombre = Clientes_buscar_por_id(resultRC.getInt("id_cliente"));
+                Date fecha_date = resultRC.getDate("fecha");
+                String dinero = resultRC.getString("monto");
+                String dinero_en_letras = Dinero_a_letras(Integer.parseInt(dinero));
+
+                PreparedStatement stClienteBorrar = conexion.prepareStatement("UPDATE recibos SET activa='0' WHERE activa  ='1'");
+                stClienteBorrar.executeUpdate();
+
+                Recibos_Max();
+
+                PreparedStatement st2 = conexion.prepareStatement("INSERT INTO recibos VALUES(?,?,?,?,?,?,?,?)");
+                st2.setInt(1, max);
+                st2.setInt(2, resultRC.getInt("id_cliente"));
+                st2.setString(3, resultRC.getString("publicacion"));
+                st2.setInt(4, Integer.parseInt(dinero));
+                st2.setDate(5, util_Date_to_sql_date(fecha_date));
+                st2.setString(6, dinero_en_letras);
+                st2.setInt(7, 0);
+                st2.setInt(8, 1);
+                st2.executeUpdate();
+
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.err.println(ex);
+        }
+
+    }
+
     public static void Recibo_de_dinero_clientes_cargar_jtable() {
         try {
             dtm = (DefaultTableModel) Recibo_de_dinero_clientes.jTable_clientes.getModel();
@@ -1019,25 +1156,41 @@ public class Metodos {
 
     public synchronized static void Facebook_publicaciones_Guardar(String publicacion, Date fecha, String monto) {
         try {
-            Statement st1 = conexion.createStatement();
-            ResultSet result = st1.executeQuery("SELECT MAX(id_facebook) FROM facebook");
-            if (result.next()) {
-                id_publicacion = result.getInt(1) + 1;
-            }
-            monto = monto.replace(".", "");
-            if ((publicacion.length() > 0) && (fecha != null) && (isNumeric(monto))) {
-                PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO facebook VALUES(?,?,?,?,?,?,?)");
-                ST_update.setInt(1, id_publicacion);
-                ST_update.setInt(2, id_cliente);
-                ST_update.setString(3, publicacion);
-                ST_update.setDate(4, util_Date_to_sql_date(fecha));
-                ST_update.setLong(5, Long.parseLong(monto));
-                ST_update.setString(6, "PENDIENTE");
-                ST_update.setInt(7, 0);
-                ST_update.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Guardado correctamente");
+
+            if (id_publicacion == 0) {
+
+                Statement st1 = conexion.createStatement();
+                ResultSet result = st1.executeQuery("SELECT MAX(id_facebook) FROM facebook");
+                if (result.next()) {
+                    id_publicacion = result.getInt(1) + 1;
+                }
+                monto = monto.replace(".", "");
+                if ((publicacion.length() > 0) && (fecha != null) && (isNumeric(monto))) {
+                    PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO facebook VALUES(?,?,?,?,?,?,?)");
+                    ST_update.setInt(1, id_publicacion);
+                    ST_update.setInt(2, id_cliente);
+                    ST_update.setString(3, publicacion);
+                    ST_update.setDate(4, util_Date_to_sql_date(fecha));
+                    ST_update.setLong(5, Long.parseLong(monto));
+                    ST_update.setString(6, "PENDIENTE");
+                    ST_update.setInt(7, 0);
+                    ST_update.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Guardado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Complete todos los campos");
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Complete todos los campos");
+                PreparedStatement stClienteBorrar3 = conexion.prepareStatement(""
+                        + "UPDATE facebook "
+                        + "SET id_cliente ='" + id_cliente + "', "
+                        + "publicacion = '" + publicacion + "', "
+                        + "monto = '" + Long.parseLong(monto.replace(".", "")) + "', "
+                        + "fecha = '" + util_Date_to_sql_date(fecha) + "' "
+                        + "WHERE id_facebook  ='" + id_publicacion + "' ");
+                stClienteBorrar3.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Actualizado correctamente");
+
+                Facebook_publicaciones_cargar_jtable("");
             }
 
         } catch (SQLException ex) {
@@ -1923,7 +2076,8 @@ public class Metodos {
                     + "from cliente "
                     + "inner join facebook on facebook.id_cliente = cliente.id_cliente "
                     + "where nombre ilike '%" + buscar + "%' "
-                    + "and cliente.borrado != '1' and facebook.borrado != '1'");
+                    + "and cliente.borrado != '1' "
+                    + "and facebook.borrado != '1'  ");
             if (result.next()) {
 
                 if (result.getString(1) == null) {
@@ -1939,8 +2093,9 @@ public class Metodos {
                     + "from cliente "
                     + "inner join facebook on facebook.id_cliente = cliente.id_cliente "
                     + "where nombre ilike '%" + buscar + "%' "
-                    + "and cliente.borrado != '1' and facebook.borrado != '1' "
-                    + "order by nombre");
+                    + "and cliente.borrado != '1' "
+                    + "and facebook.borrado != '1' "
+                    + "order by id_facebook");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
 
@@ -2400,25 +2555,25 @@ public class Metodos {
             nombre = jTextField1.getText();
             char[] arrayC = jPasswordField1.getPassword();
             String pass = new String(arrayC);
-//            PreparedStatement ps = conexion.prepareStatement("select * from usuario where nombre ='" + nombre + "' and contrasenha = '" + pass + "'");
-//            ResultSet rs = ps.executeQuery();
-//            if (rs.next()) {
+            PreparedStatement ps = conexion.prepareStatement("select * from usuario where nombre ='" + nombre + "' and contrasenha = '" + pass + "'");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
 
-            PreparedStatement ps2 = conexion.prepareStatement("select * from configuracion");
-            ResultSet rs2 = ps2.executeQuery();
-            if (rs2.next()) {
-                empresa = rs2.getString("empresa").trim();
-                periodo = rs2.getInt("periodo");
+                PreparedStatement ps2 = conexion.prepareStatement("select * from configuracion");
+                ResultSet rs2 = ps2.executeQuery();
+                if (rs2.next()) {
+                    empresa = rs2.getString("empresa").trim();
+                    periodo = rs2.getInt("periodo");
+                }
+                ubicacion_proyecto = new File("").getAbsolutePath();
+                nombre = rs.getString("nombre_real").trim();
+                id_usuario = rs.getInt("id_usuario");
+                titulo = empresa + " - " + nombre + " - Periodo activo: " + String.valueOf(periodo);
+                entro = true;
+
+                new Principal().setVisible(true);
+
             }
-            ubicacion_proyecto = new File("").getAbsolutePath();
-//                nombre = rs.getString("nombre_real").trim();
-//                id_usuario = rs.getInt("id_usuario");
-            titulo = empresa + " - " + nombre + " - Periodo activo: " + String.valueOf(periodo);
-            entro = true;
-
-            new Principal().setVisible(true);
-
-//            }
             if (entro == false) {
                 //new Logueo().setVisible(true);
                 JOptionPane.showMessageDialog(null, "Error de usuario y/o contraseña.");
@@ -2483,9 +2638,10 @@ public class Metodos {
             }
             if (result.equals("1687533508")) { // 4k 
                 mac_adress = result;
+                host = "192.168.1.63";
             }
 
-            if (mac_adress.equals("-792900638") || mac_adress.equals("1687533508") ) { // 4k 
+            if (mac_adress.equals("-792900638") || mac_adress.equals("1687533508")) { // 4k 
                 Class.forName("org.postgresql.Driver");
                 conexion = DriverManager.getConnection("jdbc:postgresql://" + host + ":5432/" + db, user, pass);
             } else {

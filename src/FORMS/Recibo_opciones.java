@@ -4,16 +4,16 @@ import DEV.Metodos;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-public class Facebook_opciones extends javax.swing.JFrame {
-
-    public Facebook_opciones() {
+public class Recibo_opciones extends javax.swing.JFrame {
+    
+    public Recibo_opciones() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Opciones");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
         jButton_salir.requestFocus();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -35,9 +35,9 @@ public class Facebook_opciones extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 255)));
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/terminar_mini.jpg"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/impresora_mini.png"))); // NOI18N
         jButton3.setMnemonic('g');
-        jButton3.setToolTipText("Marcar como Pagado / Pendiente");
+        jButton3.setToolTipText("Marcar como Terminado / Pendiente");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -117,15 +117,9 @@ public class Facebook_opciones extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if (JOptionPane.showConfirmDialog(null, "¿Desea cambiar el estado de esta publicacion?", "ALERTA", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            Metodos.Publicacion_update();
-            this.setVisible(false);
-            Metodos.Facebook_publicaciones_cargar_jtable("");
-        }
-        if (JOptionPane.showConfirmDialog(null, "¿Generar nuevo recibo de pago?", "ALERTA", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            Metodos.Facebook_Recibos_guardar();
-            Metodos.Recibo_imprimir();
-        }
+        this.setVisible(false);
+        Metodos.Recibo_marcar_activo();
+        Metodos.Recibo_imprimir();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_salirActionPerformed
@@ -133,20 +127,20 @@ public class Facebook_opciones extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_salirActionPerformed
 
     private void jButton_borrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_borrarActionPerformed
-        if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar esta publicación?", "AVISO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            Metodos.Publicacion_borrar();
+        if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar este recibo?", "AVISO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            Metodos.Recibo_borrar();
             this.setVisible(false);
-            Metodos.Facebook_publicaciones_cargar_jtable("");
+            Metodos.Recibo_cargar_lista();
         }
     }//GEN-LAST:event_jButton_borrarActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Metodos.Publicacion_seleccionar();
-        this.setVisible(false);
-        new Facebook_publicaciones().setVisible(true);
-        Metodos.Publicacion_editar();
+//        Metodos.Publicacion_seleccionar();
+//        this.setVisible(false);
+//        new Facebook_publicaciones().setVisible(true);
+//        Metodos.Publicacion_editar();
     }//GEN-LAST:event_jButton4ActionPerformed
-
+    
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -156,10 +150,10 @@ public class Facebook_opciones extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Facebook_opciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Recibo_opciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(() -> {
-            new Facebook_opciones().setVisible(true);
+            new Recibo_opciones().setVisible(true);
         });
     }
 

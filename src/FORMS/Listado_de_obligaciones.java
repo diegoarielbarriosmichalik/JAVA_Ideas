@@ -47,6 +47,11 @@ public class Listado_de_obligaciones extends javax.swing.JFrame {
 
         jDateChooser_desde.setBackground(new java.awt.Color(255, 255, 255));
         jDateChooser_desde.setBorder(javax.swing.BorderFactory.createTitledBorder("Desde"));
+        jDateChooser_desde.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jDateChooser_desdeKeyPressed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit1.png"))); // NOI18N
@@ -114,6 +119,10 @@ public class Listado_de_obligaciones extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jDateChooser_desdeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jDateChooser_desdeKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jDateChooser_desdeKeyPressed
 
     public static void main(String args[]) {
 

@@ -6,19 +6,19 @@ import java.io.File;
 import javax.swing.ImageIcon;
 
 public class Facebook extends javax.swing.JFrame {
-    
+
     public Facebook() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Facebook");
         new File(".").getAbsolutePath();
-        
+
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
-        
+
         jCheckBox1.setSelected(true);
         jCheckBox2.setSelected(false);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -181,15 +181,16 @@ public class Facebook extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyPressed
-        new Facebook_opciones().setVisible(true);
+
     }//GEN-LAST:event_jTable1KeyPressed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        Metodos.Publicacion_seleccionar();
         new Facebook_opciones().setVisible(true);
     }//GEN-LAST:event_jTable1MouseClicked
-    
+
     public static void main(String args[]) {
-        
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

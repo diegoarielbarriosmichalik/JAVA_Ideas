@@ -86,10 +86,10 @@
         <Component class="javax.swing.JButton" name="jButton3">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Imagenes/terminar_mini.jpg"/>
+              <Image iconType="3" name="/Imagenes/impresora_mini.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="103"/>
-            <Property name="toolTipText" type="java.lang.String" value="Marcar como Pagado / Pendiente"/>
+            <Property name="toolTipText" type="java.lang.String" value="Marcar como Terminado / Pendiente"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>

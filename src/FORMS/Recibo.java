@@ -5,15 +5,15 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
 public class Recibo extends javax.swing.JFrame {
-
+    
     public Recibo() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Recibos");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
-       // Generar_recibos_poner_cero();
+        // Generar_recibos_poner_cero();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -156,7 +156,8 @@ public class Recibo extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField_buscarActionPerformed
 
     private void jTable_recibosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_recibosMouseClicked
-//        new Recibo_de_dinero().setVisible(true);
+        Metodos.Recibo_seleccionar();
+        new Recibo_opciones().setVisible(true);
 //        Recibo_de_dinero.jButton_borrado.setVisible(true);
 //        Metodos.Recibo_de_dinero_seleccionar_para_editar();
     }//GEN-LAST:event_jTable_recibosMouseClicked
@@ -175,9 +176,9 @@ public class Recibo extends javax.swing.JFrame {
         Metodos.id_recibo = 0;
         new Recibo_de_dinero().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
     public static void main(String args[]) {
-
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
