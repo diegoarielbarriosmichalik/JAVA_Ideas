@@ -1,7 +1,11 @@
 package FORMS;
 
 import DEV.Metodos;
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 public class Rubro extends javax.swing.JFrame {
@@ -11,7 +15,7 @@ public class Rubro extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("Rubro");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
-     //   Metodos.Rubro_cargar_jtable(jTextField_buscar.getText());
+        //   Metodos.Rubro_cargar_jtable(jTextField_buscar.getText());
 //        jTextField_ciudad.setVisible(false);
     }
 
@@ -112,7 +116,14 @@ public class Rubro extends javax.swing.JFrame {
             this.setVisible(false);
         }
         if ((evt.getKeyCode() == KeyEvent.VK_DOWN)) {
-            jTable1.requestFocus();
+            try {
+                jTable1.requestFocus();
+                Robot r = new Robot();
+                r.keyPress(KeyEvent.VK_DOWN);
+            } catch (AWTException ex) {
+                Logger.getLogger(Rubro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         if ((evt.getKeyCode() == KeyEvent.VK_F3)) {
             new Rubro_ABM().setVisible(true);
@@ -127,13 +138,14 @@ public class Rubro extends javax.swing.JFrame {
         }
 
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
-            Metodos.Rubro_seleccionar();
+            Metodos.Rubro_ABM_seleccionar();
             this.setVisible(false);
+            Rubro_ABM.jButton_borrar.setVisible(true);
         }
     }//GEN-LAST:event_jTable1KeyPressed
 
     private void jTextField_buscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_buscarKeyReleased
-     //   Metodos.Rubro_cargar_jtable(jTextField_buscar.getText());
+        Metodos.Rubro_ABM_cargar_jtable(jTextField_buscar.getText());
     }//GEN-LAST:event_jTextField_buscarKeyReleased
 
     public static void main(String args[]) {

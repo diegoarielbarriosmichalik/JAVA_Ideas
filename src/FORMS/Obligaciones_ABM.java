@@ -41,11 +41,11 @@ public class Obligaciones_ABM extends javax.swing.JFrame {
         jTextField_monto.setToolTipText("");
         jTextField_monto.setBorder(javax.swing.BorderFactory.createTitledBorder("Monto"));
         jTextField_monto.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField_montoKeyPressed(evt);
-            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField_montoKeyReleased(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField_montoKeyPressed(evt);
             }
         });
 
@@ -66,11 +66,11 @@ public class Obligaciones_ABM extends javax.swing.JFrame {
             }
         });
         jTextField_proveedor.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField_proveedorKeyPressed(evt);
-            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField_proveedorKeyReleased(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField_proveedorKeyPressed(evt);
             }
         });
 
@@ -180,6 +180,11 @@ public class Obligaciones_ABM extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Metodos.Obligaciones_Guardar(jTextField_monto.getText(), jComboBox1.getSelectedItem().toString());
+        Metodos.id_obligacion = 0;
+        jTextField_monto.setText("");
+        jTextField_proveedor.setText("");
+        jTextField_proveedor.requestFocus();
+        jComboBox1.setSelectedItem("Enero");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     public static void main(String args[]) {
@@ -202,7 +207,7 @@ public class Obligaciones_ABM extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
+    public static javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     public static javax.swing.JTextField jTextField_monto;

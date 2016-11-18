@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
 public class Proveedor_ABM extends javax.swing.JFrame {
-
+    
     public Proveedor_ABM() {
         initComponents();
         setLocationRelativeTo(null);
@@ -14,7 +14,7 @@ public class Proveedor_ABM extends javax.swing.JFrame {
         jTextField_proveedor.requestFocus();
         Metodos.id_proveedor = 0;
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -36,7 +36,7 @@ public class Proveedor_ABM extends javax.swing.JFrame {
         });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255)));
 
         jTextField_proveedor.setToolTipText("");
         jTextField_proveedor.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Proveedor (ENTER para buscar)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
@@ -139,11 +139,10 @@ public class Proveedor_ABM extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jTextField_proveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_proveedorKeyPressed
-//        if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
-//            Metodos.Ciudad_guardar(jTextField_proveedor.getText());
-//            this.setVisible(false);
-//            Metodos.Ciudad_cargar_jtable(jTextField_proveedor.getText());
-//        }
+        if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
+            this.setVisible(false);
+            new Proveedor().setVisible(true);
+        }
         if ((evt.getKeyCode() == KeyEvent.VK_ESCAPE)) {
             this.setVisible(false);
         }
@@ -169,9 +168,9 @@ public class Proveedor_ABM extends javax.swing.JFrame {
         Metodos.id_proveedor = 0;
         jTextField_proveedor.requestFocus();
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
     public static void main(String args[]) {
-
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

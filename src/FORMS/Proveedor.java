@@ -5,15 +5,15 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
 public class Proveedor extends javax.swing.JFrame {
-
+    
     public Proveedor() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Proveedores");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
-        Metodos.Ciudad_cargar_jtable(jTextField_buscar.getText());
+        Metodos.Proveedor_ABM_cargar_jtable(jTextField_buscar.getText());
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -116,7 +116,7 @@ public class Proveedor extends javax.swing.JFrame {
         if ((evt.getKeyCode() == KeyEvent.VK_F3)) {
             new Ciudad_ABM().setVisible(true);
         }
-
+        
 
     }//GEN-LAST:event_jTextField_buscarKeyPressed
 
@@ -124,19 +124,20 @@ public class Proveedor extends javax.swing.JFrame {
         if ((evt.getKeyCode() == KeyEvent.VK_ESCAPE)) {
             this.setVisible(false);
         }
-
+        
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
-            Metodos.Ciudad_seleccionar();
+            new Proveedor_ABM().setVisible(true);
+            Metodos.Proveedor_ABM_seleccionar();
             this.setVisible(false);
         }
     }//GEN-LAST:event_jTable1KeyPressed
 
     private void jTextField_buscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_buscarKeyReleased
-        Metodos.Ciudad_cargar_jtable(jTextField_buscar.getText());
+        Metodos.Proveedor_ABM_cargar_jtable(jTextField_buscar.getText());
     }//GEN-LAST:event_jTextField_buscarKeyReleased
-
+    
     public static void main(String args[]) {
-
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -147,7 +148,7 @@ public class Proveedor extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Proveedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-
+        
         java.awt.EventQueue.invokeLater(() -> {
             new Proveedor().setVisible(true);
         });

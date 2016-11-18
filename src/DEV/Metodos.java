@@ -2,6 +2,8 @@ package DEV;
 
 import FORMS.Avisos;
 import FORMS.Balance;
+import FORMS.Ciudad;
+import FORMS.Ciudad_ABM;
 import FORMS.Clientes_Ciudad;
 import FORMS.Clientes;
 import FORMS.Clientes_ABM;
@@ -25,7 +27,10 @@ import FORMS.Proveedor;
 import FORMS.Recibo_de_dinero;
 import FORMS.Recibo_de_dinero_clientes;
 import FORMS.Cliente_Rubro;
+import FORMS.Proveedor_ABM;
 import FORMS.Recibo;
+import FORMS.Rubro;
+import FORMS.Rubro_ABM;
 import FORMS.Usuarios_ABM;
 import java.io.File;
 import java.net.InetAddress;
@@ -73,6 +78,7 @@ public class Metodos {
     public static int id_usuario = 0;
     public static int id = 0;
     public static int id_ciudad = 0;
+    public static int id_obligacion = 0;
     public static int id_cliente = 0;
     public static int id_proveedor = 0;
     public static int id_rubro = 0;
@@ -86,6 +92,7 @@ public class Metodos {
 
     public static int id_recibo = 0;
     public static int max = 0;
+    public static boolean error = false;
 
     public synchronized static void Ciudad_guardar(String ciudad) {
         try {
@@ -117,6 +124,135 @@ public class Metodos {
 
         } catch (SQLException ex) {
             System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Obligaciones_editar() {
+        try {
+
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery(""
+                    + "SELECT * FROM obligacion "
+                    + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
+                    + "where id_obligacion = '" + id_obligacion + "'");
+            if (result.next()) {
+                Obligaciones_ABM.jTextField_monto.setText(getSepararMiles(result.getString("monto")));
+                Obligaciones_ABM.jTextField_proveedor.setText(result.getString("nombre").trim());
+                id_proveedor = result.getInt("id_proveedor");
+                Obligaciones_ABM.jComboBox1.setSelectedItem(result.getString("mes"));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Ciudad_borrar() {
+        try {
+            error = false;
+            Statement ST = conexion.createStatement();
+            ResultSet resultRC = ST.executeQuery(""
+                    + "SELECT * FROM cliente "
+                    + "where id_ciudad = '" + id_ciudad + "' "
+                    + "and id_ciudad > '0'");
+            if (resultRC.next()) {
+                error = true;
+                JOptionPane.showMessageDialog(null, "No se puede borrar. Ciudad utilizada en el cliente: " + resultRC.getString("nombre").trim());
+            }
+
+            if (error == false) {
+                PreparedStatement Update2 = conexion.prepareStatement(""
+                        + "Delete from ciudad "
+                        + "WHERE id_ciudad ='" + id_ciudad + "'");
+                Update2.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Ciudad Borrada");
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+
+        }
+    }
+
+    public synchronized static void Obligaciones_borrar() {
+        try {
+//            error = false;
+//            Statement ST = conexion.createStatement();
+//            ResultSet resultRC = ST.executeQuery(""
+//                    + "SELECT * FROM cliente "
+//                    + "where id_ciudad = '" + id_ciudad + "' "
+//                    + "and id_ciudad > '0'");
+//            if (resultRC.next()) {
+//                error = true;
+//                JOptionPane.showMessageDialog(null, "No se puede borrar. Ciudad utilizada en el cliente: " + resultRC.getString("nombre").trim());
+//            }
+
+//            if (error == false) {
+            PreparedStatement Update2 = conexion.prepareStatement(""
+                    + "Delete from obligacion "
+                    + "WHERE id_obligacion ='" + id_obligacion + "'");
+            Update2.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Borrado correctamente");
+//            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+
+        }
+    }
+
+    public synchronized static void Obligaciones_update() {
+        try {
+
+            Statement ST = conexion.createStatement();
+            ResultSet resultRC = ST.executeQuery(""
+                    + "SELECT * FROM obligacion "
+                    + "where id_obligacion = '" + id_obligacion + "'");
+            if (resultRC.next()) {
+                if ("PENDIENTE".equals(resultRC.getString("estado"))) {
+                    PreparedStatement Update2 = conexion.prepareStatement(""
+                            + "UPDATE obligacion "
+                            + "set estado = 'PAGADO' "
+                            + "WHERE id_obligacion ='" + id_obligacion + "'");
+                    Update2.executeUpdate();
+                }else{
+                    PreparedStatement Update2 = conexion.prepareStatement(""
+                            + "UPDATE obligacion "
+                            + "set estado = 'PENDIENTE' "
+                            + "WHERE id_obligacion ='" + id_obligacion + "'");
+                    Update2.executeUpdate();
+                }
+            }
+            JOptionPane.showMessageDialog(null, "Guardado correctamente");
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Rubro_borrar() {
+        try {
+            error = false;
+            Statement ST = conexion.createStatement();
+            ResultSet resultRC = ST.executeQuery(""
+                    + "SELECT * FROM cliente "
+                    + "where id_rubro = '" + id_rubro + "' "
+                    + "and id_rubro > '0'");
+            if (resultRC.next()) {
+                error = true;
+                JOptionPane.showMessageDialog(null, "No se puede borrar. Rubro utilizado en el cliente: " + resultRC.getString("nombre").trim());
+            }
+
+            if (error == false) {
+                PreparedStatement Update2 = conexion.prepareStatement(""
+                        + "Delete from rubro "
+                        + "WHERE id_rubro ='" + id_rubro + "'");
+                Update2.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Borrado correctamente.");
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+
         }
     }
 
@@ -198,6 +334,11 @@ public class Metodos {
         DefaultTableModel tm = (DefaultTableModel) Clientes_estado_de_cuenta.jTable_recibos.getModel();
         id_recibo = Integer.parseInt(String.valueOf(tm.getValueAt(Clientes_estado_de_cuenta.jTable_recibos.getSelectedRow(), 0)));
         Buscar_recibo();
+    }
+
+    public synchronized static void Obligacion_seleccionar() {
+        DefaultTableModel tm = (DefaultTableModel) Obligaciones.jTable1.getModel();
+        id_obligacion = Integer.parseInt(String.valueOf(tm.getValueAt(Obligaciones.jTable1.getSelectedRow(), 0)));
     }
 
     public static void Buscar_recibo() {
@@ -383,7 +524,7 @@ public class Metodos {
             }
 
             long recibos = 0;
-            Recibo.jTextField_total.setText("0");
+//            Recibo.jTextField_total.setText("0");
 
             Statement ST_Productos8 = conexion.createStatement();
             ResultSet RS_Productos8 = ST_Productos8.executeQuery(""
@@ -396,8 +537,7 @@ public class Metodos {
                 recibos = RS_Productos8.getLong(1);
             }
 
-            Recibo.jTextField_total.setText(getSepararMiles(String.valueOf(recibos)));
-
+            // Recibo.jTextField_total.setText(getSepararMiles(String.valueOf(recibos)));
         } catch (SQLException ex) {
             System.err.println("Error: " + ex);
         }
@@ -729,22 +869,35 @@ public class Metodos {
 
     public synchronized static void Obligaciones_Guardar(String monto, String mes) {
         try {
-            Statement st1 = conexion.createStatement();
-            ResultSet result = st1.executeQuery("SELECT MAX(id_obligacion) FROM obligacion");
-            if (result.next()) {
-                id = result.getInt(1) + 1;
+
+            if (id_obligacion == 0) {
+
+                Statement st1 = conexion.createStatement();
+                ResultSet result = st1.executeQuery("SELECT MAX(id_obligacion) FROM obligacion");
+                if (result.next()) {
+                    id = result.getInt(1) + 1;
+                }
+
+                PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO obligacion VALUES(?,?,?,?,?,?)");
+                ST_update.setInt(1, id);
+                ST_update.setInt(2, id_proveedor);
+                ST_update.setString(3, mes);
+                ST_update.setLong(4, Long.parseLong(monto.replace(".", "")));
+                ST_update.setString(5, "PENDIENTE");
+                ST_update.setInt(6, periodo);
+                ST_update.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "Guardado correctamente");
+            } else {
+                PreparedStatement stClienteBorrar3 = conexion.prepareStatement(""
+                        + "UPDATE obligacion "
+                        + "SET monto='" + Long.parseLong(monto.replace(".", "")) + "', "
+                        + "id_proveedor = '" + id_proveedor + "', "
+                        + "mes = '" + mes + "' "
+                        + "WHERE id_obligacion = '" + id_obligacion + "' ");
+                stClienteBorrar3.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Guardado correctamente");
             }
-
-            PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO obligacion VALUES(?,?,?,?,?,?)");
-            ST_update.setInt(1, id);
-            ST_update.setInt(2, id_proveedor);
-            ST_update.setString(3, mes);
-            ST_update.setLong(4, Long.parseLong(monto.replace(".", "")));
-            ST_update.setString(5, "PENDIENTE");
-            ST_update.setInt(6, periodo);
-            ST_update.executeUpdate();
-
-            JOptionPane.showMessageDialog(null, "Agregado correctamente");
 
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -904,6 +1057,8 @@ public class Metodos {
             ST_update.setInt(1, id);
             ST_update.setString(2, rubro);
             ST_update.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Agregado correctamente");
 
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -1180,6 +1335,32 @@ public class Metodos {
         Clientes_ABM.jTextField_ciudad.setText(String.valueOf(tm.getValueAt(Clientes_Ciudad.jTable1.getSelectedRow(), 1)));
     }
 
+    public synchronized static void Proveedor_ABM_seleccionar() {
+        try {
+            DefaultTableModel tm = (DefaultTableModel) Proveedor.jTable1.getModel();
+            id_proveedor = Integer.parseInt(String.valueOf(tm.getValueAt(Proveedor.jTable1.getSelectedRow(), 0)));
+
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery(""
+                    + "SELECT * "
+                    + "from proveedor "
+                    + "where id_proveedor = '" + id_proveedor + "' "
+                    + " ");
+            if (result.next()) {
+                Proveedor_ABM.jTextField_proveedor.setText(result.getString("nombre").trim());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Metodos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public synchronized static void Ciudad_ABM_seleccionar() {
+        DefaultTableModel tm = (DefaultTableModel) Ciudad.jTable1.getModel();
+        id_ciudad = Integer.parseInt(String.valueOf(tm.getValueAt(Ciudad.jTable1.getSelectedRow(), 0)));
+        Ciudad_ABM.jTextField_ciudad.setText(String.valueOf(tm.getValueAt(Ciudad.jTable1.getSelectedRow(), 1)));
+    }
+
     public synchronized static void Clientes_seleccionar() {
         DefaultTableModel tm = (DefaultTableModel) Clientes.jTable1.getModel();
         id_cliente = Integer.parseInt(String.valueOf(tm.getValueAt(Clientes.jTable1.getSelectedRow(), 0)));
@@ -1215,6 +1396,12 @@ public class Metodos {
         Clientes_ABM.jTextField_rubro.setText(String.valueOf(tm.getValueAt(Cliente_Rubro.jTable1.getSelectedRow(), 1)));
     }
 
+    public synchronized static void Rubro_ABM_seleccionar() {
+        DefaultTableModel tm = (DefaultTableModel) Rubro.jTable1.getModel();
+        id_rubro = Integer.parseInt(String.valueOf(tm.getValueAt(Rubro.jTable1.getSelectedRow(), 0)));
+        Rubro_ABM.jTextField_rubro.setText(String.valueOf(tm.getValueAt(Rubro.jTable1.getSelectedRow(), 1)));
+    }
+
     public synchronized static void Ciudad_cargar_jtable(String buscar) {
         try {
 
@@ -1244,6 +1431,72 @@ public class Metodos {
                 dtm.addRow(data.get(i));
             }
 
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Proveedor_ABM_cargar_jtable(String buscar) {
+        try {
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT id_proveedor, nombre "
+                    + "from proveedor "
+                    + "where id_proveedor > '0' "
+                    + "and nombre ilike '%" + buscar + "%' "
+                    + "order by nombre");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Proveedor.jTable1.getModel();
+            for (int j = 0; j < Proveedor.jTable1.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[i] = rs.getObject(i + 1).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Proveedor.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Ciudad_ABM_cargar_jtable(String buscar) {
+        try {
+            ps = conexion.prepareStatement(""
+                    + "SELECT id_ciudad, ciudad "
+                    + "from ciudad "
+                    + "where id_ciudad > '0' "
+                    + "and ciudad ilike '%" + buscar + "%' "
+                    + "order by ciudad");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Ciudad.jTable1.getModel();
+            for (int j = 0; j < Ciudad.jTable1.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[i] = rs.getObject(i + 1).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Ciudad.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
         } catch (SQLException ex) {
             System.err.println(ex);
         }
@@ -1963,6 +2216,40 @@ public class Metodos {
                 data.add(rows);
             }
             dtm = (DefaultTableModel) Cliente_Rubro.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Rubro_ABM_cargar_jtable(String buscar) {
+        try {
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT id_rubro, rubro "
+                    + "from rubro "
+                    + "where id_rubro > '0' "
+                    + "and rubro ilike '%" + buscar + "%' "
+                    + "order by rubro");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Rubro.jTable1.getModel();
+            for (int j = 0; j < Rubro.jTable1.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[i] = rs.getObject(i + 1).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Rubro.jTable1.getModel();
             for (int i = 0; i < data.size(); i++) {
                 dtm.addRow(data.get(i));
             }

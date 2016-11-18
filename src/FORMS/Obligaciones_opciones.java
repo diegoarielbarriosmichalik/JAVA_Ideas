@@ -1,20 +1,17 @@
 package FORMS;
 
 import DEV.Metodos;
-import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
-public class Ciudad_ABM extends javax.swing.JFrame {
+public class Obligaciones_opciones extends javax.swing.JFrame {
 
-    public Ciudad_ABM() {
+    public Obligaciones_opciones() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Ciudad");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
 
-        Metodos.id_ciudad = 0;
-
-        jButton_borrar.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -22,11 +19,10 @@ public class Ciudad_ABM extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jTextField_ciudad = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton_borrar = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -39,29 +35,9 @@ public class Ciudad_ABM extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 255)));
 
-        jTextField_ciudad.setToolTipText("");
-        jTextField_ciudad.setBorder(javax.swing.BorderFactory.createTitledBorder("Ciudad (ENTER para buscar)"));
-        jTextField_ciudad.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField_ciudadKeyReleased(evt);
-            }
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField_ciudadKeyPressed(evt);
-            }
-        });
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo_mini.png"))); // NOI18N
-        jButton1.setMnemonic('n');
-        jButton1.setToolTipText("Alt + N");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/terminar_mini.jpg"))); // NOI18N
         jButton3.setMnemonic('g');
-        jButton3.setToolTipText("Alt + G");
+        jButton3.setToolTipText("Marcar como pagado");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -86,22 +62,29 @@ public class Ciudad_ABM extends javax.swing.JFrame {
             }
         });
 
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/editar_mini.jpg"))); // NOI18N
+        jButton4.setMnemonic('x');
+        jButton4.setToolTipText("Alt + X");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextField_ciudad, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton_borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,17 +93,16 @@ public class Ciudad_ABM extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jButton_borrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jTextField_ciudad))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,28 +116,12 @@ public class Ciudad_ABM extends javax.swing.JFrame {
         // jTextField_nombre.requestFocus();
     }//GEN-LAST:event_formWindowOpened
 
-    private void jTextField_ciudadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_ciudadKeyPressed
-        if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
-            new Ciudad().setVisible(true);
-        }
-        if ((evt.getKeyCode() == KeyEvent.VK_ESCAPE)) {
-            this.setVisible(false);
-        }
-    }//GEN-LAST:event_jTextField_ciudadKeyPressed
-
-    private void jTextField_ciudadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_ciudadKeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_ciudadKeyReleased
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jTextField_ciudad.setText("");
-        Metodos.id_ciudad = 0;
-        jTextField_ciudad.requestFocus();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Metodos.Ciudad_guardar(jTextField_ciudad.getText());
-        jTextField_ciudad.requestFocus();
+        if (JOptionPane.showConfirmDialog(rootPane, "¿Desea cambiar el estado de esta obligación?", "ALERTA", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            Metodos.Obligaciones_update();
+            this.setVisible(false);
+            Metodos.Obligaciones_cargar_jtable(Obligaciones.mes_str);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -163,12 +129,20 @@ public class Ciudad_ABM extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton_borrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_borrarActionPerformed
-        Metodos.Ciudad_borrar();
-        jButton_borrar.setVisible(false);
-        jTextField_ciudad.setText("");
-        jTextField_ciudad.requestFocus();
-        Metodos.id_ciudad = 0;
+        if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar esta obligación?", "AVISO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            Metodos.Obligaciones_borrar();
+            this.setVisible(false);
+            Metodos.Obligaciones_cargar_jtable(Obligaciones.mes_str);
+        }
     }//GEN-LAST:event_jButton_borrarActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Metodos.Obligacion_seleccionar();
+        this.setVisible(false);
+        new Obligaciones_ABM().setVisible(true);
+        Metodos.Obligaciones_editar();
+
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -179,19 +153,18 @@ public class Ciudad_ABM extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Ciudad_ABM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Obligaciones_opciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(() -> {
-            new Ciudad_ABM().setVisible(true);
+            new Obligaciones_opciones().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     public static javax.swing.JButton jButton_borrar;
     private javax.swing.JPanel jPanel1;
-    public static javax.swing.JTextField jTextField_ciudad;
     // End of variables declaration//GEN-END:variables
 }

@@ -20,10 +20,10 @@ public class Recibo extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jTextField_buscar = new javax.swing.JTextField();
-        jTextField_total = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable_recibos = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setUndecorated(true);
         setResizable(false);
@@ -45,11 +45,6 @@ public class Recibo extends javax.swing.JFrame {
                 jTextField_buscarKeyPressed(evt);
             }
         });
-
-        jTextField_total.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jTextField_total.setForeground(new java.awt.Color(0, 102, 0));
-        jTextField_total.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField_total.setText("0");
 
         jTable_recibos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -98,6 +93,15 @@ public class Recibo extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setMnemonic('N');
+        jButton1.setText("Nuevo recibo de dinero");
+        jButton1.setToolTipText("");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -110,9 +114,9 @@ public class Recibo extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 983, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jTextField_total, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -125,8 +129,8 @@ public class Recibo extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jButton1)
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -167,6 +171,11 @@ public class Recibo extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Metodos.id_recibo = 0;
+        new Recibo_de_dinero().setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public static void main(String args[]) {
 
         try {
@@ -185,11 +194,11 @@ public class Recibo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JTable jTable_recibos;
     public static javax.swing.JTextField jTextField_buscar;
-    public static javax.swing.JTextField jTextField_total;
     // End of variables declaration//GEN-END:variables
 }

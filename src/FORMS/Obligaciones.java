@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package FORMS;
 
 import DEV.Metodos;
@@ -11,62 +6,57 @@ import java.io.File;
 import java.util.Calendar;
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author Dell
- */
 public class Obligaciones extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Facebook_totales
-     */
+    public static String mes_str = "";
+
     public Obligaciones() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Obligaciones");
         new File(".").getAbsolutePath();
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
-        
+
         Calendar fecha = Calendar.getInstance();
         int mes = fecha.get(Calendar.MONTH) + 1;
-        String mes_str ="";
-        if (mes == 1){
+        String mes_str = "";
+        if (mes == 1) {
             mes_str = "Enero";
         }
-        if (mes == 2){
+        if (mes == 2) {
             mes_str = "Febrero";
         }
-        if (mes == 3){
+        if (mes == 3) {
             mes_str = "Marzo";
         }
-        if (mes == 4){
+        if (mes == 4) {
             mes_str = "Abril";
         }
-        if (mes == 5){
+        if (mes == 5) {
             mes_str = "Mayo";
         }
-        if (mes == 6){
+        if (mes == 6) {
             mes_str = "Junio";
         }
-        if (mes == 7){
+        if (mes == 7) {
             mes_str = "Julio";
         }
-        if (mes == 8){
+        if (mes == 8) {
             mes_str = "Agosto";
         }
-        if (mes == 9){
+        if (mes == 9) {
             mes_str = "Setiembre";
         }
-        if (mes == 10){
+        if (mes == 10) {
             mes_str = "Octubre";
         }
-        if (mes == 11){
+        if (mes == 11) {
             mes_str = "Noviembre";
         }
-        if (mes == 12){
+        if (mes == 12) {
             mes_str = "Diciembre";
         }
-        
+
         Metodos.Obligaciones_cargar_jtable(mes_str);
         jComboBox1.requestFocus();
     }
@@ -108,6 +98,11 @@ public class Obligaciones extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -272,15 +267,13 @@ public class Obligaciones extends javax.swing.JFrame {
         Metodos.Obligaciones_cargar_jtable(jComboBox1.getSelectedItem().toString());
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+
+        Metodos.Obligacion_seleccionar();
+        new Obligaciones_opciones().setVisible(true);
+    }//GEN-LAST:event_jTable1MouseClicked
+
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -288,25 +281,11 @@ public class Obligaciones extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Obligaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Obligaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Obligaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Obligaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Obligaciones().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Obligaciones().setVisible(true);
         });
     }
 
