@@ -165,7 +165,9 @@ public class Rubro_ABM extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Metodos.Rubro_guardar(jTextField_rubro.getText());
+        jTextField_rubro.setText("");
         jTextField_rubro.requestFocus();
+        Metodos.id_rubro = 0;
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

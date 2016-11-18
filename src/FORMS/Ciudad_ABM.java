@@ -155,6 +155,8 @@ public class Ciudad_ABM extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Metodos.Ciudad_guardar(jTextField_ciudad.getText());
+        jTextField_ciudad.setText("");
+        Metodos.id_ciudad = 0;
         jTextField_ciudad.requestFocus();
     }//GEN-LAST:event_jButton3ActionPerformed
 

@@ -32,7 +32,11 @@ import FORMS.Recibo;
 import FORMS.Rubro;
 import FORMS.Rubro_ABM;
 import FORMS.Usuarios_ABM;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -119,7 +123,7 @@ public class Metodos {
                         + "SET ciudad ='" + ciudad + "' "
                         + "WHERE id_ciudad = '" + id_ciudad + "'");
                 st2.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Guardado correctamente");
+                JOptionPane.showMessageDialog(null, "Actualizado correctamente");
             }
 
         } catch (SQLException ex) {
@@ -173,6 +177,41 @@ public class Metodos {
 
         }
     }
+    public synchronized static void Cliente_borrar() {
+        try {
+            error = false;
+            Statement ST = conexion.createStatement();
+            ResultSet resultRC = ST.executeQuery(""
+                    + "SELECT * FROM facebook "
+                    + "where id_cliente = '" + id_cliente + "' "
+                    + "and id_cliente > '0'");
+            if (resultRC.next()) {
+                error = true;
+                JOptionPane.showMessageDialog(null, "No se puede borrar. Cliente utilizado en el publicaciones.");
+            }
+            Statement ST2 = conexion.createStatement();
+            ResultSet resultRC2 = ST2.executeQuery(""
+                    + "SELECT * FROM pago "
+                    + "where id_cliente = '" + id_cliente + "' "
+                    + "and id_cliente > '0'");
+            if (resultRC2.next()) {
+                error = true;
+                JOptionPane.showMessageDialog(null, "No se puede borrar. Cliente utilizado en el pagos.");
+            }
+
+            if (error == false) {
+                PreparedStatement Update2 = conexion.prepareStatement(""
+                        + "Delete from cliente "
+                        + "WHERE id_cliente ='" + id_cliente + "'");
+                Update2.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Cliente borrado.");
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+
+        }
+    }
 
     public synchronized static void Obligaciones_borrar() {
         try {
@@ -215,7 +254,7 @@ public class Metodos {
                             + "set estado = 'PAGADO' "
                             + "WHERE id_obligacion ='" + id_obligacion + "'");
                     Update2.executeUpdate();
-                }else{
+                } else {
                     PreparedStatement Update2 = conexion.prepareStatement(""
                             + "UPDATE obligacion "
                             + "set estado = 'PENDIENTE' "
@@ -246,6 +285,32 @@ public class Metodos {
                 PreparedStatement Update2 = conexion.prepareStatement(""
                         + "Delete from rubro "
                         + "WHERE id_rubro ='" + id_rubro + "'");
+                Update2.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Borrado correctamente.");
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+
+        }
+    }
+    public synchronized static void Proveedor_borrar() {
+        try {
+            error = false;
+            Statement ST = conexion.createStatement();
+            ResultSet resultRC = ST.executeQuery(""
+                    + "SELECT * FROM obligacion "
+                    + "where id_proveedor = '" + id_proveedor + "' "
+                    + "and id_proveedor > '0'");
+            if (resultRC.next()) {
+                error = true;
+                JOptionPane.showMessageDialog(null, "No se puede borrar. Proveedor utilizado.");
+            }
+
+            if (error == false) {
+                PreparedStatement Update2 = conexion.prepareStatement(""
+                        + "Delete from proveedor "
+                        + "WHERE id_proveedor ='" + id_proveedor + "'");
                 Update2.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Borrado correctamente.");
             }
@@ -846,21 +911,33 @@ public class Metodos {
                 id = result.getInt(1) + 1;
             }
 
-            if ((proveedor.length() > 0) && (ruc.length() > 0) && (telefono.length() > 0)) {
-                PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO proveedor VALUES(?,?,?,?,?, ?,?,?,? )");
-                ST_update.setInt(1, id);
-                ST_update.setString(2, proveedor);
-                ST_update.setString(3, telefono);
-                ST_update.setString(4, ruc);
-                ST_update.setString(5, "");
-                ST_update.setString(6, "");
-                ST_update.setString(7, "");
-                ST_update.setString(8, proveedor);
-                ST_update.setInt(9, 0);
-                ST_update.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Guardado correctamente");
+            if (id_proveedor == 0) {
+
+                if ((proveedor.length() > 0) && (ruc.length() > 0) && (telefono.length() > 0)) {
+                    PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO proveedor VALUES(?,?,?,?,?, ?,?,?,? )");
+                    ST_update.setInt(1, id);
+                    ST_update.setString(2, proveedor);
+                    ST_update.setString(3, telefono);
+                    ST_update.setString(4, ruc);
+                    ST_update.setString(5, "");
+                    ST_update.setString(6, "");
+                    ST_update.setString(7, "");
+                    ST_update.setString(8, proveedor);
+                    ST_update.setInt(9, 0);
+                    ST_update.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Guardado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Complete todos los campos");
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Complete todos los campos");
+                PreparedStatement stClienteBorrar3 = conexion.prepareStatement(""
+                        + "UPDATE proveedor "
+                        + "SET nombre = '" + proveedor + "', "
+                        + "ruc = '" + ruc + "', "
+                        + "telefono = '" + telefono + "' "
+                        + "WHERE id_proveedor = '" + id_proveedor + "' ");
+                stClienteBorrar3.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Actualizado correctamente");
             }
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -1047,18 +1124,28 @@ public class Metodos {
 
     public synchronized static void Rubro_guardar(String rubro) {
         try {
-            Statement st1 = conexion.createStatement();
-            ResultSet result = st1.executeQuery("SELECT MAX(id_rubro) FROM rubro");
-            if (result.next()) {
-                id = result.getInt(1) + 1;
+            if (id_rubro == 0) {
+                Statement st1 = conexion.createStatement();
+                ResultSet result = st1.executeQuery("SELECT MAX(id_rubro) FROM rubro");
+                if (result.next()) {
+                    id = result.getInt(1) + 1;
+                }
+
+                PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO rubro VALUES(?,?)");
+                ST_update.setInt(1, id);
+                ST_update.setString(2, rubro);
+                ST_update.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Guardado correctamente");
+
+            } else {
+                PreparedStatement stClienteBorrar3 = conexion.prepareStatement(""
+                        + "UPDATE rubro "
+                        + "SET rubro ='" + rubro + "' "
+                        + "WHERE id_rubro  ='" + id_rubro + "' ");
+                stClienteBorrar3.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Actualizado correctamente");
             }
-
-            PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO rubro VALUES(?,?)");
-            ST_update.setInt(1, id);
-            ST_update.setString(2, rubro);
-            ST_update.executeUpdate();
-
-            JOptionPane.showMessageDialog(null, "Agregado correctamente");
+            Rubro_ABM.jButton_borrar.setVisible(false);
 
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -1348,6 +1435,16 @@ public class Metodos {
                     + " ");
             if (result.next()) {
                 Proveedor_ABM.jTextField_proveedor.setText(result.getString("nombre").trim());
+
+                if (result.getString("ruc") == null) {
+                } else {
+                    Proveedor_ABM.jTextField_ruc.setText(result.getString("ruc").trim());
+                }
+                if (result.getString("telefono") == null) {
+                } else {
+                    Proveedor_ABM.jTextField_telefono.setText(result.getString("telefono").trim());
+                }
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(Metodos.class.getName()).log(Level.SEVERE, null, ex);
@@ -1530,6 +1627,42 @@ public class Metodos {
                 data.add(rows);
             }
             dtm = (DefaultTableModel) Avisos.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+    }
+
+    public synchronized static void Cliente_cargar_jtable() {
+        try {
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT fecha, mes, monto, estado "
+                    + "from pago "
+                    + "where id_cliente = '" + id_cliente + "' "
+                    + " order by mes ");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Clientes_ABM.jTable1.getModel();
+            for (int j = 0; j < Clientes_ABM.jTable1.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[0] = rs.getObject(1).toString().trim();
+                    rows[1] = rs.getObject(2).toString().trim();
+                    rows[2] = getSepararMiles(rs.getObject(3).toString());
+                    rows[3] = rs.getObject(4).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Clientes_ABM.jTable1.getModel();
             for (int i = 0; i < data.size(); i++) {
                 dtm.addRow(data.get(i));
             }
@@ -2318,37 +2451,44 @@ public class Metodos {
 
     public static void Iniciar_Conexion() {
         try {
-            InetAddress ip;
-            ip = InetAddress.getLocalHost();
-            NetworkInterface network = NetworkInterface.getByInetAddress(ip);
-            byte[] mac = network.getHardwareAddress();
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < mac.length; i++) {
-                sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+            String result = "";
+            String drive = "C";
+            File file = File.createTempFile("realhowto", ".vbs");
+            file.deleteOnExit();
+            FileWriter fw = new java.io.FileWriter(file);
+
+            String vbs = "Set objFSO = CreateObject(\"Scripting.FileSystemObject\")\n"
+                    + "Set colDrives = objFSO.Drives\n"
+                    + "Set objDrive = colDrives.item(\"" + drive + "\")\n"
+                    + "Wscript.Echo objDrive.SerialNumber";
+            fw.write(vbs);
+            fw.close();
+            Process p = Runtime.getRuntime().exec("cscript //NoLogo " + file.getPath());
+            BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
+            while ((line = input.readLine()) != null) {
+                result += line;
+            }
+            input.close();
+
+            String db = "ideas";
+            String host = "localhost";
+            String user = "postgres";
+            String pass = "postgres";
+            String mac_adress = "0";
+
+            if (result.equals("-792900638")) { // 4k 
+                mac_adress = result;
+            }
+            if (result.equals("1687533508")) { // 4k 
+                mac_adress = result;
             }
 
-            String db = null;
-            String host = null;
-            String user = null;
-            String pass = null;
-            String mac_adress = null;
-            String mac_adress2 = null;
-
-            db = "ideas";
-            host = "localhost";
-            user = "postgres";
-            pass = "postgres";
-            mac_adress = "00-E0-4C-80-14-91";
-            mac_adress2 = "";
-
-            if ((sb.toString().equals(mac_adress)) || (sb.toString().equals(mac_adress2))) {
+            if (mac_adress.equals("-792900638") || mac_adress.equals("1687533508") ) { // 4k 
                 Class.forName("org.postgresql.Driver");
                 conexion = DriverManager.getConnection("jdbc:postgresql://" + host + ":5432/" + db, user, pass);
-                //       Logueo.jLabel2.setVisible(false);
-                //  Logueo.jTextField1.setEditable(true);
-                //    Logueo.jPasswordField1.setEditable(true);
             } else {
-                JOptionPane.showMessageDialog(null, "PC no registrada (" + sb.toString() + ")");
+                JOptionPane.showMessageDialog(null, "PC no registrada " + result);
                 System.exit(-1);
             }
 
@@ -2356,6 +2496,8 @@ public class Metodos {
             JOptionPane.showMessageDialog(null, "Error al iniciar la conexion con la base de datos." + ex);
             System.exit(-1);
         } catch (ClassNotFoundException | UnknownHostException | SocketException ex) {
+            System.err.println(ex);
+        } catch (IOException ex) {
             System.err.println(ex);
         }
     }

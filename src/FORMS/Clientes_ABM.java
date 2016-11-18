@@ -2,7 +2,6 @@ package FORMS;
 
 import DEV.Metodos;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import javax.swing.ImageIcon;
 
 public class Clientes_ABM extends javax.swing.JFrame {
@@ -16,8 +15,10 @@ public class Clientes_ABM extends javax.swing.JFrame {
         
         Metodos.id_ciudad = 0;
         Metodos.id_rubro = 0;
-
-        //  Metodos.id_cliente = 0;
+        
+        Metodos.Cliente_cargar_jtable();
+        jButton_borrar.setVisible(false);
+        
     }
     
     @SuppressWarnings("unchecked")
@@ -59,10 +60,11 @@ public class Clientes_ABM extends javax.swing.JFrame {
         jTextField_ideas = new javax.swing.JTextField();
         jTextField_mensual = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton_borrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -475,45 +477,54 @@ public class Clientes_ABM extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Fecha de Pago", "Monto"
+                "Fecha", "Mes ", "Monto", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane5.setViewportView(jTable5);
-        if (jTable5.getColumnModel().getColumnCount() > 0) {
-            jTable5.getColumnModel().getColumn(0).setResizable(false);
-            jTable5.getColumnModel().getColumn(0).setPreferredWidth(150);
-            jTable5.getColumnModel().getColumn(1).setResizable(false);
-            jTable5.getColumnModel().getColumn(1).setPreferredWidth(150);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGap(0, 726, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+            .addGap(0, 378, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         jTabbedPane1.addTab("Historial de Pagos", jPanel4);
@@ -536,6 +547,15 @@ public class Clientes_ABM extends javax.swing.JFrame {
             }
         });
 
+        jButton_borrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/del_mini.png"))); // NOI18N
+        jButton_borrar.setMnemonic('n');
+        jButton_borrar.setToolTipText("Alt + N");
+        jButton_borrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_borrarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -546,6 +566,8 @@ public class Clientes_ABM extends javax.swing.JFrame {
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton_borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -560,10 +582,14 @@ public class Clientes_ABM extends javax.swing.JFrame {
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jButton_borrar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -656,7 +682,7 @@ public class Clientes_ABM extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField_ideasKeyReleased
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
-        
+
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void jTextField_maranduFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_maranduFocusGained
@@ -678,16 +704,53 @@ public class Clientes_ABM extends javax.swing.JFrame {
     private void jDateChooser_vencimientoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jDateChooser_vencimientoKeyPressed
 
     }//GEN-LAST:event_jDateChooser_vencimientoKeyPressed
-
+    
     public static void Clear() {
-       Metodos.id_cliente = 0;
-       jTextField_nombre.setText("");
+        Metodos.id_cliente = 0;
+        jTextField_nombre.setText("");
+        jTextField_ciudad.setText("");
+        jTextField_direccion.setText("");
+        jTextField_email.setText("");
+        jTextField_encargado.setText("");
+        jTextField_ideas.setText("0");
+        jTextField_lunes_a_viernes.setText("");
+        jTextField_marandu.setText("0");
+        jTextField_marcas.setText("");
+        jTextField_mensual.setText("0");
+        jTextField_nombre.setText("");
+        jTextField_paginas.setText("0");
+        jTextField_preferencia.setText("");
+        jTextField_rubro.setText("");
+        jTextField_ruc.setText("");
+        jTextField_sabado.setText("");
+        jTextField_sugerencia.setText("");
+        jTextField_telefono.setText("");
+        jDateChooser_vencimiento.setDate(null);
+        Metodos.id_rubro = 0;
+        Metodos.id_ciudad = 0;
+        jTextField_nombre.requestFocus();
+        Metodos.Cliente_producto_cargar_jtable();
+        Metodos.Cliente_colores_cargar_jtable();
+        Metodos.Cliente_cargar_jtable();
+        jButton_borrar.setVisible(false);
+        
     }
     
-    
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Clear();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton_borrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_borrarActionPerformed
+        Metodos.Cliente_borrar();
+        jButton_borrar.setVisible(false);
+        Metodos.Cliente_cargar_jtable();
+        Clear();
+    }//GEN-LAST:event_jButton_borrarActionPerformed
     
     public static void main(String args[]) {
         
@@ -713,6 +776,7 @@ public class Clientes_ABM extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    public static javax.swing.JButton jButton_borrar;
     public static com.toedter.calendar.JDateChooser jDateChooser_vencimiento;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -720,12 +784,12 @@ public class Clientes_ABM extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable5;
+    public static javax.swing.JTable jTable1;
     public static javax.swing.JTable jTable_color;
     public static javax.swing.JTable jTable_productos;
     public static javax.swing.JTable jTable_trabajo_extra;

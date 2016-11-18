@@ -7,16 +7,16 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
 public class Clientes extends javax.swing.JFrame {
-
+    
     public Clientes() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Clientes");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
         Metodos.Clientes_cargar_jtable(jTextField_buscar.getText());
-
+        
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -123,9 +123,9 @@ public class Clientes extends javax.swing.JFrame {
             } catch (AWTException ex) {
                 System.err.println(ex);
             }
-
+            
         }
-
+        
 
     }//GEN-LAST:event_jTextField_buscarKeyPressed
 
@@ -136,15 +136,17 @@ public class Clientes extends javax.swing.JFrame {
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
             this.setVisible(false);
             Metodos.Clientes_seleccionar();
+            Metodos.Cliente_cargar_jtable();
+            Clientes_ABM.jButton_borrar.setVisible(true);
         }
     }//GEN-LAST:event_jTable1KeyPressed
 
     private void jTextField_buscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_buscarKeyReleased
         Metodos.Clientes_cargar_jtable(jTextField_buscar.getText());
     }//GEN-LAST:event_jTextField_buscarKeyReleased
-
+    
     public static void main(String args[]) {
-
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -155,7 +157,7 @@ public class Clientes extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-
+        
         java.awt.EventQueue.invokeLater(() -> {
             new Clientes().setVisible(true);
         });

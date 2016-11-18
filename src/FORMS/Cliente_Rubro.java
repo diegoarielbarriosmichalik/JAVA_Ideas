@@ -1,7 +1,11 @@
 package FORMS;
 
 import DEV.Metodos;
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 public class Cliente_Rubro extends javax.swing.JFrame {
@@ -112,7 +116,13 @@ public class Cliente_Rubro extends javax.swing.JFrame {
             this.setVisible(false);
         }
         if ((evt.getKeyCode() == KeyEvent.VK_DOWN)) {
-            jTable1.requestFocus();
+            try {
+                jTable1.requestFocus();
+                Robot r = new Robot();
+                r.keyPress(KeyEvent.VK_DOWN);
+            } catch (AWTException ex) {
+                Logger.getLogger(Cliente_Rubro.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if ((evt.getKeyCode() == KeyEvent.VK_F3)) {
             new Rubro_ABM().setVisible(true);

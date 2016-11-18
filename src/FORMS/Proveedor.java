@@ -46,6 +46,9 @@ public class Proveedor extends javax.swing.JFrame {
             }
         });
         jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTable1KeyReleased(evt);
+            }
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTable1KeyPressed(evt);
             }
@@ -126,15 +129,20 @@ public class Proveedor extends javax.swing.JFrame {
         }
         
         if ((evt.getKeyCode() == KeyEvent.VK_ENTER)) {
-            new Proveedor_ABM().setVisible(true);
+           // new Proveedor_ABM().setVisible(true);
             Metodos.Proveedor_ABM_seleccionar();
             this.setVisible(false);
+            Proveedor_ABM.jButton_borrar.setVisible(true);
         }
     }//GEN-LAST:event_jTable1KeyPressed
 
     private void jTextField_buscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_buscarKeyReleased
         Metodos.Proveedor_ABM_cargar_jtable(jTextField_buscar.getText());
     }//GEN-LAST:event_jTextField_buscarKeyReleased
+
+    private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable1KeyReleased
     
     public static void main(String args[]) {
         
