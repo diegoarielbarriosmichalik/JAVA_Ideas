@@ -5,14 +5,14 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
 public class Pagos extends javax.swing.JFrame {
-
+    
     public Pagos() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Pagos");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -44,6 +44,11 @@ public class Pagos extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -146,8 +151,12 @@ public class Pagos extends javax.swing.JFrame {
         Metodos.Pagos_cargar_jtable(jTextField_buscar.getText());
     }//GEN-LAST:event_jTextField_buscarKeyReleased
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        new Pagos_opciones().setVisible(true);
+    }//GEN-LAST:event_jTable1MouseClicked
+    
     public static void main(String args[]) {
-
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -158,7 +167,7 @@ public class Pagos extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Pagos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-
+        
         java.awt.EventQueue.invokeLater(() -> {
             new Pagos().setVisible(true);
         });

@@ -4,9 +4,9 @@ import DEV.Metodos;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-public class Obligaciones_opciones extends javax.swing.JFrame {
+public class Pagos_opciones extends javax.swing.JFrame {
 
-    public Obligaciones_opciones() {
+    public Pagos_opciones() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Opciones");
@@ -153,10 +153,10 @@ public class Obligaciones_opciones extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Obligaciones_opciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pagos_opciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(() -> {
-            new Obligaciones_opciones().setVisible(true);
+            new Pagos_opciones().setVisible(true);
         });
     }
 
