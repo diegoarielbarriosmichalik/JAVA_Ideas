@@ -184,6 +184,14 @@ public class Facebook_publicaciones extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Metodos.Facebook_publicaciones_Guardar(
                 jTextField_publicacion.getText(), jDateChooser2.getDate(), jTextField_monto.getText());
+        
+        Metodos.id_publicacion = 0;
+        Metodos.id_cliente = 0;
+        jTextField_cliente.setText("");
+        jTextField_monto.setText("");
+        jTextField_publicacion.setText("");
+        jDateChooser2.setDate(null);
+        jTextField_cliente.requestFocus();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField_publicacionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_publicacionKeyReleased

@@ -84,6 +84,7 @@ public class Metodos {
     public static int id_ciudad = 0;
     public static int id_obligacion = 0;
     public static int id_cliente = 0;
+    public static int id_publicacion = 0;
     public static int id_proveedor = 0;
     public static int id_rubro = 0;
     public static int periodo = 0;
@@ -1021,12 +1022,12 @@ public class Metodos {
             Statement st1 = conexion.createStatement();
             ResultSet result = st1.executeQuery("SELECT MAX(id_facebook) FROM facebook");
             if (result.next()) {
-                id = result.getInt(1) + 1;
+                id_publicacion = result.getInt(1) + 1;
             }
             monto = monto.replace(".", "");
             if ((publicacion.length() > 0) && (fecha != null) && (isNumeric(monto))) {
                 PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO facebook VALUES(?,?,?,?,?,?,?)");
-                ST_update.setInt(1, id);
+                ST_update.setInt(1, id_publicacion);
                 ST_update.setInt(2, id_cliente);
                 ST_update.setString(3, publicacion);
                 ST_update.setDate(4, util_Date_to_sql_date(fecha));

@@ -1,4 +1,3 @@
-
 package FORMS;
 
 import DEV.Metodos;
@@ -6,10 +5,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import javax.swing.ImageIcon;
 
-
 public class Facebook extends javax.swing.JFrame {
-
-
+    
     public Facebook() {
         initComponents();
         setLocationRelativeTo(null);
@@ -21,8 +18,7 @@ public class Facebook extends javax.swing.JFrame {
         jCheckBox1.setSelected(true);
         jCheckBox2.setSelected(false);
     }
-
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -66,6 +62,11 @@ public class Facebook extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -183,8 +184,12 @@ public class Facebook extends javax.swing.JFrame {
         new Facebook_opciones().setVisible(true);
     }//GEN-LAST:event_jTable1KeyPressed
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        new Facebook_opciones().setVisible(true);
+    }//GEN-LAST:event_jTable1MouseClicked
+    
     public static void main(String args[]) {
-
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
