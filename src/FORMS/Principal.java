@@ -84,6 +84,8 @@ public class Principal extends javax.swing.JFrame {
         jSeparator15 = new javax.swing.JPopupMenu.Separator();
         jMenuItem18 = new javax.swing.JMenuItem();
         jSeparator16 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem19 = new javax.swing.JMenuItem();
+        jSeparator22 = new javax.swing.JPopupMenu.Separator();
         jMenu4 = new javax.swing.JMenu();
         jSeparator17 = new javax.swing.JPopupMenu.Separator();
         jMenuItem26 = new javax.swing.JMenuItem();
@@ -390,6 +392,15 @@ public class Principal extends javax.swing.JFrame {
         jMenu_informes.add(jMenuItem18);
         jMenu_informes.add(jSeparator16);
 
+        jMenuItem19.setText("Imprimir balance");
+        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem19ActionPerformed(evt);
+            }
+        });
+        jMenu_informes.add(jMenuItem19);
+        jMenu_informes.add(jSeparator22);
+
         jMenuBar1.add(jMenu_informes);
 
         jMenu4.setText("Personal");
@@ -626,6 +637,10 @@ public class Principal extends javax.swing.JFrame {
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
         new Listado_de_recibos().setVisible(true);
     }//GEN-LAST:event_jMenuItem17ActionPerformed
+
+    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+        new Listado_balance().setVisible(true);
+    }//GEN-LAST:event_jMenuItem19ActionPerformed
     
     public static void main(String args[]) {
         
@@ -669,6 +684,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem21;
     private javax.swing.JMenuItem jMenuItem26;
@@ -699,6 +715,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator20;
     private javax.swing.JPopupMenu.Separator jSeparator21;
+    private javax.swing.JPopupMenu.Separator jSeparator22;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;

@@ -37,8 +37,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.sql.Connection;
@@ -64,7 +62,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
-import sun.security.util.Password;
 
 public class Metodos {
 
@@ -86,6 +83,7 @@ public class Metodos {
     public static int id_ciudad = 0;
     public static int id_obligacion = 0;
     public static int id_cliente = 0;
+    public static int id_pago = 0;
     public static int id_publicacion = 0;
     public static int id_proveedor = 0;
     public static int id_rubro = 0;
@@ -130,7 +128,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -150,7 +148,27 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
+    public synchronized static void Pagos_editar() {
+        try {
+
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery(""
+                    + "SELECT * FROM pago "
+                    + "inner join cliente on cliente.id_cliente = pago.id_cliente "
+                    + "where pago.id_pago = '" + id_pago + "'");
+            if (result.next()) {
+                Pagos_ABM.jTextField_monto.setText(getSepararMiles(result.getString("monto")));
+                Pagos_ABM.jTextField_cliente.setText(result.getString("nombre").trim());
+                id_cliente = result.getInt("id_cliente");
+                Pagos_ABM.jDateChooser_fecha.setDate(result.getDate("fecha"));
+                Pagos_ABM.jComboBox1.setSelectedItem(result.getString("mes"));
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -171,7 +189,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -197,7 +215,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
 
         }
     }
@@ -233,25 +251,14 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
 
         }
     }
 
     public synchronized static void Obligaciones_borrar() {
         try {
-//            error = false;
-//            Statement ST = conexion.createStatement();
-//            ResultSet resultRC = ST.executeQuery(""
-//                    + "SELECT * FROM cliente "
-//                    + "where id_ciudad = '" + id_ciudad + "' "
-//                    + "and id_ciudad > '0'");
-//            if (resultRC.next()) {
-//                error = true;
-//                JOptionPane.showMessageDialog(null, "No se puede borrar. Ciudad utilizada en el cliente: " + resultRC.getString("nombre").trim());
-//            }
 
-//            if (error == false) {
             PreparedStatement Update2 = conexion.prepareStatement(""
                     + "Delete from obligacion "
                     + "WHERE id_obligacion ='" + id_obligacion + "'");
@@ -260,8 +267,20 @@ public class Metodos {
 //            }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
 
+        }
+    }
+
+    public synchronized static void Pago_borrar() {
+        try {
+            PreparedStatement Update2 = conexion.prepareStatement(""
+                    + "Delete from pago "
+                    + "WHERE id_pago ='" + id_pago + "'");
+            Update2.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Borrado correctamente");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -273,7 +292,7 @@ public class Metodos {
             Update2.executeUpdate();
             JOptionPane.showMessageDialog(null, "Borrado correctamente");
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
 
         }
     }
@@ -286,7 +305,7 @@ public class Metodos {
             Update2.executeUpdate();
             JOptionPane.showMessageDialog(null, "Borrado correctamente");
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
 
         }
     }
@@ -315,7 +334,34 @@ public class Metodos {
             }
             JOptionPane.showMessageDialog(null, "Guardado correctamente");
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
+    public synchronized static void Pagos_update() {
+        try {
+
+            Statement ST = conexion.createStatement();
+            ResultSet resultRC = ST.executeQuery(""
+                    + "SELECT * FROM pago "
+                    + "where id_pago = '" + id_pago + "'");
+            if (resultRC.next()) {
+                if ("PENDIENTE".equals(resultRC.getString("estado"))) {
+                    PreparedStatement Update2 = conexion.prepareStatement(""
+                            + "UPDATE pago "
+                            + "set estado = 'PAGADO' "
+                            + "WHERE id_pago ='" + id_pago + "'");
+                    Update2.executeUpdate();
+                } else {
+                    PreparedStatement Update2 = conexion.prepareStatement(""
+                            + "UPDATE pago "
+                            + "set estado = 'PENDIENTE' "
+                            + "WHERE id_pago ='" + id_pago + "'");
+                    Update2.executeUpdate();
+                }
+            }
+            JOptionPane.showMessageDialog(null, "Guardado correctamente");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -343,7 +389,7 @@ public class Metodos {
             }
             JOptionPane.showMessageDialog(null, "Guardado correctamente");
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -369,7 +415,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
 
         }
     }
@@ -396,7 +442,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
 
         }
     }
@@ -448,7 +494,7 @@ public class Metodos {
 
             JOptionPane.showMessageDialog(null, "Agregado correctamente");
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
 
     }
@@ -459,7 +505,7 @@ public class Metodos {
                     + "delete from recibos WHERE id_recibo ='" + id_recibo + "'");
             stUpdateAuxiliar2.executeUpdate();
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -484,10 +530,10 @@ public class Metodos {
             JasperViewer jv = new JasperViewer(jp, false);
             jv.setVisible(true);
         } catch (JRException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
-    
+
     public static void Listado_de_publicaciones(Date desde, Date hasta) {
         try {
             String path = ubicacion_proyecto + "\\reportes\\listado_de_publicaciones.jasper";
@@ -495,14 +541,30 @@ public class Metodos {
             Map parametros = new HashMap();
             parametros.put("fecha1", desde);
             parametros.put("fecha2", hasta);
-            
+
             JasperPrint jp = JasperFillManager.fillReport(jr, parametros, conexion);
             JasperViewer jv = new JasperViewer(jp, false);
             jv.setVisible(true);
         } catch (JRException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
+    public static void Listado_de_pagos(Date desde, Date hasta) {
+        try {
+            String path = ubicacion_proyecto + "\\reportes\\listado_de_pagos.jasper";
+            JasperReport jr = (JasperReport) JRLoader.loadObjectFromFile(path);
+            Map parametros = new HashMap();
+            parametros.put("fecha1", desde);
+            parametros.put("fecha2", hasta);
+
+            JasperPrint jp = JasperFillManager.fillReport(jr, parametros, conexion);
+            JasperViewer jv = new JasperViewer(jp, false);
+            jv.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
+
     public static void Listado_de_recibos(Date desde, Date hasta) {
         try {
             String path = ubicacion_proyecto + "\\reportes\\listado_de_recibos.jasper";
@@ -510,12 +572,12 @@ public class Metodos {
             Map parametros = new HashMap();
             parametros.put("fecha1", desde);
             parametros.put("fecha2", hasta);
-            
+
             JasperPrint jp = JasperFillManager.fillReport(jr, parametros, conexion);
             JasperViewer jv = new JasperViewer(jp, false);
             jv.setVisible(true);
         } catch (JRException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -528,6 +590,11 @@ public class Metodos {
     public synchronized static void Obligacion_seleccionar() {
         DefaultTableModel tm = (DefaultTableModel) Obligaciones.jTable1.getModel();
         id_obligacion = Integer.parseInt(String.valueOf(tm.getValueAt(Obligaciones.jTable1.getSelectedRow(), 0)));
+    }
+
+    public synchronized static void Pago_seleccionar() {
+        DefaultTableModel tm = (DefaultTableModel) Pagos.jTable1.getModel();
+        id_pago = Integer.parseInt(String.valueOf(tm.getValueAt(Pagos.jTable1.getSelectedRow(), 0)));
     }
 
     public synchronized static void Recibo_seleccionar() {
@@ -556,7 +623,7 @@ public class Metodos {
                 Recibo_de_dinero.jDateChooser2.setDate(RS_Productos.getDate("fecha"));
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -569,7 +636,7 @@ public class Metodos {
                     + "WHERE generar_recibo = '1'");
             st2.executeUpdate();
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -758,7 +825,7 @@ public class Metodos {
                 nombre = rs.getString("nombre").trim();
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
 
         return nombre;
@@ -911,7 +978,7 @@ public class Metodos {
                 max = rs2.getInt(1) + 1;
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -952,10 +1019,10 @@ public class Metodos {
                         + "activa ='1' "
                         + "WHERE id_recibo  ='" + id_recibo + "'");
                 ST2.executeUpdate();
-                
+
             }
         } catch (SQLException | ClassNotFoundException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
 
     }
@@ -992,7 +1059,7 @@ public class Metodos {
 
             }
         } catch (SQLException | ClassNotFoundException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
 
     }
@@ -1023,7 +1090,7 @@ public class Metodos {
                 dtm.addRow(data2.get(i));
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1112,7 +1179,7 @@ public class Metodos {
                 JOptionPane.showMessageDialog(null, "Actualizado correctamente");
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1149,33 +1216,53 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
     public synchronized static void Pagos_Guardar(String monto, String mes, Date fecha) {
         try {
-            Statement st1 = conexion.createStatement();
-            ResultSet result = st1.executeQuery("SELECT MAX(id_pago) FROM pago");
-            if (result.next()) {
-                id = result.getInt(1) + 1;
+
+            if (monto != null && isNumeric(monto.replace(".", "")) && fecha != null && id_cliente > 0) {
+                if (id_pago == 0) {
+
+                    Statement st1 = conexion.createStatement();
+                    ResultSet result = st1.executeQuery("SELECT MAX(id_pago) FROM pago");
+                    if (result.next()) {
+                        id_pago = result.getInt(1) + 1;
+                    }
+
+                    PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO pago VALUES(?,?,?,?,?,?,?,?)");
+                    ST_update.setInt(1, id_pago);
+                    ST_update.setInt(2, id_cliente);
+                    ST_update.setLong(3, Long.valueOf(monto.replace(".", "")));
+                    ST_update.setString(4, mes);
+                    ST_update.setString(5, "PENDIENTE");
+                    ST_update.setDate(6, util_Date_to_sql_date(fecha));
+                    ST_update.setInt(7, periodo);
+                    ST_update.setInt(8, 0);
+                    ST_update.executeUpdate();
+
+                    JOptionPane.showMessageDialog(null, "Agregado correctamente");
+                } else {
+                    PreparedStatement stClienteBorrar3 = conexion.prepareStatement(""
+                            + "UPDATE pago "
+                            + "SET id_cliente ='" + id_cliente + "', "
+                            + "monto = '" + Long.parseLong(monto.replace(".", "")) + "', "
+                            + "periodo = '" + periodo + "', "
+                            + "mes = '" + mes + "', "
+                            + "fecha = '" + util_Date_to_sql_date(fecha) + "' "
+                            + "WHERE id_pago  ='" + id_pago + "' ");
+                    stClienteBorrar3.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Actualizado correctamente");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Complete todos los campos");
+                Pagos_ABM.jTextField_cliente.requestFocus();
             }
 
-            PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO pago VALUES(?,?,?,?,?,?,?,?)");
-            ST_update.setInt(1, id);
-            ST_update.setInt(2, id_cliente);
-            ST_update.setLong(3, Long.valueOf(monto.replace(".", "")));
-            ST_update.setString(4, mes);
-            ST_update.setString(5, "PENDIENTE");
-            ST_update.setDate(6, util_Date_to_sql_date(fecha));
-            ST_update.setInt(7, periodo);
-            ST_update.setInt(8, 0);
-            ST_update.executeUpdate();
-
-            JOptionPane.showMessageDialog(null, "Agregado correctamente");
-
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1228,7 +1315,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1253,7 +1340,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1278,7 +1365,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1306,7 +1393,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1336,7 +1423,7 @@ public class Metodos {
             Rubro_ABM.jButton_borrar.setVisible(false);
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1373,7 +1460,7 @@ public class Metodos {
 
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1533,7 +1620,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1555,7 +1642,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
         return dato;
     }
@@ -1578,7 +1665,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
         return dato;
     }
@@ -1660,7 +1747,7 @@ public class Metodos {
         DefaultTableModel tm = (DefaultTableModel) Pagos_clientes.jTable1.getModel();
         id_cliente = Integer.parseInt(String.valueOf(tm.getValueAt(Pagos_clientes.jTable1.getSelectedRow(), 0)));
         Pagos_ABM.jTextField_cliente.setText(String.valueOf(tm.getValueAt(Pagos_clientes.jTable1.getSelectedRow(), 1)));
-        Pagos_ABM.jTextField_monto.setText(getSepararMiles(String.valueOf(tm.getValueAt(Pagos_clientes.jTable1.getSelectedRow(), 4))));
+       // Pagos_ABM.jTextField_monto.setText(getSepararMiles(String.valueOf(tm.getValueAt(Pagos_clientes.jTable1.getSelectedRow(), 4))));
     }
 
     public synchronized static void Proveedor_seleccionar() {
@@ -1717,7 +1804,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1751,7 +1838,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1783,7 +1870,7 @@ public class Metodos {
                 dtm.addRow(data.get(i));
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1820,7 +1907,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1856,7 +1943,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1889,7 +1976,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1945,7 +2032,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -1999,7 +2086,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2055,7 +2142,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2089,7 +2176,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2152,7 +2239,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2192,7 +2279,7 @@ public class Metodos {
                     + "inner join pago on pago.id_cliente = cliente.id_cliente "
                     + "where nombre ilike '%" + buscar + "%' "
                     + "and cliente.borrado != '1' and pago.borrado != '1' and periodo = '" + periodo + "' "
-                    + "order by nombre");
+                    + "order by id_pago DESC ");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
 
@@ -2214,7 +2301,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2271,7 +2358,7 @@ public class Metodos {
 
             Balance.jTextField_total.setText(getSepararMiles(String.valueOf(total_pagos - total_obligaciones)));
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2305,7 +2392,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2339,7 +2426,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2374,7 +2461,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2408,7 +2495,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2442,7 +2529,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2476,7 +2563,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2510,7 +2597,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2544,7 +2631,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2578,7 +2665,7 @@ public class Metodos {
             }
 
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2614,7 +2701,7 @@ public class Metodos {
                 Logueo.jTextField1.requestFocus();
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
         return entro;
     }
@@ -2687,9 +2774,9 @@ public class Metodos {
             JOptionPane.showMessageDialog(null, "Error al iniciar la conexion con la base de datos." + ex);
             System.exit(-1);
         } catch (ClassNotFoundException | UnknownHostException | SocketException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         } catch (IOException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2698,7 +2785,7 @@ public class Metodos {
             conexion.close();
             System.err.println("Conexion finalizada");
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
@@ -2716,7 +2803,7 @@ public class Metodos {
                 }
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 

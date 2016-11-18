@@ -47,16 +47,19 @@ public class Pagos_ABM extends javax.swing.JFrame {
         jTextField_monto.setToolTipText("");
         jTextField_monto.setBorder(javax.swing.BorderFactory.createTitledBorder("Monto"));
         jTextField_monto.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField_montoFocusLost(evt);
+            }
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextField_montoFocusGained(evt);
             }
         });
         jTextField_monto.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField_montoKeyPressed(evt);
-            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField_montoKeyReleased(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField_montoKeyPressed(evt);
             }
         });
 
@@ -77,11 +80,11 @@ public class Pagos_ABM extends javax.swing.JFrame {
             }
         });
         jTextField_cliente.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField_clienteKeyPressed(evt);
-            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField_clienteKeyReleased(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField_clienteKeyPressed(evt);
             }
         });
 
@@ -206,6 +209,14 @@ public class Pagos_ABM extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Metodos.Pagos_Guardar(jTextField_monto.getText(), jComboBox1.getSelectedItem().toString(), jDateChooser_fecha.getDate());
+        Metodos.id_pago = 0;
+        Metodos.id_cliente = 0;
+        jTextField_cliente.setText("");
+        jTextField_monto.setText("0");
+        jDateChooser_fecha.setDate(null);
+        jComboBox1.setSelectedItem("Enero");
+        Metodos.Pagos_cargar_jtable("");
+        jTextField_cliente.requestFocus();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField_montoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_montoFocusGained
@@ -215,6 +226,10 @@ public class Pagos_ABM extends javax.swing.JFrame {
     private void jDateChooser_fechaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jDateChooser_fechaKeyPressed
 
     }//GEN-LAST:event_jDateChooser_fechaKeyPressed
+
+    private void jTextField_montoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_montoFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_montoFocusLost
 
     public static void main(String args[]) {
 
@@ -236,7 +251,7 @@ public class Pagos_ABM extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
+    public static javax.swing.JComboBox<String> jComboBox1;
     public static com.toedter.calendar.JDateChooser jDateChooser_fecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

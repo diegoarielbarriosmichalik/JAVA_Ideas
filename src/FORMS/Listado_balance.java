@@ -1,15 +1,16 @@
 package FORMS;
 
 import DEV.Metodos;
+import java.awt.event.KeyEvent;
 import java.util.Date;
 import javax.swing.ImageIcon;
 
-public class Listado_de_pagos extends javax.swing.JFrame {
+public class Listado_balance extends javax.swing.JFrame {
 
-    public Listado_de_pagos() {
+    public Listado_balance() {
         initComponents();
         setLocationRelativeTo(null);
-        setTitle("Listado de pagos");
+        setTitle("Balance");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
 
         Date hoy = new Date();
@@ -47,6 +48,11 @@ public class Listado_de_pagos extends javax.swing.JFrame {
 
         jDateChooser_desde.setBackground(new java.awt.Color(255, 255, 255));
         jDateChooser_desde.setBorder(javax.swing.BorderFactory.createTitledBorder("Desde"));
+        jDateChooser_desde.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jDateChooser_desdeKeyPressed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/exit1.png"))); // NOI18N
@@ -97,14 +103,14 @@ public class Listado_de_pagos extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Metodos.Listado_de_pagos(jDateChooser_desde.getDate(), jDateChooser_hasta.getDate());
+//        Metodos.Listado_de_pagos(jDateChooser_desde.getDate(), jDateChooser_hasta.getDate());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -114,6 +120,10 @@ public class Listado_de_pagos extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jDateChooser_desdeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jDateChooser_desdeKeyPressed
+       
+    }//GEN-LAST:event_jDateChooser_desdeKeyPressed
 
     public static void main(String args[]) {
 
@@ -129,7 +139,7 @@ public class Listado_de_pagos extends javax.swing.JFrame {
         }
 
         java.awt.EventQueue.invokeLater(() -> {
-            new Listado_de_pagos().setVisible(true);
+            new Listado_balance().setVisible(true);
         });
     }
 

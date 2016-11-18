@@ -118,10 +118,10 @@ public class Pagos_opciones extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if (JOptionPane.showConfirmDialog(rootPane, "¿Desea cambiar el estado de esta obligación?", "ALERTA", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            Metodos.Obligaciones_update();
+        if (JOptionPane.showConfirmDialog(rootPane, "¿Desea cambiar el estado de este pago?", "ALERTA", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            Metodos.Pagos_update();
             this.setVisible(false);
-            Metodos.Obligaciones_cargar_jtable(Obligaciones.mes_str);
+            Metodos.Pagos_cargar_jtable("");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -130,18 +130,18 @@ public class Pagos_opciones extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_salirActionPerformed
 
     private void jButton_borrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_borrarActionPerformed
-        if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar esta obligación?", "AVISO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            Metodos.Obligaciones_borrar();
+        if (JOptionPane.showConfirmDialog(rootPane, "¿Desea borrar este pago?", "AVISO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            Metodos.Pago_borrar();
             this.setVisible(false);
-            Metodos.Obligaciones_cargar_jtable(Obligaciones.mes_str);
+            Metodos.Pagos_cargar_jtable("");
         }
     }//GEN-LAST:event_jButton_borrarActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Metodos.Obligacion_seleccionar();
+        Metodos.Pago_seleccionar();
         this.setVisible(false);
-        new Obligaciones_ABM().setVisible(true);
-        Metodos.Obligaciones_editar();
+        new Pagos_ABM().setVisible(true);
+        Metodos.Pagos_editar();
 
     }//GEN-LAST:event_jButton4ActionPerformed
 

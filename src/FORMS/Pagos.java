@@ -5,14 +5,14 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
 public class Pagos extends javax.swing.JFrame {
-    
+
     public Pagos() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Pagos");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -51,6 +51,11 @@ public class Pagos extends javax.swing.JFrame {
                 jTable1MouseClicked(evt);
             }
         });
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTable1KeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
@@ -81,11 +86,11 @@ public class Pagos extends javax.swing.JFrame {
 
         jTextField_buscar.setBorder(javax.swing.BorderFactory.createTitledBorder("Escriba el nombre del cliente"));
         jTextField_buscar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField_buscarKeyPressed(evt);
-            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField_buscarKeyReleased(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField_buscarKeyPressed(evt);
             }
         });
 
@@ -152,11 +157,18 @@ public class Pagos extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField_buscarKeyReleased
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        Metodos.Pago_seleccionar();
         new Pagos_opciones().setVisible(true);
     }//GEN-LAST:event_jTable1MouseClicked
-    
+
+    private void jTable1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyPressed
+        if ((evt.getKeyCode() == KeyEvent.VK_ESCAPE)) {
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_jTable1KeyPressed
+
     public static void main(String args[]) {
-        
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -167,7 +179,7 @@ public class Pagos extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Pagos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        
+
         java.awt.EventQueue.invokeLater(() -> {
             new Pagos().setVisible(true);
         });
