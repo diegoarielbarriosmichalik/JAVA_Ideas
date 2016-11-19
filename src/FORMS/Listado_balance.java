@@ -1,7 +1,6 @@
 package FORMS;
 
 import DEV.Metodos;
-import java.awt.event.KeyEvent;
 import java.util.Date;
 import javax.swing.ImageIcon;
 
@@ -110,7 +109,7 @@ public class Listado_balance extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        Metodos.Listado_de_pagos(jDateChooser_desde.getDate(), jDateChooser_hasta.getDate());
+        Metodos.Listado_de_pagos(jDateChooser_desde.getDate(), jDateChooser_hasta.getDate());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated

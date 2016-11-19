@@ -151,6 +151,7 @@ public class Metodos {
             JOptionPane.showMessageDialog(null, ex);
         }
     }
+
     public synchronized static void Pagos_editar() {
         try {
 
@@ -337,6 +338,7 @@ public class Metodos {
             JOptionPane.showMessageDialog(null, ex);
         }
     }
+
     public synchronized static void Pagos_update() {
         try {
 
@@ -549,7 +551,79 @@ public class Metodos {
             JOptionPane.showMessageDialog(null, ex);
         }
     }
+
     public static void Listado_de_pagos(Date desde, Date hasta) {
+        try {
+
+            Statement ST1 = conexion.createStatement();
+            ST1.executeUpdate("truncate table balance");
+
+            Statement st3 = conexion.createStatement();
+            ResultSet rs_23 = st3.executeQuery(""
+                    + "SELECT * FROM pago "
+                    + "inner join cliente on cliente.id_cliente = pago.id_cliente "
+                    + "where fecha >= '" + desde + "' "
+                    + "and fecha <= '" + hasta + "' ");
+            while (rs_23.next()) {
+
+                Statement st = conexion.createStatement();
+                ResultSet rs_2 = st.executeQuery("SELECT MAX(id) FROM balance");
+                if (rs_2.next()) {
+                    id = rs_2.getInt(1) + 1;
+                }
+
+                PreparedStatement st2 = conexion.prepareStatement("INSERT INTO balance VALUES(?,?,?,?,? ,?)");
+                st2.setInt(1, id);
+                st2.setDate(2, util_Date_to_sql_date(rs_23.getDate("fecha")));
+                st2.setString(3, rs_23.getString("nombre"));
+                st2.setString(4, rs_23.getString("mes"));
+                st2.setLong(5, rs_23.getLong("monto"));
+                st2.setInt(6, 0);
+                st2.executeUpdate();
+
+            }
+            Statement st33 = conexion.createStatement();
+            ResultSet rs_233 = st33.executeQuery(""
+                    + "SELECT * FROM obligacion "
+                    + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
+                    + "where fecha >= '" + desde + "' "
+                    + "and fecha <= '" + hasta + "' ");
+            while (rs_233.next()) {
+
+                Statement st = conexion.createStatement();
+                ResultSet rs_2 = st.executeQuery("SELECT MAX(id) FROM balance");
+                if (rs_2.next()) {
+                    id = rs_2.getInt(1) + 1;
+                }
+
+                PreparedStatement st2 = conexion.prepareStatement("INSERT INTO balance VALUES(?,?,?,?,? ,?)");
+                st2.setInt(1, id);
+                st2.setDate(2, util_Date_to_sql_date(rs_233.getDate("fecha")));
+                st2.setString(3, rs_233.getString("nombre"));
+                st2.setString(4, rs_233.getString("mes"));
+                st2.setLong(5, 0);
+                st2.setLong(6, rs_233.getLong("monto"));
+                st2.executeUpdate();
+
+            }
+
+            String path = ubicacion_proyecto + "\\reportes\\balance.jasper";
+            JasperReport jr = (JasperReport) JRLoader.loadObjectFromFile(path);
+            Map parametros = new HashMap();
+            parametros.put("fecha1", desde);
+            parametros.put("fecha2", hasta);
+
+            JasperPrint jp = JasperFillManager.fillReport(jr, parametros, conexion);
+            JasperViewer jv = new JasperViewer(jp, false);
+            jv.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Metodos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void Listado_balance(Date desde, Date hasta) {
         try {
             String path = ubicacion_proyecto + "\\reportes\\listado_de_pagos.jasper";
             JasperReport jr = (JasperReport) JRLoader.loadObjectFromFile(path);
@@ -1183,7 +1257,7 @@ public class Metodos {
         }
     }
 
-    public synchronized static void Obligaciones_Guardar(String monto, String mes) {
+    public synchronized static void Obligaciones_Guardar(String monto, String mes, Date fecha) {
         try {
 
             if (id_obligacion == 0) {
@@ -1194,13 +1268,14 @@ public class Metodos {
                     id = result.getInt(1) + 1;
                 }
 
-                PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO obligacion VALUES(?,?,?,?,?,?)");
+                PreparedStatement ST_update = conexion.prepareStatement("INSERT INTO obligacion VALUES(?,?,?,?,?,?,?)");
                 ST_update.setInt(1, id);
                 ST_update.setInt(2, id_proveedor);
                 ST_update.setString(3, mes);
                 ST_update.setLong(4, Long.parseLong(monto.replace(".", "")));
                 ST_update.setString(5, "PENDIENTE");
                 ST_update.setInt(6, periodo);
+                ST_update.setDate(7, util_Date_to_sql_date(fecha));
                 ST_update.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Guardado correctamente");
@@ -1209,6 +1284,7 @@ public class Metodos {
                         + "UPDATE obligacion "
                         + "SET monto='" + Long.parseLong(monto.replace(".", "")) + "', "
                         + "id_proveedor = '" + id_proveedor + "', "
+                        + "fecha = '" + util_Date_to_sql_date(fecha) + "', "
                         + "mes = '" + mes + "' "
                         + "WHERE id_obligacion = '" + id_obligacion + "' ");
                 stClienteBorrar3.executeUpdate();
@@ -1747,7 +1823,7 @@ public class Metodos {
         DefaultTableModel tm = (DefaultTableModel) Pagos_clientes.jTable1.getModel();
         id_cliente = Integer.parseInt(String.valueOf(tm.getValueAt(Pagos_clientes.jTable1.getSelectedRow(), 0)));
         Pagos_ABM.jTextField_cliente.setText(String.valueOf(tm.getValueAt(Pagos_clientes.jTable1.getSelectedRow(), 1)));
-       // Pagos_ABM.jTextField_monto.setText(getSepararMiles(String.valueOf(tm.getValueAt(Pagos_clientes.jTable1.getSelectedRow(), 4))));
+        // Pagos_ABM.jTextField_monto.setText(getSepararMiles(String.valueOf(tm.getValueAt(Pagos_clientes.jTable1.getSelectedRow(), 4))));
     }
 
     public synchronized static void Proveedor_seleccionar() {
