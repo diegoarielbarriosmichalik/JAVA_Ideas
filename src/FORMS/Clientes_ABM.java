@@ -371,6 +371,11 @@ public class Clientes_ABM extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable_trabajo_extra.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_trabajo_extraMouseClicked(evt);
+            }
+        });
         jScrollPane6.setViewportView(jTable_trabajo_extra);
         if (jTable_trabajo_extra.getColumnModel().getColumnCount() > 0) {
             jTable_trabajo_extra.getColumnModel().getColumn(0).setResizable(false);
@@ -751,6 +756,11 @@ public class Clientes_ABM extends javax.swing.JFrame {
         Metodos.Cliente_cargar_jtable();
         Clear();
     }//GEN-LAST:event_jButton_borrarActionPerformed
+
+    private void jTable_trabajo_extraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_trabajo_extraMouseClicked
+        Metodos.Otros_trabajos_seleccionar();
+        new Cliente_otros_trabajos_opciones().setVisible(true);
+    }//GEN-LAST:event_jTable_trabajo_extraMouseClicked
     
     public static void main(String args[]) {
         

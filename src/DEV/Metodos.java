@@ -84,6 +84,7 @@ public class Metodos {
     public static int id_obligacion = 0;
     public static int id_cliente = 0;
     public static int id_pago = 0;
+    public static int id_cliente_trabajo_extra = 0;
     public static int id_publicacion = 0;
     public static int id_proveedor = 0;
     public static int id_rubro = 0;
@@ -290,6 +291,18 @@ public class Metodos {
             PreparedStatement Update2 = conexion.prepareStatement(""
                     + "Delete from facebook "
                     + "WHERE id_facebook ='" + id_publicacion + "'");
+            Update2.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Borrado correctamente");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+
+        }
+    }
+    public synchronized static void Otros_trabajos_borrar() {
+        try {
+            PreparedStatement Update2 = conexion.prepareStatement(""
+                    + "Delete from cliente_trabajo_extra "
+                    + "WHERE id_cliente_trabajo_extra ='" + id_cliente_trabajo_extra + "'");
             Update2.executeUpdate();
             JOptionPane.showMessageDialog(null, "Borrado correctamente");
         } catch (SQLException ex) {
@@ -664,6 +677,10 @@ public class Metodos {
     public synchronized static void Obligacion_seleccionar() {
         DefaultTableModel tm = (DefaultTableModel) Obligaciones.jTable1.getModel();
         id_obligacion = Integer.parseInt(String.valueOf(tm.getValueAt(Obligaciones.jTable1.getSelectedRow(), 0)));
+    }
+    public synchronized static void Otros_trabajos_seleccionar() {
+        DefaultTableModel tm = (DefaultTableModel) Clientes_ABM.jTable_trabajo_extra.getModel();
+        id_cliente_trabajo_extra = Integer.parseInt(String.valueOf(tm.getValueAt(Clientes_ABM.jTable_trabajo_extra.getSelectedRow(), 0)));
     }
 
     public synchronized static void Pago_seleccionar() {
@@ -2022,6 +2039,41 @@ public class Metodos {
             JOptionPane.showMessageDialog(null, ex);
         }
     }
+    public synchronized static void Cliente_cargar_jtable_otros_trabajos() {
+        try {
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT fecha, mes, monto, estado "
+                    + "from pago "
+                    + "where id_cliente = '" + id_cliente + "' "
+                    + " order by mes ");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Clientes_ABM.jTable1.getModel();
+            for (int j = 0; j < Clientes_ABM.jTable1.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[0] = rs.getObject(1).toString().trim();
+                    rows[1] = rs.getObject(2).toString().trim();
+                    rows[2] = getSepararMiles(rs.getObject(3).toString());
+                    rows[3] = rs.getObject(4).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Clientes_ABM.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
 
     public synchronized static void Vencimiento_cargar_jtable(String fecha) {
         try {
@@ -2082,6 +2134,61 @@ public class Metodos {
                     + "from obligacion "
                     + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
                     + "where mes ilike '%" + buscar + "%' and periodo = '" + periodo + "' "
+                    + "order by id_obligacion ");
+            rs = ps.executeQuery();
+            rsm = rs.getMetaData();
+            dtm = (DefaultTableModel) Obligaciones.jTable1.getModel();
+            for (int j = 0; j < Obligaciones.jTable1.getRowCount(); j++) {
+                dtm.removeRow(j);
+                j -= 1;
+            }
+            ArrayList<Object[]> data = new ArrayList<>();
+            while (rs.next()) {
+                Object[] rows = new Object[rsm.getColumnCount()];
+                for (int i = 0; i < rows.length; i++) {
+                    rows[0] = rs.getObject(1);
+                    rows[1] = rs.getObject(2).toString().trim();
+                    rows[2] = rs.getObject(3).toString().trim();
+                    rows[3] = getSepararMiles(rs.getObject(4).toString().trim());
+                    rows[4] = rs.getObject(5).toString().trim();
+                }
+                data.add(rows);
+            }
+            dtm = (DefaultTableModel) Obligaciones.jTable1.getModel();
+            for (int i = 0; i < data.size(); i++) {
+                dtm.addRow(data.get(i));
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
+    public synchronized static void Obligaciones_cargar_jtable_por_proveedor(String buscar) {
+        try {
+
+            String total = "0";
+            Obligaciones.jTextField_total.setText(total);
+
+            Statement st1 = conexion.createStatement();
+            ResultSet result = st1.executeQuery(""
+                    + "SELECT SUM(monto) "
+                    + "from obligacion "
+                    + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
+                    + "where nombre ilike '%" + buscar + "%' and periodo = '" + periodo + "' "
+                    + " ");
+            if (result.next()) {
+                if (result.getString(1) == null) {
+                } else if ((result.getString(1).length() > 0) && (isNumeric(result.getString(1)))) {
+                    total = getSepararMiles(result.getString(1));
+                    Obligaciones.jTextField_total.setText(total);
+                }
+            }
+
+            ps = conexion.prepareStatement(""
+                    + "SELECT id_obligacion, nombre, mes, monto, estado "
+                    + "from obligacion "
+                    + "inner join proveedor on proveedor.id_proveedor = obligacion.id_proveedor "
+                    + "where nombre ilike '%" + buscar + "%' and periodo = '" + periodo + "' "
                     + "order by id_obligacion ");
             rs = ps.executeQuery();
             rsm = rs.getMetaData();
