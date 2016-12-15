@@ -5,22 +5,22 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
 public class Clientes_ABM extends javax.swing.JFrame {
-    
+
     public Clientes_ABM() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Clientes");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/icon.png")).getImage());
         jTextField_nombre.requestFocus();
-        
+
         Metodos.id_ciudad = 0;
         Metodos.id_rubro = 0;
-        
+
         Metodos.Cliente_cargar_jtable();
         jButton_borrar.setVisible(false);
-        
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -115,10 +115,10 @@ public class Clientes_ABM extends javax.swing.JFrame {
         jTextField_ciudad.setText("NO ESPECIFICADA");
         jTextField_ciudad.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Nombre"), "Ciudad (ENTER para buscar)", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(102, 102, 255)));
         jTextField_ciudad.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 jTextField_ciudadCaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
         jTextField_ciudad.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -247,6 +247,11 @@ public class Clientes_ABM extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable_productos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_productosMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTable_productos);
         if (jTable_productos.getColumnModel().getColumnCount() > 0) {
             jTable_productos.getColumnModel().getColumn(0).setResizable(false);
@@ -269,6 +274,11 @@ public class Clientes_ABM extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable_color.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_colorMouseClicked(evt);
             }
         });
         jScrollPane4.setViewportView(jTable_color);
@@ -709,7 +719,7 @@ public class Clientes_ABM extends javax.swing.JFrame {
     private void jDateChooser_vencimientoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jDateChooser_vencimientoKeyPressed
 
     }//GEN-LAST:event_jDateChooser_vencimientoKeyPressed
-    
+
     public static void Clear() {
         Metodos.id_cliente = 0;
         jTextField_nombre.setText("");
@@ -738,9 +748,9 @@ public class Clientes_ABM extends javax.swing.JFrame {
         Metodos.Cliente_colores_cargar_jtable();
         Metodos.Cliente_cargar_jtable();
         jButton_borrar.setVisible(false);
-        
+
     }
-    
+
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Clear();
@@ -761,9 +771,19 @@ public class Clientes_ABM extends javax.swing.JFrame {
         Metodos.Otros_trabajos_seleccionar();
         new Cliente_otros_trabajos_opciones().setVisible(true);
     }//GEN-LAST:event_jTable_trabajo_extraMouseClicked
-    
+
+    private void jTable_productosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_productosMouseClicked
+        Metodos.Cliente_producto_selected();
+        new Cliente_productos_opciones().setVisible(true);
+    }//GEN-LAST:event_jTable_productosMouseClicked
+
+    private void jTable_colorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_colorMouseClicked
+        Metodos.Cliente_colores_selected();
+        new Cliente_colores_opciones().setVisible(true);
+    }//GEN-LAST:event_jTable_colorMouseClicked
+
     public static void main(String args[]) {
-        
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

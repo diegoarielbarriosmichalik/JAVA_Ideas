@@ -97,6 +97,8 @@ public class Metodos {
     public static long total_obligaciones = 0;
 
     public static int id_recibo = 0;
+    public static int id_cliente_producto = 0;
+    public static int id_cliente_colores = 0;
     public static int max = 0;
     public static boolean error = false;
 
@@ -298,6 +300,7 @@ public class Metodos {
 
         }
     }
+
     public synchronized static void Otros_trabajos_borrar() {
         try {
             PreparedStatement Update2 = conexion.prepareStatement(""
@@ -305,6 +308,29 @@ public class Metodos {
                     + "WHERE id_cliente_trabajo_extra ='" + id_cliente_trabajo_extra + "'");
             Update2.executeUpdate();
             JOptionPane.showMessageDialog(null, "Borrado correctamente");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+
+        }
+    }
+
+    public synchronized static void Cliente_productos_borrar() {
+        try {
+            PreparedStatement Update2 = conexion.prepareStatement(""
+                    + "Delete from cliente_producto "
+                    + "WHERE id_cliente_producto ='" + id_cliente_producto + "'");
+            Update2.executeUpdate();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+
+        }
+    }
+    public synchronized static void Cliente_colores_borrar() {
+        try {
+            PreparedStatement Update2 = conexion.prepareStatement(""
+                    + "Delete from cliente_colores "
+                    + "WHERE id_cliente_colores ='" + id_cliente_colores + "'");
+            Update2.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
 
@@ -674,10 +700,20 @@ public class Metodos {
         Buscar_recibo();
     }
 
+    public synchronized static void Cliente_producto_selected() {
+        DefaultTableModel tm = (DefaultTableModel) Clientes_ABM.jTable_productos.getModel();
+        id_cliente_producto = Integer.parseInt(String.valueOf(tm.getValueAt(Clientes_ABM.jTable_productos.getSelectedRow(), 0)));
+    }
+    public synchronized static void Cliente_colores_selected() {
+        DefaultTableModel tm = (DefaultTableModel) Clientes_ABM.jTable_color.getModel();
+        id_cliente_colores = Integer.parseInt(String.valueOf(tm.getValueAt(Clientes_ABM.jTable_color.getSelectedRow(), 0)));
+    }
+
     public synchronized static void Obligacion_seleccionar() {
         DefaultTableModel tm = (DefaultTableModel) Obligaciones.jTable1.getModel();
         id_obligacion = Integer.parseInt(String.valueOf(tm.getValueAt(Obligaciones.jTable1.getSelectedRow(), 0)));
     }
+
     public synchronized static void Otros_trabajos_seleccionar() {
         DefaultTableModel tm = (DefaultTableModel) Clientes_ABM.jTable_trabajo_extra.getModel();
         id_cliente_trabajo_extra = Integer.parseInt(String.valueOf(tm.getValueAt(Clientes_ABM.jTable_trabajo_extra.getSelectedRow(), 0)));
@@ -2039,6 +2075,7 @@ public class Metodos {
             JOptionPane.showMessageDialog(null, ex);
         }
     }
+
     public synchronized static void Cliente_cargar_jtable_otros_trabajos() {
         try {
 
@@ -2163,6 +2200,7 @@ public class Metodos {
             JOptionPane.showMessageDialog(null, ex);
         }
     }
+
     public synchronized static void Obligaciones_cargar_jtable_por_proveedor(String buscar) {
         try {
 
